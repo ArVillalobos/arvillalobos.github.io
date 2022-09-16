@@ -4,5 +4,18 @@ icon: fas fa-info-circle
 order: 4
 ---
 
-> Add Markdown syntax content to file `_tabs/about.md`{: .filepath } and it will show up on this page.
-{: .prompt-tip }
+HTB ACADEMY
+
+[Network Enumeration with Nmap](https://academy.hackthebox.com/achievement/408700/19)
+
+[Network Enumeration with Nmap](https://academy.hackthebox.com/achievement/408700/19)
+
+[Network Enumeration with Nmap](https://academy.hackthebox.com/achievement/408700/19)
+
+[Footprinting](https://academy.hackthebox.com/achievement/408700/112)
+
+[Information Gathering - Web Edition](https://academy.hackthebox.com/achievement/408700/144)
+
+[Vulnerability Assessment](https://academy.hackthebox.com/achievement/408700/108)
+
+[Using the Metasploit Framework](https://academy.hackthebox.com/achievement/408700/390)
