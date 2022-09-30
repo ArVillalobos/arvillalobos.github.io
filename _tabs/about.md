@@ -19,3 +19,5 @@ HTB ACADEMY
 [Vulnerability Assessment](https://academy.hackthebox.com/achievement/408700/108)
 
 [Using the Metasploit Framework](https://academy.hackthebox.com/achievement/408700/390)
+
+[Password Attacks](https://academy.hackthebox.com/achievement/408700/147)
