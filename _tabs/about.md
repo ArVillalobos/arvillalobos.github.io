@@ -21,3 +21,5 @@ HTB ACADEMY
 [Using the Metasploit Framework](https://academy.hackthebox.com/achievement/408700/390)
 
 [Password Attacks](https://academy.hackthebox.com/achievement/408700/147)
+
+[Attacking Common Services](https://academy.hackthebox.com/achievement/408700/116)
