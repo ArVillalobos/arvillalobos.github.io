@@ -1,5 +1,5 @@
 ---
-title: localpasswordattack
+title: Local Password Attack
 date: 2022-08-12 13:25:30 +/-TTTT
 categories: [UTILITIES, Windows, Linux]
 tags: [SAM, NTDS, NTLM,]     # TAG names should always be lowercase

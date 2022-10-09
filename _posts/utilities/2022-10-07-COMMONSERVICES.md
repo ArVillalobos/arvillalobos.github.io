@@ -1,3 +1,10 @@
+---
+title: ATTACKING COMMON SERVICES
+date: 2022-08-12 13:25:30 +/-TTTT
+categories: [UTILITIES, Windows, Linux]
+tags: []     # TAG names should always be lowercase
+---
+
 ## Attacking FTP
 
 |**Command**|**Description**|

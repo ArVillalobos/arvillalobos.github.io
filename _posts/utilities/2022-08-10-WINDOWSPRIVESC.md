@@ -1,5 +1,5 @@
 ---
-title: Windowsprivesc
+title: Windows Privilege Escalation
 date: 2022-08-12 13:25:30 +/-TTTT
 categories: [UTILITIES, Windows]
 tags: [juicypotato, pipenames]     # TAG names should always be lowercase
