@@ -23,3 +23,5 @@ HTB ACADEMY
 [Password Attacks](https://academy.hackthebox.com/achievement/408700/147)
 
 [Attacking Common Services](https://academy.hackthebox.com/achievement/408700/116)
+
+[Pivoting, Tunneling and Port Forwarind](https://academy.hackthebox.com/achievement/408700/158)
