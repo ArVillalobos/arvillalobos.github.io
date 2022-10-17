@@ -1,7 +1,7 @@
 ---
 title: Password Attack
 date: 2022-09-16 13:25:30 +/-TTTT
-categories: [UTILITIES, Shells]
+categories: [UTILITIES]
 tags: [passwordattack]     # TAG names should always be lowercase
 ---
 ## Connecting to Target

@@ -1,7 +1,7 @@
 ---
-title: ATTACKING COMMON SERVICES
+title: Attacking Common Services
 date: 2022-08-12 13:25:30 +/-TTTT
-categories: [UTILITIES, Windows, Linux]
+categories: [UTILITIES]
 tags: []     # TAG names should always be lowercase
 ---
 

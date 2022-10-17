@@ -1,8 +1,8 @@
 ---
-title: PIVOTING, TUNNELING, AND PORT FORWARDING
+title: Active Directory
 date: 2022-08-12 13:25:30 +/-TTTT
-categories: [UTILITIES, Windows, Linux]
-tags: [pivoting, tunneling, portforwarding]     # TAG names should always be lowercase
+categories: [UTILITIES]
+tags: []     # TAG names should always be lowercase
 ---
 Primero se empíeza con la etapa de de reconocimiento pasivo usando herramientas como `nslookup` y registros públicos del dominio o ip que se nos asigne. Igualmente mediante `kerbrute` podmeos
 obtener usuarios válidos, esta se considera una manera sigilosa de hacer reconocmiento activo, podemos usar `responder` para ver registros y obtener un dominio o información útil en la
