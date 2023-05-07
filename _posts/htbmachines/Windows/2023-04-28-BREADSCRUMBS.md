@@ -6,7 +6,68 @@ tags: []     # TAG names should always be lowercase
 ---
 
 ```shell
+# Nmap 7.93 scan initiated Fri Apr 28 22:52:39 2023 as: nmap -sCV -p22,80,135,139,443,445,3306,5040,7680,49664,49665,49666,49667,49668,49669 -oN targeted 10.10.10.228
+Nmap scan report for 10.10.10.228
+Host is up (0.12s latency).
 
+PORT      STATE SERVICE       VERSION
+22/tcp    open  ssh           OpenSSH for_Windows_7.7 (protocol 2.0)
+| ssh-hostkey: 
+|   2048 9dd0b8815554ea0f89b11032336aa78f (RSA)
+|   256 1f2e67371ab8911d5c3159c7c6df141d (ECDSA)
+|_  256 309e5d12e3c6b7c63b7e1ee7897e83e4 (ED25519)
+80/tcp    open  http          Apache httpd 2.4.46 ((Win64) OpenSSL/1.1.1h PHP/8.0.1)
+| http-cookie-flags: 
+|   /: 
+|     PHPSESSID: 
+|_      httponly flag not set
+|_http-server-header: Apache/2.4.46 (Win64) OpenSSL/1.1.1h PHP/8.0.1
+|_http-title: Library
+135/tcp   open  msrpc         Microsoft Windows RPC
+139/tcp   open  netbios-ssn   Microsoft Windows netbios-ssn
+443/tcp   open  ssl/http      Apache httpd 2.4.46 ((Win64) OpenSSL/1.1.1h PHP/8.0.1)
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|_  http/1.1
+| http-cookie-flags: 
+|   /: 
+|     PHPSESSID: 
+|_      httponly flag not set
+|_http-title: Library
+|_http-server-header: Apache/2.4.46 (Win64) OpenSSL/1.1.1h PHP/8.0.1
+| ssl-cert: Subject: commonName=localhost
+| Not valid before: 2009-11-10T23:48:47
+|_Not valid after:  2019-11-08T23:48:47
+445/tcp   open  microsoft-ds?
+3306/tcp  open  mysql?
+| fingerprint-strings: 
+|   NULL: 
+|_    Host '10.10.14.19' is not allowed to connect to this MariaDB server
+5040/tcp  open  unknown
+7680/tcp  open  pando-pub?
+49664/tcp open  msrpc         Microsoft Windows RPC
+49665/tcp open  msrpc         Microsoft Windows RPC
+49666/tcp open  msrpc         Microsoft Windows RPC
+49667/tcp open  msrpc         Microsoft Windows RPC
+49668/tcp open  msrpc         Microsoft Windows RPC
+49669/tcp open  msrpc         Microsoft Windows RPC
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port3306-TCP:V=7.93%I=7%D=4/28%Time=644CA29E%P=x86_64-pc-linux-gnu%r(NU
+SF:LL,4A,"F\0\0\x01\xffj\x04Host\x20'10\.10\.14\.19'\x20is\x20not\x20allow
+SF:ed\x20to\x20connect\x20to\x20this\x20MariaDB\x20server");
+Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-time: 
+|   date: 2023-04-29T04:55:55
+|_  start_date: N/A
+| smb2-security-mode: 
+|   311: 
+|_    Message signing enabled but not required
+|_clock-skew: 21s
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Fri Apr 28 22:55:49 2023 -- 1 IP address (1 host up) scanned in 190.26 seconds
 ```
 Encontramos un sitio web sobre libros, al revisarla no parece hacer algo útil, haciendo fuzzing encontramos varias rutas interesantes.
 
