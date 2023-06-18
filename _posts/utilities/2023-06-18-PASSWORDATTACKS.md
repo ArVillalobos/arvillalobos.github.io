@@ -40,6 +40,7 @@
 
 | **Command**| **Description**|
 |-|-|
+|`reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f` | Blank password aren't allowed. |
 | `tasklist /svc`                                              | A command-line-based utility in Windows used to list running processes. |
 | `findstr /SIM /C:"password" *.txt *.ini *.cfg *.config *.xml *.git *.ps1 *.yml` | Uses Windows command-line based utility findstr to search for the string "password" in many different file type. |
 | `Get-Process lsass`                                          | A Powershell cmdlet is used to display process information. Using this with the LSASS process can be helpful when attempting to dump LSASS process memory from the command line. |
