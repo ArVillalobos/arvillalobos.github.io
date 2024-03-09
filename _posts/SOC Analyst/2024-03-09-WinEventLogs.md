@@ -1,7 +1,7 @@
 ---
 title: "Windows Event Logs & Finding Evil"
 date: 2024-03-09 13:25:30 +/-TTTT
-categories: [SOC Analyst]
+categories: [SOC]
 tags: []     # TAG names should always be lowercase
 ---
 
