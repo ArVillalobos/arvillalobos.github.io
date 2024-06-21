@@ -47,15 +47,17 @@ author:
   # twitter:             <username>
 
 # Add links to the sidebar.
-menu:
-  - title:             Blog
-    url:               /blog/
-  - title:             Projects
-    url:               /projects/
-  - title:             Résumé*
-    url:               /resume/
-  - title:             Documentation
-    url:               /docs/
+#menu:
+#  - title:             Blog
+#    url:               /blog/
+#  - title:             Machines
+#    url:               /machines/
+#  - title:             Projects
+#    url:               /projects/
+#  - title:             Résumé*
+#    url:               /resume/
+#  - title:             Documentation
+#    url:               /docs/
 
 # Add links to the footer.
 # Typically you'll want to link to your cookie- or privacy policy (if appliable), etc..
@@ -71,12 +73,12 @@ legal:
 copyright:             © 2021. All rights reserved.
 
 # Format of the permalinks
-permalink:             /blog/:categories/:year-:month-:day-:title/
+# permalink:             /blog/:categories/:year-:month-:day-:title/
+permalink:             none
 
 # Pagination configuration (used by the `blog` layout)
 paginate:              10
 paginate_path:         /blog/:num/
-
 
 # Theme
 # ---------------------------------------------------------------------------------------
@@ -87,7 +89,7 @@ paginate_path:         /blog/:num/
 
 # Customizaton
 # ----------------------------------------------------------------------------------------
- 
+
 # Sidebar image and theme color of the site.
 accent_image:          /assets/img/guero.jpg
 accent_color:          rgb(79,177,186)
@@ -296,6 +298,11 @@ collections:
     permalink:         /blog/:name/
     output:            true
 
+#collections:
+#  featured_categories:
+#    permalink:         /machines/:name/
+#    output:            true
+
   featured_tags:
     permalink:         /tag-:name/
     output:            true
@@ -426,3 +433,10 @@ jekyll_compose:
       links:
         - title: Project Link
           url: https://example.com
+
+
+# jekyll-feed settings
+feed:
+  categories:
+    - blog
+    - machines
