@@ -5,6 +5,10 @@
 
 <link rel="manifest" href="{{ '/assets/site.webmanifest' | relative_url }}">
 
+{% if site.lightbox %}
+  <link rel="stylesheet" href="/assets/css/lightbox.css">
+{% endif %}
+
 {% if site.google_fonts %}
   {%- capture google_fonts_url %}{{ site.google_fonts_url | default:'https://fonts.googleapis.com' }}{%- endcapture -%}
   <link rel="dns-prefetch" href="{{ google_fonts_url }}">
@@ -27,9 +31,3 @@
 {% endif %}
 
 {% assign disqus = site.disqus | default:site.disqus_shortname %}
-{% if disqus %}
-<link rel="dns-prefetch" href="https://{{ disqus }}.disqus.com" id="_hrefDisqus">
-{% endif %}
-
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<script src="/assets/js/sidebar-folder.js"></script>

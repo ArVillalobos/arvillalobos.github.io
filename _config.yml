@@ -25,7 +25,7 @@ title:                 Armando Villalobos
 # A short description (~150 chars) of the page used for the meta description tag.
 # Can use markdown, but no more than one paragraph (enforced by `>`)
 description:           >
-  Esto es una página de prueba de hacking
+  Cybersecurity enthusiast
 
 # A shorter description for the sidebar.
 tagline:               Vamos a darle al hacking
@@ -41,44 +41,46 @@ logo:                  /assets/img/logo.png
 # This should be the same author as first entry in `_data/authors.yml`.
 author:
   # Used by `jekyll-feed`:
-  name:                <firstname> <lastname>
-  email:               <mail@domain.tld>
+  name:                Armando Villalobos
+  email:               armando.villalobos@outlook.es
   # # Used by `jekyll-seo-tag`:
   # twitter:             <username>
 
 # Add links to the sidebar.
-#menu:
-#  - title:             Blog
-#    url:               /blog/
-#  - title:             Machines
-#    url:               /machines/
-#  - title:             Projects
-#    url:               /projects/
-#  - title:             Résumé*
-#    url:               /resume/
-#  - title:             Documentation
-#    url:               /docs/
+menu:
+  - title:             Blog
+    url:               /blog/
+  - title:             Machines
+    url:               /machines/
+  - title:             Notes
+    url:               /notes/
+  - title:             Certificates
+    url:               /certificates/
+  - title:             Projects
+    url:               /projects/
+  - title:             Resume
+    url:               /resume/
 
 # Add links to the footer.
 # Typically you'll want to link to your cookie- or privacy policy (if appliable), etc..
 legal:
   - title:             LICENSE
     url:               /LICENSE/
-  - title:             NOTICE
-    url:               /NOTICE/
-  - title:             CHANGELOG
-    url:               /CHANGELOG/
+#  - title:             NOTICE
+#    url:               /NOTICE/
+#  - title:             CHANGELOG
+#    url:               /CHANGELOG/
 
 # This text will appear in a `<small>` tag in the footer of every page.
-copyright:             © 2021. All rights reserved.
+copyright:             © 2024. All rights reserved.
 
 # Format of the permalinks
-# permalink:             /blog/:categories/:year-:month-:day-:title/
-permalink:             none
+permalink:             /blog/:categories/:year-:month-:day-:title/
 
 # Pagination configuration (used by the `blog` layout)
 paginate:              10
 paginate_path:         /blog/:num/
+
 
 # Theme
 # ---------------------------------------------------------------------------------------
@@ -89,7 +91,7 @@ paginate_path:         /blog/:num/
 
 # Customizaton
 # ----------------------------------------------------------------------------------------
-
+ 
 # Sidebar image and theme color of the site.
 accent_image:          /assets/img/guero.jpg
 accent_color:          rgb(79,177,186)
@@ -298,17 +300,20 @@ collections:
     permalink:         /blog/:name/
     output:            true
 
-#collections:
-#  featured_categories:
-#    permalink:         /machines/:name/
-#    output:            true
-
   featured_tags:
     permalink:         /tag-:name/
     output:            true
 
   projects:
     permalink:         /projects/:path/
+    output:            true
+
+  machines:
+    permalink:         /machines/:path/
+    output:            true
+
+  notes:
+    permalink:         /notes/:path/
     output:            true
 
 
@@ -433,10 +438,3 @@ jekyll_compose:
       links:
         - title: Project Link
           url: https://example.com
-
-
-# jekyll-feed settings
-feed:
-  categories:
-    - blog
-    - machines
