@@ -16,14 +16,14 @@
 // <<<<< LINK
 code, pre {
   font-family: var(--code-font-family);
-  background-color: pink;
-  color: #00FFFF;
 }
 
 code {
   @extend .color-transition;
   padding: .25em .5em;
   font-size: smaller;
+  background-color: pink;
+  color: #00FFFF;
 }
 
 .figure-base {
@@ -101,15 +101,18 @@ div.highlight {
     @extend .pre-header-common;
     display: block;
     color: var(--gray)!important;
-    background-color: var(--gray-bg);
+    background-color: pink;
+    //background-color: var(--gray-bg);
 
     > span {
       font-size: smaller;
+      background-color: pink;
     }
 
     > * {
       display: inline-block;
       padding: .3rem 1rem .2rem;
+      background-color: pink;
     }
   }
 
