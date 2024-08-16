@@ -16,7 +16,7 @@
 // <<<<< LINK
 code, pre {
   font-family: var(--code-font-family);
-  background-color: var(--gray-bg-none);
+  background-color: pink;
   color: #00FFFF;
 }
 
@@ -41,7 +41,8 @@ code {
   @extend .figure-base;
   padding: 1rem;
   margin-bottom: 1.5rem;
-  background-color: var(--gray-bg);
+  background-color: #00FFFF;
+  //background-color: var(--gray-bg);
 
   // HACK: prevents painting for some reason
   backface-visibility: hidden;
