@@ -277,11 +277,6 @@ gu3ro@htb[/htb]$ cat /var/log/suricata/old_eve.json | jq -c 'select(.event_type 
 
 ---
 
-> * *flow_id: This is a unique identifier assigned by Suricata to each network flow. A flow, in Suricata terms, is defined as a set of IP packets passing through a network interface in a specific direction and between a given pair of source and destination endpoints. Each of these flows gets a unique flow_id. This identifier helps us track and correlate various events related to the same network flow in the EVE JSON log. Using flow_id, we can associate different pieces of information related to the same flow, such as alerts, network transactions, and packets, providing a cohesive view of what is happening on a specific communication channel.*
-> * *pcap_cnt: This is a counter that Suricata increments for each packet it processes from the network traffic or from a PCAP file (in offline mode). pcap_cnt allows us to trace a packet back to its original order in the PCAP file or network stream. This is beneficial in understanding the sequence of network events as they occurred. It can help to precisely pinpoint when an alert was triggered in relation to other packets, which can provide valuable context in an investigation.*
-> * fast.log: This is a text-based log format that records alerts only and is enabled by default. Try inspecting the content of old_fast.log residing at /var/log/suricata as follows.
-
-
 ```shell 
 gu3ro@htb[/htb]$ cat /var/log/suricata/old_fast.log
 07/06/2023-08:34:35.003163  [**] [1:1:0] Known bad DNS lookup, possible Dridex infection [**] [Classification: (null)] [Priority: 3] {UDP} 10.9.24.101:51833 -> 10.9.24.1:53
@@ -317,7 +312,7 @@ flow.memuse                                   | Total                     | 7394
 ---SNIP---
 ```
 
-### File extraction with suricata+
+### File extraction with suricata
 
 In `suricata.yml` we need to make enable file-extraction
 

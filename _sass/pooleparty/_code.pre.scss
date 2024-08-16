@@ -16,14 +16,14 @@
 // <<<<< LINK
 code, pre {
   font-family: var(--code-font-family);
+  background-color: var(--gray-bg-none);
+  color: #00FFFF;
 }
 
 code {
   @extend .color-transition;
   padding: .25em .5em;
-  background-color: var(--gray-bg-none);
   font-size: smaller;
-  color: #00FFFF;
 }
 
 .figure-base {

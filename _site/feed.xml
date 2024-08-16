@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-08-16T15:49:24-06:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Armando Villalobos</title><subtitle>Cybersecurity enthusiast
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-08-16T17:16:20-06:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Armando Villalobos</title><subtitle>Cybersecurity enthusiast
 </subtitle><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><entry><title type="html">Introduction to IDS/IPS</title><link href="http://localhost:4000/blog/notes/2024-08-12-IntroductionToIDSAndIPS/" rel="alternate" type="text/html" title="Introduction to IDS/IPS" /><published>2024-08-12T00:00:00-06:00</published><updated>2024-08-12T00:00:00-06:00</updated><id>http://localhost:4000/blog/notes/IntroductionToIDSAndIPS</id><content type="html" xml:base="http://localhost:4000/blog/notes/2024-08-12-IntroductionToIDSAndIPS/"><![CDATA[<ul id="markdown-toc">
   <li><a href="#suricata" id="markdown-toc-suricata">Suricata</a>    <ul>
       <li><a href="#outputs" id="markdown-toc-outputs">Outputs</a></li>
-      <li><a href="#file-extraction-with-suricata" id="markdown-toc-file-extraction-with-suricata">File extraction with suricata+</a></li>
+      <li><a href="#file-extraction-with-suricata" id="markdown-toc-file-extraction-with-suricata">File extraction with suricata</a></li>
       <li><a href="#suricata-rule-development" id="markdown-toc-suricata-rule-development">Suricata Rule Development</a>        <ul>
           <li><a href="#example-1" id="markdown-toc-example-1">Example 1</a></li>
           <li><a href="#example-2" id="markdown-toc-example-2">Example 2</a></li>
@@ -287,14 +287,6 @@ gu3ro@htb[/htb]<span class="nv">$ </span><span class="nb">sudo </span>suricata <
 
 <hr />
 
-<blockquote>
-  <ul>
-    <li><em>flow_id: This is a unique identifier assigned by Suricata to each network flow. A flow, in Suricata terms, is defined as a set of IP packets passing through a network interface in a specific direction and between a given pair of source and destination endpoints. Each of these flows gets a unique flow_id. This identifier helps us track and correlate various events related to the same network flow in the EVE JSON log. Using flow_id, we can associate different pieces of information related to the same flow, such as alerts, network transactions, and packets, providing a cohesive view of what is happening on a specific communication channel.</em></li>
-    <li><em>pcap_cnt: This is a counter that Suricata increments for each packet it processes from the network traffic or from a PCAP file (in offline mode). pcap_cnt allows us to trace a packet back to its original order in the PCAP file or network stream. This is beneficial in understanding the sequence of network events as they occurred. It can help to precisely pinpoint when an alert was triggered in relation to other packets, which can provide valuable context in an investigation.</em></li>
-    <li>fast.log: This is a text-based log format that records alerts only and is enabled by default. Try inspecting the content of old_fast.log residing at /var/log/suricata as follows.</li>
-  </ul>
-</blockquote>
-
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gu3ro@htb[/htb]<span class="nv">$ </span><span class="nb">cat</span> /var/log/suricata/old_fast.log
 07/06/2023-08:34:35.003163  <span class="o">[</span><span class="k">**</span><span class="o">]</span> <span class="o">[</span>1:1:0] Known bad DNS lookup, possible Dridex infection <span class="o">[</span><span class="k">**</span><span class="o">]</span> <span class="o">[</span>Classification: <span class="o">(</span>null<span class="o">)]</span> <span class="o">[</span>Priority: 3] <span class="o">{</span>UDP<span class="o">}</span> 10.9.24.101:51833 -&gt; 10.9.24.1:53
 stats.log: This is a human-readable statistics log, which can be particularly useful <span class="k">while </span>debugging Suricata deployments. Try inspecting the content of old_stats.log residing at /var/log/suricata as follows.
@@ -330,7 +322,7 @@ flow.memuse                                   | Total                     | 7394
 <span class="nt">---SNIP---</span>
 </code></pre></div></div>
 
-<h3 id="file-extraction-with-suricata">File extraction with suricata+</h3>
+<h3 id="file-extraction-with-suricata">File extraction with suricata</h3>
 
 <p>In <code class="language-plaintext highlighter-rouge">suricata.yml</code> we need to make enable file-extraction</p>
 
