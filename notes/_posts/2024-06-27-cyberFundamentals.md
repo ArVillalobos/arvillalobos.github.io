@@ -4,6 +4,7 @@ title: Introduction to Cybersecurity
 related_posts:
   - notes/_posts/2024-06-27-manageSecurityRisks.md
 sitemap: false
+categories: notes
 ---
 
 # Introduction to Cybersecurity

@@ -6,6 +6,7 @@ accent_image:
   background: url('/assets/img/guero.jpg') center/cover
   overlay: false
 subtitle: "Easy Machine"
+categories: machines
 tags: [htb]
 ---
 

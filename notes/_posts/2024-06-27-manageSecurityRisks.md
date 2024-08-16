@@ -4,6 +4,7 @@ title: Manage Security Risks
 related_posts:
   - notes/_posts/2024-06-27-cyberFundamentals.md
 sitemap: false
+categories: notes
 ---
 
 # Manage Security Risks
