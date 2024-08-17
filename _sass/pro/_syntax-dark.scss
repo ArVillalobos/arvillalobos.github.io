@@ -3,6 +3,7 @@
   pre.highlight {
     // background: #282c34;
     color: #abb2bf;
+    //color: #c21313;
   }
   // .highlight pre {
   //   background: #282c34;
@@ -136,4 +137,10 @@
   body.dark-mode {
     @include darkmode-syntax();
   }
+
+}
+
+.highlighter-rouge {
+    color: #00FFFF;
+    background-color: rgba(255,255,255,0);;
 }
