@@ -22,8 +22,7 @@ code {
   @extend .color-transition;
   padding: .25em .5em;
   font-size: smaller;
-  background-color: pink;
-  color: #00FFFF;
+  background-color: var(--gray-bg);
 }
 
 .figure-base {
@@ -41,8 +40,7 @@ code {
   @extend .figure-base;
   padding: 1rem;
   margin-bottom: 1.5rem;
-  background-color: #00FFFF;
-  //background-color: var(--gray-bg);
+  background-color: var(--gray-bg);
 
   // HACK: prevents painting for some reason
   backface-visibility: hidden;
@@ -101,18 +99,15 @@ div.highlight {
     @extend .pre-header-common;
     display: block;
     color: var(--gray)!important;
-    background-color: pink;
-    //background-color: var(--gray-bg);
+    background-color: var(--gray-bg);
 
     > span {
       font-size: smaller;
-      background-color: pink;
     }
 
     > * {
       display: inline-block;
       padding: .3rem 1rem .2rem;
-      background-color: pink;
     }
   }
 
