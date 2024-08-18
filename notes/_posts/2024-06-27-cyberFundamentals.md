@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Introduction to Cybersecurity
+image: /assets/img/notes/introductionCyber.png
 related_posts:
   - notes/_posts/2024-06-27-manageSecurityRisks.md
 sitemap: false

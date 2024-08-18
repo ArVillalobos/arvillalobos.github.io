@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Log Sources and Investigating with Splunk
+image: /assets/img/notes/Splunk.png
 related_posts:
   - notes/_posts/2024-06-27-manageSecurityRisks.md
 sitemap: false

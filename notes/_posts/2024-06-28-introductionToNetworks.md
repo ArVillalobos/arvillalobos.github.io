@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Introduction to Networks
+image: /assets/img/notes/IntroductionToNetworks.jpg
 related_posts:
   - notes/_posts/2024-06-27-manageSecurityRisks.md
 sitemap: false
