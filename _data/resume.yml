@@ -4,19 +4,19 @@
 basics:
   name: "Luis Armando Hernández Villalobos"
   label: "Software Engineer"
-  picture: "https://via.placeholder.com/240x240"
-  email: "armando.villalobos@outlook.es"
-  phone: "(912) 555-4321"
+  picture: "/assets/img/photo.jpg"
+  email: "armando.hvillalobos@outlook.com"
+  phone: "(222) 119-9393"
   website: "https://arvillalobos.github.io"
   summary: >
     Ingeniero de Software y Redes con 2 años de experiencia práctica en programación y un fuerte interés en ciberseguridad. Competente en la resolución eficiente de problemas y especializado en el desarrollo backend utilizando JAVA y sus frameworks asociados. Experiencia en la integración de transacciones con microservicios, aportando soluciones robustas y escalables.
   profiles:
-    - network: "Twitter"
-      username: "RHendricksCEO"
-      url: ""
     - network: "LinkedIn"
       username: "Luis Armando Hernández Villalobos"
       url: "http://linkedin.com/in/luis-armando-hernandez-villalobos-682234260"
+    - network: "Github"
+      username: "ArVillalobos"
+      url: "https://github.com/ArVillalobos"
 work:
   - company: "Indra Sistemas México S.A de C.V."
     position: "Software Engineer"
@@ -32,15 +32,6 @@ work:
       - "DataX y proceso eventual en control-m: Implementé dos transferencias en DataX y la creación de su respectivo proceso eventual batch para poder activarlas. Este punto fue esencial ya que se trataba de información sensible que las transacciones APX iban a consumir."
       - "Pruebas integrales: se realizaron sus respectivas pruebas con postman en ambientes previos monitoreando el flujo correcto en athenea."
       - "Gestión de documentación y permisos para despliegue a producción: participé en 8 instalaciones donde de gestionó todos los VoBos necesarios, se documentó el proceso de desarrollo y finalmente se presentó ante stakeholders para su aprobación y delegación al área de operaciones. "
-volunteer:
-  - organization: "CoderDojo"
-    position: "Teacher"
-    website: "https://coderdojo.com/"
-    startDate: "2012-01-01"
-    endDate: "2013-01-01"
-    summary: "Global movement of free coding clubs for young people."
-    highlights:
-      - "Awarded 'Teacher of the Month'"
 education:
   - institution: "Universidad del Valle de México"
     area: "Ingeniería en Desarrollo de Software y Redes"
@@ -53,23 +44,15 @@ education:
     startDate: "2013-08-01"
     endDate: "2018-08-01"
 skills:
-  - name: "Web Development"
-    level: "Master"
+  - name: "Back End Software Engineer"
     keywords:
-      - "HTML"
-      - "CSS"
+      - "Java"
+      - "Spring Framework"
       - "Javascript"
-  - name: "Compression"
-    level: "Master"
+  - name: "Cybersecurity"
     keywords:
-      - "Mpeg"
-      - "MP4"
-      - "GIF"
+      - "Pentesting"
+      - "SOC Analyst"
+      - "Ethical Hacking"
 languages:
-  - language: "English"
-    fluency: "Native speaker"
-interests:
-  - name: "Wildlife"
-    keywords:
-      - "Ferrets"
-      - "Unicorns"
+  - language: "English B1"
