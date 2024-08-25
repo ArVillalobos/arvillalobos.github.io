@@ -121,6 +121,7 @@ welcome:
 resume:
   location:            Location
   location_separator:  ', '
+  ceritificates:       Certificates
   email:               Email
   phone:               Phone
   website:             Website

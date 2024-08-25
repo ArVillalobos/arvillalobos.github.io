@@ -9,7 +9,7 @@ basics:
   phone: "(222) 119-9393"
   website: "https://arvillalobos.github.io"
   summary: >
-    Ingeniero de Software y Redes con 2 años de experiencia práctica en programación y un fuerte interés en ciberseguridad. Competente en la resolución eficiente de problemas y especializado en el desarrollo backend utilizando JAVA y sus frameworks asociados. Experiencia en la integración de transacciones con microservicios, aportando soluciones robustas y escalables.
+    Software and Network Engineer with 2 years of practical programming experience with cybersecurity offensive and defensive knowledge, with comprehensive experience in identifying, exploiting, and reporting security vulnerabilities. 
   profiles:
     - network: "LinkedIn"
       username: "Luis Armando Hernández Villalobos"
@@ -17,6 +17,11 @@ basics:
     - network: "Github"
       username: "ArVillalobos"
       url: "https://github.com/ArVillalobos"
+certificates:
+  - name: "Offensive Security Certified Professional (OSCP)"
+    date: "2023-11-30"
+    issuer: "Offensive Security"
+    url: "https://www.credential.net/df924637-80d0-4129-8aa4-c062519fe2e4"
 work:
   - company: "Indra Sistemas México S.A de C.V."
     position: "Software Engineer"
@@ -24,23 +29,23 @@ work:
     startDate: "2022-11-14"
     endDate: ""
     summary: >
-      Desarrollador de software backend para el banco BBVA, participando en el proyecto para la certificación regulatoria PCI.
+      PCI REGULATORY CERTIFICATION - JAVA APX PAYMENT METHODS DEVELOPER - BBVA BANK
     highlights:
-      - "Certificación Regulatoria PCI: Participé directamente en este proyecto como desarrollador y gestor, con la finalidad de ayudar a proteger los datos de los clientes, reducir el riesgo de fraudes, cumplir con las regulaciones."
-      - "Desarrollo APX: se planteó una solución backend creando y modificando 4 transacciones, 8 librerías y 2 DTOs para poder cumplir con la solución a la norma PCI."
-      - "Desarrollo de jobs para aprovisionamiento: realicé un job para que pudiera poblarse una tabla Oracle de manera diaria obteniendo datos del HOST-MAINFRAME."
-      - "DataX y proceso eventual en control-m: Implementé dos transferencias en DataX y la creación de su respectivo proceso eventual batch para poder activarlas. Este punto fue esencial ya que se trataba de información sensible que las transacciones APX iban a consumir."
-      - "Pruebas integrales: se realizaron sus respectivas pruebas con postman en ambientes previos monitoreando el flujo correcto en athenea."
-      - "Gestión de documentación y permisos para despliegue a producción: participé en 8 instalaciones donde de gestionó todos los VoBos necesarios, se documentó el proceso de desarrollo y finalmente se presentó ante stakeholders para su aprobación y delegación al área de operaciones. "
+      - "PCI Regulatory Certification: I participated directly in this project as developer and manager, with the objective of protecting customer data, reducing the risk of fraud and complying with regulations." 
+      - "JAVA APX development: a backend solution was proposed, creating and modifying 4 transactions, 8 components and 2 DTOs to satisfy with the PCI standard."
+      - "Job development for provisioning: I created a job to populate an Oracle table daily by obtaining data from the HOST-MAINFRAME." 
+      - "DataX and eventual process in Control-M: I implemented two transfers in DataX and the creation of their respective eventual batch process to activate them. This point was essential since it was sensitive information that APX transactions were going to consume." 
+      - "Integration tests: the respective tests were carried out with Postman in previous environments monitoring the correct flow in Athenea." 
+      - "Documentation and permissions management for deployment to production: I participated in 8 installations where I managed all the necessary approvals, documented the development process and finally presented it to Stakeholders for approval."
 education:
   - institution: "Universidad del Valle de México"
-    area: "Ingeniería en Desarrollo de Software y Redes"
-    studyType: "Licenciatura"
+    area: "Software Developr Engineer"
+    studyType: "Bachelor"
     startDate: "2021-01-10"
     endDate: "2024-08-10"
   - institution: "Benemérita Universidad Autónoma de Puebla"
-    area: "Ingeniería Civil"
-    studyType: "Licenciatura"
+    area: "Civil Engineer"
+    studyType: "Bachelor"
     startDate: "2013-08-01"
     endDate: "2018-08-01"
 skills:
@@ -48,11 +53,24 @@ skills:
     keywords:
       - "Java"
       - "Spring Framework"
-      - "Javascript"
-  - name: "Cybersecurity"
+      - "Docker"
+      - "Bitbucket, Github"
+      - "Jenkins"
+  - name: "Cybersecurity Offensive"
     keywords:
-      - "Pentesting"
-      - "SOC Analyst"
-      - "Ethical Hacking"
+      - "Resolved 183+ vulnerable labs on HackTheBox and OffSec platform, link to HTB profile: https://app.hackthebox.com/profile/919555." 
+      - "Executive technical reports for OSCP, PNPT and CPTS certifications." 
+      - "Pentesting tools (sqlmap, Nmap, Wpscan, Burpsuite, Metasploit, fuzzers, Active Directory tools, Nessus, and more)." 
+      - "OWASP top 10 exploitation." 
+      - "Python and bash scripting."
+      - "Windows and Linux operating systems knowledge."
+  - name: "Cybersecurity Defensive"
+    keywords:
+      - "Network analysis tools (Wireshark, tcpdump)." 
+      - "Log analysis and threat hunting (Splunk, Elastic)." 
+      - "IDS/IPS tools (Suricata, Snort, Zeek)."
+      - "Malware Analysis fundamentals." 
+      - "Knowledge of common attacks in Active Directory." 
+      - "Certified Defensive Security Analyst in course."
 languages:
   - language: "English B1"

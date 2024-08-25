@@ -1,5 +1,5 @@
 ---
-layout: listmachines
+layout: machinesgrid
 title: Machines
 show_collection: machines
 description: >
